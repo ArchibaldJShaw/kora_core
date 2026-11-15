@@ -1,0 +1,6 @@
+# path:reason  (path relative to repo root, or dir/ prefix)
+tools/:CLI/dev tooling scripts (Lua/Python) that print to the operator's terminal; not in-game diagnostics
+.standards/:vendored LuaLS native definitions (function names only, not print calls)
+shared/locale.lua:also served as '@qb-core/shared/locale.lua' to legacy consumer VMs that do not load kora_lib, so Kora.logging may be absent; left as print (no new dependency)
+compat/shared/coreobject.lua:QBCore.Debug is a console table dumper whose purpose is printing (operator/debug output); ShowError/ShowSuccess in this file ARE migrated
+compat/server/qb-commands.lua:reply() with src == 0 is an operator command reply printed to the server console by design (line ~12); all diagnostics in this file are migrated

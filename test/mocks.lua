@@ -282,6 +282,16 @@ function M.install(opts)
         migrate = function(resource, list) table.insert(sqlCalls.migrate, { resource = resource, list = list }); return true end,
     }
 
+    -- Spy for Kora.logging: every call is recorded in `logs` as { level, event, message, fields }.
+    local logs = {}
+    Kora.logging = { isEnabled = function() return true end }
+    for _, level in ipairs({ 'trace', 'debug', 'info', 'warn', 'error', 'fatal' }) do
+        Kora.logging[level] = function(event, message, fields)
+            table.insert(logs, { level = level, event = event, message = message, fields = fields })
+            return true
+        end
+    end
+
     _G.Kora = Kora
     _G.exports = setmetatable({}, { __index = function() return setmetatable({}, { __index = function() return function() end end }) end })
 
@@ -295,6 +305,7 @@ function M.install(opts)
         playerStates = playerStates,
         stateWrites = stateWrites,
         lifecycleTrace = lifecycleTrace,
+        logs = logs,
         sqlCalls = sqlCalls,
         sqlResponses = sqlResponses,
         Kora = Kora,

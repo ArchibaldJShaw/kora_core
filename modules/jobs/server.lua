@@ -387,7 +387,7 @@ local function verifyCounts()
 
     local after = snapshot(jobCounts) .. '|' .. snapshot(typeCounts)
     if before ~= after then
-        print(('[Core.jobs] on-duty counts drifted, corrected.\n  before: %s\n  after:  %s'):format(before, after))
+        Kora.logging.warn('jobs.on_duty_counts_drifted', 'On-duty counts drifted and were corrected', { before = before, after = after })
     end
 end
 

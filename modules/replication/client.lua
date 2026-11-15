@@ -36,7 +36,7 @@ local function dispatch(path, value)
     for _, sub in pairs(subscribers) do
         if pathMatchesPrefix(path, sub.prefix) then
             local ok, err = pcall(sub.handler, path, value)
-            if not ok then print(("^3[kora_core:rep]^7 onChange errored: %s"):format(tostring(err))) end
+            if not ok then Kora.logging.warn('replication.on_change_errored', 'Replication onChange handler errored', { error = tostring(err) }) end
         end
     end
 end
@@ -160,9 +160,8 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(data, token)
     if data == mirror or type(data) ~= 'table' then return end
     pendingLegacy = nil
 
-    print(('^3[kora_core:rep]^7 %s wrote PlayerData directly via the legacy event -- it bypassed the '
-        .. 'delta stream and will be overwritten on the next server snapshot.')
-        :format(writer and ("resource '" .. writer .. "'") or 'an unknown resource'))
+    Kora.logging.warn('replication.legacy_playerdata_write', 'PlayerData was written directly via the legacy event; it bypassed the '
+        .. 'delta stream and will be overwritten on the next server snapshot', { writer = writer or 'unknown' })
 
     if not mirror then
         mirror = data

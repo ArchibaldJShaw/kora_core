@@ -75,8 +75,8 @@ local function writeLegacyMoney(src, handle, value)
         local available = Core.money.getMoney(src, change.account)
         if available == nil then return false, 'physical cash balance unavailable' end
         if change.delta < 0 and -change.delta > available then
-            print(('^3[kora_core:qb-core-bridge]^7 refused SetPlayerData money write for %s: removes %d %s but only %d is available'):format(
-                tostring(src), -change.delta, change.account, available))
+            Kora.logging.warn('compat.set_player_data_money_refused', 'Refused SetPlayerData money write: removal exceeds available balance', {
+                source = src, account = change.account, removes = -change.delta, available = available })
             return false, 'insufficient funds'
         end
     end
@@ -198,8 +198,8 @@ local function buildQBPlayer(src)
     function F.SetPlayerData(key, value)
         local column = PI.COLUMN_FOR[key]
         if not column and key ~= 'optin' and Config.compat.warnOnUnknownRoot then
-            print(("^3[kora_core:qb-core-bridge]^7 SetPlayerData('%s', ...) targets an unknown root key with no DB "
-                .. "column mapping; it will not persist."):format(tostring(key)))
+            Kora.logging.warn('compat.set_player_data_unknown_root', 'SetPlayerData targets an unknown root key with no DB column mapping; '
+                .. 'it will not persist', { key = tostring(key) })
         end
         local ok, err = writeLegacyRoot(src, key, value)
         return publishWrite(ok, err, key)
@@ -665,7 +665,7 @@ RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
 
     local ok, err = pcall(handler, src, respond, ...)
     if not ok then
-        print(('^1[kora_core:qb-core-bridge]^7 legacy callback %q raised an error: %s'):format(tostring(name), tostring(err)))
+        Kora.logging.error('compat.legacy_callback_errored', 'Legacy callback raised an error', { callback = tostring(name), error = tostring(err) })
     end
 end)
 
@@ -732,8 +732,8 @@ end
 function F.HasItem(src, items, amount) return Core.inventory.hasItem(src, items, amount) end
 
 function F.ExecuteSql(_, query, cb)
-    print('^3[kora_core:qb-core-bridge]^7 ExecuteSql is deprecated and its `wait` argument is ignored; use '
-        .. 'Kora.sql.query or exports.kora_sql:query.')
+    Kora.logging.warn('compat.execute_sql_deprecated', 'ExecuteSql is deprecated and its wait argument is ignored; use '
+        .. 'Kora.sql.query or exports.kora_sql:query')
     CreateThread(function()
         local rows = Kora.sql.query(query, {})
         if cb then cb(rows) end
@@ -1002,7 +1002,7 @@ end
 function F.GetCoreVersion(invokingResource)
     local version = GetResourceMetadata(GetCurrentResourceName(), 'version', 0)
     if invokingResource and invokingResource ~= '' then
-        print(('%s called kora_core version check: %s'):format(invokingResource, version))
+        Kora.logging.info('compat.core_version_checked', 'kora_core version check called', { caller = invokingResource, version = version })
     end
     return version
 end

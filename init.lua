@@ -70,7 +70,7 @@ local function applyDelta(name, action, key, record, epoch)
     for _, handler in pairs(subs[name] or {}) do
         local ok, err = pcall(handler, action, key, record, previous)
         if not ok then
-            print(("^3[kora_core:shared]^7 onChange handler for '%s' errored: %s"):format(name, tostring(err)))
+            Kora.logging.warn('shared.on_change_handler_errored', 'Shared registry onChange handler errored', { name = name, error = tostring(err) })
         end
     end
 end

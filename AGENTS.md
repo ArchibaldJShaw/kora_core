@@ -98,7 +98,7 @@ yield completes, so this BOUNDS loss, it does not eliminate it.
 Follows kora_lib's: `fx_version 'cerulean'`, `lua54 'yes'`, explicit non-globbed load
 order with reasoning comments, four-space indent, heavy LuaLS annotations,
 `(value, errorString)` returns on fallible functions, `assert` for programmer
-error / `print` for runtime misbehaviour. Every module folder has `AGENTS.md` +
+error / `Kora.logging.<level>` (not `print`) for runtime misbehaviour. Every module folder has `AGENTS.md` +
 `docs.md`; adding a module requires adding its `test/smoke/<module>.lua` in the
 same change. Tests load one realm at a time to avoid the same-name-across-realms
 collision (see kora_lib AGENTS.md).

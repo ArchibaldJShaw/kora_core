@@ -63,7 +63,7 @@ RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
 
     local ok, err = pcall(handler, respond, ...)
     if not ok then
-        print(('^1[kora_core:qb-core-bridge]^7 legacy client callback %q raised an error: %s'):format(tostring(name), tostring(err)))
+        Kora.logging.error('compat.legacy_client_callback_errored', 'Legacy client callback raised an error', { callback = tostring(name), error = tostring(err) })
     end
 end)
 
@@ -108,7 +108,7 @@ function F.TriggerCallback(name, ...)
             if entry.answered then return end
             entry.answered = true
             dropPending(name, entry)
-            print(('^3[kora_core:qb-core-bridge]^7 TriggerCallback(%q) timed out waiting for a server reply'):format(tostring(name)))
+            Kora.logging.warn('compat.trigger_callback_timed_out', 'TriggerCallback timed out waiting for a server reply', { callback = tostring(name) })
             entry.promise:resolve(nil)
         end)
         Citizen.Await(entry.promise)
@@ -426,7 +426,7 @@ function F.LoadModel(model, timeout)
     if HasModelLoaded(modelName) then return true, model end
 
     if not IsModelValid(modelName) and not IsModelInCdimage(modelName) then
-        print(('[kora_core] Model does not exist: %s'):format(modelName or model))
+        Kora.logging.warn('compat.model_missing', 'Model does not exist', { model = tostring(modelName or model) })
         return false, modelName
     end
 
@@ -475,7 +475,8 @@ function F.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
         end
         if not warnedClientNetworkVehicle then
             warnedClientNetworkVehicle = true
-            print('[kora_core] client SpawnVehicle could not get a server-validated networked vehicle (see Config.compat.vehicleSpawnCallbacks); creating a local vehicle instead.')
+            Kora.logging.warn('compat.spawn_vehicle_local_fallback', 'Client SpawnVehicle could not get a server-validated networked vehicle '
+                .. '(see Config.compat.vehicleSpawnCallbacks); creating a local vehicle instead')
         end
     end
     local loaded = F.LoadModel(model)
@@ -996,7 +997,7 @@ function F.Draw3DText(coords, text, opts) Kora.drawing.text3d(coords, text, opts
 function F.RequestAnimDict(animDict, timeout)
     timeout = timeout or 5000
     if not DoesAnimDictExist(animDict) then
-        print(('[kora_core] Animation dictionary does not exist: %s'):format(animDict))
+        Kora.logging.warn('compat.anim_dict_missing', 'Animation dictionary does not exist', { animDict = tostring(animDict) })
         return false, animDict
     end
     return awaitStreamingAsset(animDict, timeout, RequestAnimDict, HasAnimDictLoaded, RemoveAnimDict)

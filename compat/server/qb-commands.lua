@@ -19,7 +19,7 @@ local function audit(src, name, data)
     data = data or {}
     data.command = name
     local ok, err = pcall(Core.logging.logEvent, 'admin', src, data)
-    if not ok then print(('^3[kora_core:commands]^7 audit log failed for /%s: %s'):format(name, tostring(err))) end
+    if not ok then Kora.logging.warn('commands.audit_log_failed', 'Command audit log failed', { command = name, error = tostring(err) }) end
 end
 
 local function str(value, max)
@@ -80,7 +80,7 @@ for _, command in ipairs(Core.commands.listCommands()) do existing[command.name]
 
 local function register(name, help, params, argsRequired, permission, handler)
     if existing[name] then
-        print(('^3[kora_core:commands]^7 /%s is already registered by another resource; keeping that one.'):format(name))
+        Kora.logging.warn('commands.already_registered', 'Command is already registered by another resource; keeping that one', { command = name })
         return
     end
     QBCore.Commands.Add(name, help, params, argsRequired, function(src, args, raw)
@@ -238,7 +238,7 @@ register('car', 'Spawn Vehicle (Admin Only)', { param('model', 'Model name of th
     local plate = GetVehicleNumberPlateText(vehicle)
     if plate and GetResourceState('kora_vehiclekeys') == 'started' then
         local ok, err = pcall(function() return exports.kora_vehiclekeys:giveKeys(src, plate) end)
-        if not ok then print(('^3[kora_core:commands]^7 /car could not grant keys: %s'):format(tostring(err))) end
+        if not ok then Kora.logging.warn('commands.car_grant_keys_failed', '/car could not grant keys', { error = tostring(err) }) end
     end
     audit(src, 'car', { model = model, plate = plate })
 end)

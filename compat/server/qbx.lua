@@ -4,7 +4,7 @@ local enabled = Config.compat.qbxFacade == true or GetConvar('kora:qbxFacade', '
 if not enabled then return end
 
 if GetResourceState('qbx_core') ~= 'missing' or GetResourceState('qbx_vehicles') ~= 'missing' then
-    print('^1[kora_core:qbx-facade]^7 a real qbx_core/qbx_vehicles resource exists; the qbx facade stays OFF so it cannot hijack its exports.')
+    Kora.logging.error('compat.qbx_facade_blocked', 'A real qbx_core/qbx_vehicles resource exists; the qbx facade stays OFF so it cannot hijack its exports')
     return
 end
 
@@ -65,7 +65,7 @@ local function armReady(src, session, attempt)
         local state = bag and bag.state
         if not (state and state.isLoggedIn == true) then
             if attempt < READY_MAX_ATTEMPTS then return armReady(src, session, attempt + 1) end
-            print(('^3[kora_core:qbx-facade]^7 player %s never reached isLoggedIn; loadInventory not set'):format(tostring(src)))
+            Kora.logging.warn('compat.qbx_login_timeout', 'Player never reached isLoggedIn; loadInventory not set', { source = src })
             return
         end
         session.groups = computeGroups(src) or {}

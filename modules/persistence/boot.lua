@@ -81,7 +81,7 @@ end
 local function logSchemaWarnings(reports)
     for _, report in ipairs(reports or {}) do
         for _, warning in ipairs(report.warnings or {}) do
-            print(('^3[kora_core:schema]^7 %s'):format(tostring(warning)))
+            Kora.logging.warn('schema.table_warning', 'Schema check reported a warning', { warning = tostring(warning) })
         end
     end
 end
@@ -100,19 +100,19 @@ end
 
 CreateThread(function()
     while not Kora.sql.ready(60000) do
-        print('^3[kora_core:schema]^7 still waiting for kora_sql; schema setup will resume automatically.')
+        Kora.logging.warn('schema.waiting_for_sql', 'Still waiting for kora_sql; schema setup will resume automatically')
     end
 
     local applied, err = applySchema()
     if not applied then
-        print(('^1[kora_core:schema]^7 schema setup failed: %s'):format(tostring(err)))
+        Kora.logging.error('schema.setup_failed', 'Schema setup failed', { error = tostring(err) })
         return
     end
     local triggersReady, triggerErr = ensureVehicleSyncTriggers()
     if not triggersReady then
-        print(('^1[kora_core:schema]^7 vehicle sync trigger setup failed: %s'):format(tostring(triggerErr)))
+        Kora.logging.error('schema.vehicle_sync_trigger_failed', 'Vehicle sync trigger setup failed', { error = tostring(triggerErr) })
     end
-    print('^2[kora_core:schema]^7 schema up to date.')
+    Kora.logging.info('schema.up_to_date', 'Schema up to date')
     exports.kora_sql:prepareWarm({
         'SELECT * FROM `players` WHERE `citizenid` = ? AND `deleted_at` IS NULL',
         'SELECT `citizenid`,`cid`,`name`,`charinfo`,`money`,`job`,`gang` FROM `players` WHERE `license` = ? AND `deleted_at` IS NULL ORDER BY `cid`',
