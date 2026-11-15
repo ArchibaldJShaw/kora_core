@@ -65,7 +65,7 @@ function RI.dispatch(name, action, key, record, previous)
     for _, sub in pairs(r.subscribers) do
         local ok, err = pcall(sub.handler, action, key, record, previous)
         if not ok then
-            print(("^3[kora_core:registry]^7 subscriber for '%s' errored: %s"):format(name, tostring(err)))
+            Kora.logging.warn('registry.subscriber_errored', 'Registry subscriber errored', { name = name, error = tostring(err) })
         end
     end
 end

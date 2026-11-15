@@ -339,7 +339,7 @@ function Core.inventory.useItem(src, slotOrName)
     end
     local ok, result = pcall(u.handler, src, item)
     if not ok then
-        print(("^3[kora_core:inventory]^7 useable '%s' errored: %s"):format(item.name, tostring(result)))
+        Kora.logging.warn('inventory.useable_errored', 'Useable item handler errored', { item = item.name, error = tostring(result) })
         return false
     end
     return result ~= false
@@ -377,9 +377,8 @@ function Core.inventory.stashOpen(src, identifier, opts)
         maxweight = opts and opts.maxweight or 100000,
     })
     if Config.inventory.warnOnUnhandledOpen and not _G.__kora_coreInventoryUIHandled then
-        print(("^3[kora_core:inventory]^7 stashOpen('%s') emitted kora_core:inventory:open but no UI resource "
-            .. "handled it. Ship or bridge an inventory UI, or set Config.inventory.warnOnUnhandledOpen=false.")
-            :format(identifier))
+        Kora.logging.warn('inventory.stash_open_unhandled', 'stashOpen emitted kora_core:inventory:open but no UI resource handled it; '
+            .. 'ship or bridge an inventory UI, or set Config.inventory.warnOnUnhandledOpen=false', { stash = identifier })
     end
     return true
 end

@@ -9,13 +9,13 @@ local CLIENT_METADATA_RULES = {
 RegisterNetEvent('QBCore:Server:SetMetaData', function(key, value)
     local src = source
     if type(key) ~= 'string' or key == 'starterItems' or Config.compat.clientMetadataKeys[key] ~= true then
-        print(("^3[kora_core]^7 rejected client metadata write from %s for key '%s'"):format(src, tostring(key)))
+        Kora.logging.warn('compat.metadata_write_rejected', 'Rejected client metadata write', { source = src, key = tostring(key) })
         return
     end
     local rule = CLIENT_METADATA_RULES[key]
     if rule then
         if type(value) ~= 'number' or value ~= value or value == math.huge or value == -math.huge then
-            print(("^3[kora_core]^7 rejected client metadata write from %s for key '%s': not a finite number"):format(src, key))
+            Kora.logging.warn('compat.metadata_write_not_finite', 'Rejected client metadata write: not a finite number', { source = src, key = tostring(key) })
             return
         end
         value = math.min(rule.max, math.max(rule.min, value))
@@ -36,7 +36,7 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     if not handle then return end
     local job = handle.PlayerData.job
     if type(job) ~= 'table' or type(job.name) ~= 'string' or job.name == Config.jobs.defaultJob then
-        print(("^3[kora_core]^7 rejected QBCore:ToggleDuty from %s: no job"):format(tostring(src)))
+        Kora.logging.warn('compat.toggle_duty_rejected', 'Rejected QBCore:ToggleDuty: no job', { source = src })
         return
     end
     local nextDuty = not job.onduty

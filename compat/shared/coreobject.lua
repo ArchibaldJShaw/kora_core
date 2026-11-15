@@ -528,5 +528,9 @@ function QBCore.Debug(tbl, indent)
     end
 end
 
-function QBCore.ShowError(res, msg) print(('^1[%s] %s^7'):format(res or 'kora_core', msg or '')) end
-function QBCore.ShowSuccess(res, msg) print(('^2[%s] %s^7'):format(res or 'kora_core', msg or '')) end
+function QBCore.ShowError(res, msg)
+    Kora.logging.error('compat.show_error', 'QBCore.ShowError called', { resource = res or 'kora_core', detail = tostring(msg or '') })
+end
+function QBCore.ShowSuccess(res, msg)
+    Kora.logging.info('compat.show_success', 'QBCore.ShowSuccess called', { resource = res or 'kora_core', detail = tostring(msg or '') })
+end

@@ -54,8 +54,8 @@ local function unavailable(name)
 
     if not warnedUnavailable then
         warnedUnavailable = true
-        print(("^3[kora_core:inventory]^7 kora_inventory is not started (state: %s); using the temporary built-in "
-            .. "legacy fallback. start kora_inventory to enable authoritative inventory sessions and live updates."):format(state))
+        Kora.logging.warn('inventory.provider_unavailable', 'kora_inventory is not started; using the temporary built-in legacy fallback. '
+            .. 'Start kora_inventory to enable authoritative inventory sessions and live updates', { state = tostring(state) })
     end
     return false
 end

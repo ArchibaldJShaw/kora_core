@@ -13,12 +13,12 @@ RegisterNetEvent('kora_core:client:vehicleCondition', function(netId, fuel, engi
         until GetGameTimer() >= deadline
 
         if not vehicle or vehicle == 0 or not DoesEntityExist(vehicle) or GetEntityType(vehicle) ~= 2 then
-            print('[kora_core] Could not stream the garage vehicle to restore its condition.')
+            Kora.logging.warn('garage.vehicle_stream_failed', 'Could not stream the garage vehicle to restore its condition')
             return
         end
         local controlled, reason = Kora.entities.requestControl(vehicle, 1000)
         if not controlled then
-            print(('[kora_core] Could not restore garage vehicle condition: %s'):format(reason or 'no entity control'))
+            Kora.logging.warn('garage.condition_restore_failed', 'Could not restore garage vehicle condition', { reason = reason or 'no entity control' })
             return
         end
         SetVehicleFuelLevel(vehicle, fuel)

@@ -75,7 +75,7 @@ function Core.player.setPath(src, path, value, opts)
         if pathMatchesPrefix(path, sub.prefix) then
             local ok, err = pcall(sub.handler, src, path, value)
             if not ok then
-                print(("^3[kora_core:player]^7 onChange handler errored: %s"):format(tostring(err)))
+                Kora.logging.warn('player.on_change_handler_errored', 'Player onChange handler errored', { error = tostring(err) })
             end
         end
     end
@@ -220,8 +220,8 @@ function Core.player.registerPlayerDataField(key, provider)
     for src, player in pairs(bySource) do
         local value, err = loadPlayerDataField(field, player)
         if err then
-            print(('^3[kora_core:player]^7 %s could not hydrate PlayerData.%s for %s: %s')
-                :format(resource, key, player.citizenid, err))
+            Kora.logging.warn('player.data_field_hydrate_failed', 'Could not hydrate a PlayerData field', {
+                provider = resource, field = key, error = tostring(err) })
         else
             Core.player.setPath(src, { key }, value, { _playerDataFieldWriteToken = playerDataFieldWriteToken })
         end
@@ -291,8 +291,8 @@ local function adopt(src, player)
     for key, field in pairs(playerDataFields) do
         local value, err = loadPlayerDataField(field, player)
         if err then
-            print(('^3[kora_core:player]^7 %s could not hydrate PlayerData.%s for %s: %s')
-                :format(field.resource, key, player.citizenid, err))
+            Kora.logging.warn('player.data_field_hydrate_failed', 'Could not hydrate a PlayerData field', {
+                provider = field.resource, field = key, error = tostring(err) })
         else
             Core.player.setPath(src, { key }, value, {
                 silent = true,

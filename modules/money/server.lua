@@ -36,7 +36,7 @@ local function taxWarn(message)
     local now = os.time()
     if now - taxWarnedAt < 60 then return end
     taxWarnedAt = now
-    print(('^3[kora_core:money]^7 transaction tax skipped: %s'):format(message))
+    Kora.logging.warn('money.tax_skipped', 'Transaction tax skipped', { reason = tostring(message) })
 end
 
 local function taxConfig()
@@ -171,7 +171,7 @@ local function dispatchTax(tax, reason, refund)
     CreateThread(function()
         local ok, err = Core.money.collectTax(tax, reason)
         if ok then return end
-        print(('^1[kora_core:money]^7 tax deposit of %s failed: %s'):format(tax, tostring(err)))
+        Kora.logging.error('money.tax_deposit_failed', 'Tax deposit failed', { amount = tax, error = tostring(err) })
         if refund then refund() end
     end)
 end
@@ -349,7 +349,7 @@ function Core.money.registerPhysicalCash(account)
     for src in pairs(PI.bySource) do
         local imported, err = Core.money.migratePhysicalCash(src)
         if not imported then
-            print(('^1[kora_core:money]^7 physical cash import failed for %s: %s'):format(src, tostring(err)))
+            Kora.logging.error('money.physical_cash_import_failed', 'Physical cash import failed', { source = src, error = tostring(err) })
             return false, err or 'physical cash import failed'
         end
     end

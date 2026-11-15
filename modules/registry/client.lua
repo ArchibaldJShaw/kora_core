@@ -41,7 +41,7 @@ function Core.registry.offSharedChange(name, subId)
 end
 
 function Core.registry.registerShared(name, key)
-    print(("^3[kora_core:registry]^7 client-side registerShared('%s','%s') refused -- register on the server."):format(tostring(name), tostring(key)))
+    Kora.logging.warn('registry.client_register_refused', 'Client-side registerShared refused; register on the server', { name = tostring(name), key = tostring(key) })
     return false, 'client-side registration is not supported'
 end
 

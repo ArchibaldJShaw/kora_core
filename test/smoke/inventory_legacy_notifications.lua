@@ -267,12 +267,13 @@ end)
 h.test('a foreign full legacy write invalidates the pending re-fire without overwriting accepted data', function()
     reset()
     itemDelta(1, 29)
-    local originalPrint = print
+    local originalWarn = Kora.logging.warn
     local warnings = {}
-    print = function(message) warnings[#warnings + 1] = message end
+    Kora.logging.warn = function(event) warnings[#warnings + 1] = event end
     TriggerEvent('QBCore:Player:SetPlayerData', { citizenid = 'FIRST', items = { [1] = weapon(12) } })
-    print = originalPrint
+    Kora.logging.warn = originalWarn
     h.assertEqual(#warnings, 1)
+    h.assertEqual(warnings[1], 'replication.legacy_playerdata_write')
     h.assertEqual(Core.replication.getData({ 'items', 1, 'info', 'ammo' }), 12)
     h.assertEqual(#legacy, 1, 'the foreign event already notified listeners')
     advance(250)

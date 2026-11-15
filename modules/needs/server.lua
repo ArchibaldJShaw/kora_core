@@ -24,7 +24,7 @@ function Core.needs.startNeedsDecay()
             if running and threadGeneration == myGeneration then
                 local ok, err = pcall(Core.needs._tick)
                 if not ok then
-                    print(('[kora_core:needs] tick errored: %s'):format(tostring(err)))
+                    Kora.logging.error('needs.tick_errored', 'Needs tick errored', { error = tostring(err) })
                 end
             end
         end

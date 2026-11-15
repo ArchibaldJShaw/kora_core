@@ -50,7 +50,7 @@ end
 local function audit(src, callback, data)
     data.callback = callback
     local ok, err = pcall(Core.logging.logEvent, 'vehicle', src, data)
-    if not ok then print(('^3[kora_core:vehicles]^7 audit log failed: %s'):format(tostring(err))) end
+    if not ok then Kora.logging.warn('vehicles.audit_log_failed', 'Vehicle audit log failed', { error = tostring(err) }) end
 end
 
 local function trackSpawn(src, vehicle)
@@ -72,7 +72,7 @@ local function grantKeys(src, vehicle)
     local plate = GetVehicleNumberPlateText(vehicle)
     if type(plate) ~= 'string' or plate:match('^%s*$') then return end
     local ok, err = pcall(function() return exports.kora_vehiclekeys:giveKeys(src, plate) end)
-    if not ok then print(('^3[kora_core:vehicles]^7 could not grant keys: %s'):format(tostring(err))) end
+    if not ok then Kora.logging.warn('vehicles.grant_keys_failed', 'Could not grant vehicle keys', { error = tostring(err) }) end
 end
 
 local function handle(callbackName, create)

@@ -9,7 +9,7 @@ local function onUsingItem(payload, src)
 
     local ok, err = Kora.status.apply(src, payload.itemName, def.effect)
     if not ok then
-        print(('[kora_core:consumables] failed to apply effect for %s: %s'):format(payload.itemName, tostring(err)))
+        Kora.logging.error('consumables.effect_apply_failed', 'Failed to apply consumable effect', { item = payload.itemName, error = tostring(err) })
     end
 
     local effect = def.effect
