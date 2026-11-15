@@ -2,6 +2,7 @@ local h = dofile('test/harness.lua')
 local handler, clock, readyAt, controlled = nil, 0, 100, true
 local applied, controlCalls = {}, 0
 Kora = {
+    logging = { warn = function() end },
     util = { isFiniteNumber = function(value)
         return type(value) == 'number' and value == value and math.abs(value) < math.huge
     end },
