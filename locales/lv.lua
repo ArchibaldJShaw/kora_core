@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Piešķirt spēlētājam atļaujas (tikai galvenajam administratoram)', car = 'Izveidot transportlīdzekli (tikai administratoram)', closeserver = 'Slēgt serveri spēlētājiem bez atļaujām (tikai administratoram)',
+        dv = 'Dzēst transportlīdzekli (tikai administratoram)', dvall = 'Dzēst visus transportlīdzekļus (tikai administratoram)', dvo = 'Dzēst visus objektus (tikai administratoram)', dvp = 'Dzēst visus NPC (tikai administratoram)',
+        gang = 'Pārbaudīt savu bandu', givemoney = 'Piešķirt spēlētājam naudu (tikai administratoram)', job = 'Pārbaudīt savu darbu', me = 'Rādīt lokālu ziņojumu', ooc = 'Ārpus lomas ziņojums',
+        openserver = 'Atvērt serveri visiem (tikai administratoram)', removepermission = 'Noņemt spēlētājam atļaujas (tikai galvenajam administratoram)', setgang = 'Iestatīt spēlētāja bandu (tikai administratoram)',
+        setjob = 'Iestatīt spēlētāja darbu (tikai administratoram)', setmoney = 'Iestatīt spēlētāja naudas summu (tikai administratoram)', togglepvp = 'Ieslēgt vai izslēgt PvP serverī (tikai administratoram)',
+        tp = 'Teleportēties pie spēlētāja vai uz koordinātām (tikai administratoram)', tpm = 'Teleportēties uz kartes marķieri',
+    },
+    CommandParams = {
+        amount_of_money = 'Naudas summa', gang_grade = 'Bandas pakāpe', gang_name = 'Bandas nosaukums', id_of_player = 'Spēlētāja ID',
+        id_of_player_or_x_position = 'Spēlētāja ID vai X pozīcija', job_grade = 'Darba pakāpe', job_name = 'Darba nosaukums', message_to_send = 'Nosūtāmais ziņojums',
+        model_name_of_the_vehicle = 'Transportlīdzekļa modeļa nosaukums', permission_level = 'Atļauju līmenis', player_id = 'Spēlētāja ID',
+        reason_for_closing_optional = 'Slēgšanas iemesls (neobligāts)', type_of_money_cash_bank_crypto = 'Naudas veids (skaidra nauda, banka, kriptovalūta)', y_position = 'Y pozīcija', z_position = 'Z pozīcija',
+    },
+    Commands = {
+        account_choices = 'Naudas veidam jābūt vienam no šiem: %s', already_closed = 'Serveris jau ir slēgts', already_open = 'Serveris jau ir atvērts', closed = 'Serveris ir slēgts',
+        coordinates_required = 'Nav ievadīti visi argumenti (x, y, z)', deleted_entities = 'Dzēstas %d vienības', gang_status = 'Banda: %s | Pakāpe: %s',
+        give_money_failed = 'Neizdevās piešķirt naudu: %s', grade_invalid = 'Pakāpei jābūt veselam skaitlim, kas nav mazāks par 0', incorrect_format = 'Nepareizs formāts',
+        job_status = 'Darbs: %s | Pakāpe: %s | Dežūrā: %s', kick_permission_denied = 'Tev nav atļaujas to darīt..', location_missing = 'Atrašanās vieta neeksistē',
+        no_reason = 'Iemesls nav norādīts', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'Tuvumā OOC | ', opened = 'Serveris ir atvērts',
+        permission_choices = 'Atļaujai jābūt vienai no šīm: %s', permission_denied = 'Tev nav atļaujas izmantot šo komandu.',
+        permission_granted = 'Spēlētājam %s piešķirta atļauja %d', permission_removed = 'Spēlētājam %s noņemta atļauja %d', player_offline = 'Spēlētājs nav tiešsaistē',
+        player_required = 'Šī komanda jāizmanto spēlētājam spēlē.', pvp_disabled = 'PvP izslēgts', pvp_enabled = 'PvP ieslēgts',
+        server_closed = 'Serveris ir slēgts', set_money_failed = 'Neizdevās iestatīt naudu: %s', set_role_failed = 'Neizdevās iestatīt %s: %s',
+    },
+    Connection = { disconnected = 'Savienojums pārtraukts.' },
+    Inventory = { item = 'priekšmets', received = 'Saņemts %dx %s', removed = 'Noņemts %dx %s' },
+    Jail = {
+        id_help = 'Spēlētāja servera ID', jail_help = 'Ieslodzīt spēlētāju', jailed = 'Tev piespriests cietumsods uz %d minūtēm.', minutes_help = 'Soda ilgums minūtēs',
+        reason_help = 'Iemesls (neobligāts)', release_help = 'Atbrīvot spēlētāju no cietuma', released = 'Tu esi atbrīvots.',
+    },
+    Language = { changed = 'Valoda iestatīta uz %s.', current = 'Pašreizējā valoda', open_selector = 'Atvērt valodas izvēli', title = 'Valoda' },
+    Notify = {
+        arguments_required = 'Jāaizpilda visi argumenti!', command_denied = 'Tev nav piekļuves šai komandai', duty_off = 'Tu vairs neesi dežūrā!', duty_on = 'Tu tagad esi dežūrā!',
+        locale_invalid = 'Nederīga valodas atsauce.', placeholder = 'Vietturis', stress_decreased = 'Jūties mierīgāk!', stress_increased = 'Jūties satrauktāk!',
+        vehicle_spawn_failed = 'Neizdevās izveidot šo transportlīdzekli', waypoint_failed = 'Neizdevās teleportēties uz marķieri', waypoint_missing = 'Marķieris nav iestatīts',
+        waypoint_start_failed = 'Neizdevās sākt teleportēšanos uz marķieri', waypoint_success = 'Teleportēšanās uz marķieri izdevās',
+    },
+}

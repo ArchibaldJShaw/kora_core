@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'הענקת הרשאות לשחקן (למנהל ראשי בלבד)', car = 'יצירת רכב (למנהל בלבד)', closeserver = 'סגירת השרת לשחקנים ללא הרשאה (למנהל בלבד)',
+        dv = 'מחיקת רכב (למנהל בלבד)', dvall = 'מחיקת כל הרכבים (למנהל בלבד)', dvo = 'מחיקת כל האובייקטים (למנהל בלבד)', dvp = 'מחיקת כל הדמויות שאינן שחקנים (למנהל בלבד)',
+        gang = 'בדיקת הכנופיה שלך', givemoney = 'מתן כסף לשחקן (למנהל בלבד)', job = 'בדיקת העבודה שלך', me = 'הצגת הודעה מקומית', ooc = 'הודעה מחוץ לדמות',
+        openserver = 'פתיחת השרת לכולם (למנהל בלבד)', removepermission = 'הסרת הרשאות משחקן (למנהל ראשי בלבד)', setgang = 'הגדרת כנופיה לשחקן (למנהל בלבד)',
+        setjob = 'הגדרת עבודה לשחקן (למנהל בלבד)', setmoney = 'הגדרת סכום הכסף של שחקן (למנהל בלבד)', togglepvp = 'הפעלה או השבתה של PvP בשרת (למנהל בלבד)',
+        tp = 'העברה לשחקן או לקואורדינטות (למנהל בלבד)', tpm = 'העברה לסמן במפה',
+    },
+    CommandParams = {
+        amount_of_money = 'סכום כסף', gang_grade = 'דרגת כנופיה', gang_name = 'שם הכנופיה', id_of_player = 'מזהה שחקן',
+        id_of_player_or_x_position = 'מזהה שחקן או מיקום X', job_grade = 'דרגת עבודה', job_name = 'שם העבודה', message_to_send = 'הודעה לשליחה',
+        model_name_of_the_vehicle = 'שם דגם הרכב', permission_level = 'רמת הרשאה', player_id = 'מזהה שחקן',
+        reason_for_closing_optional = 'סיבת הסגירה (אופציונלי)', type_of_money_cash_bank_crypto = 'סוג הכסף (מזומן, בנק, קריפטו)', y_position = 'מיקום Y', z_position = 'מיקום Z',
+    },
+    Commands = {
+        account_choices = 'סוג הכסף חייב להיות אחד מהבאים: %s', already_closed = 'השרת כבר סגור', already_open = 'השרת כבר פתוח', closed = 'השרת נסגר',
+        coordinates_required = 'לא הוזנו כל הארגומנטים (x, y, z)', deleted_entities = '%d ישויות נמחקו', gang_status = 'כנופיה: %s | דרגה: %s',
+        give_money_failed = 'לא ניתן לתת כסף: %s', grade_invalid = 'הדרגה חייבת להיות מספר שלם של 0 ומעלה', incorrect_format = 'פורמט שגוי',
+        job_status = 'עבודה: %s | דרגה: %s | בתפקיד: %s', kick_permission_denied = 'אין לך הרשאה לכך..', location_missing = 'המיקום לא קיים',
+        no_reason = 'לא צוינה סיבה', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC בקרבת מקום | ', opened = 'השרת נפתח',
+        permission_choices = 'ההרשאה חייבת להיות אחת מהבאות: %s', permission_denied = 'אין לך הרשאה להשתמש בפקודה זו.',
+        permission_granted = 'ההרשאה %s ניתנה לשחקן %d', permission_removed = 'ההרשאה %s הוסרה מהשחקן %d', player_offline = 'השחקן לא מחובר',
+        player_required = 'שחקן שנמצא במשחק חייב להשתמש בפקודה זו.', pvp_disabled = 'PvP הושבת', pvp_enabled = 'PvP הופעל',
+        server_closed = 'השרת סגור', set_money_failed = 'לא ניתן להגדיר כסף: %s', set_role_failed = 'לא ניתן להגדיר %s: %s',
+    },
+    Connection = { disconnected = 'החיבור נותק.' },
+    Inventory = { item = 'פריט', received = 'התקבלו %dx %s', removed = 'הוסרו %dx %s' },
+    Jail = {
+        id_help = 'מזהה השחקן בשרת', jail_help = 'כליאת שחקן', jailed = 'נכלאת למשך %d דקות.', minutes_help = 'משך העונש בדקות',
+        reason_help = 'סיבה (אופציונלי)', release_help = 'שחרור שחקן מהכלא', released = 'שוחררת.',
+    },
+    Language = { changed = 'השפה הוגדרה ל-%s.', current = 'השפה הנוכחית', open_selector = 'פתיחת בחירת שפה', title = 'שפה' },
+    Notify = {
+        arguments_required = 'יש למלא את כל הארגומנטים!', command_denied = 'אין לך גישה לפקודה זו', duty_off = 'אתה מחוץ לתפקיד כעת!', duty_on = 'אתה בתפקיד כעת!',
+        locale_invalid = 'הפניה לא תקינה לשפה.', placeholder = 'ממלא מקום', stress_decreased = 'אתה מרגיש רגוע יותר!', stress_increased = 'אתה מרגיש לחוץ יותר!',
+        vehicle_spawn_failed = 'לא ניתן ליצור את הרכב הזה', waypoint_failed = 'העברה לסמן נכשלה', waypoint_missing = 'לא הוגדר סמן',
+        waypoint_start_failed = 'לא ניתן להתחיל העברה לסמן', waypoint_success = 'הועברת לסמן',
+    },
+}

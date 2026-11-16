@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Geef een speler rechten (alleen hoofdbeheerder)', car = 'Voertuig spawnen (alleen beheerder)', closeserver = 'Server sluiten voor spelers zonder rechten (alleen beheerder)',
+        dv = 'Voertuig verwijderen (alleen beheerder)', dvall = 'Alle voertuigen verwijderen (alleen beheerder)', dvo = 'Alle objecten verwijderen (alleen beheerder)', dvp = 'Alle NPC’s verwijderen (alleen beheerder)',
+        gang = 'Je gang bekijken', givemoney = 'Een speler geld geven (alleen beheerder)', job = 'Je baan bekijken', me = 'Lokaal bericht tonen', ooc = 'Bericht buiten je personage',
+        openserver = 'Server voor iedereen openen (alleen beheerder)', removepermission = 'Rechten van een speler intrekken (alleen hoofdbeheerder)', setgang = 'Gang van een speler instellen (alleen beheerder)',
+        setjob = 'Baan van een speler instellen (alleen beheerder)', setmoney = 'Geldbedrag van een speler instellen (alleen beheerder)', togglepvp = 'PvP op de server in- of uitschakelen (alleen beheerder)',
+        tp = 'Naar een speler of coördinaten teleporteren (alleen beheerder)', tpm = 'Naar de kaartmarkering teleporteren',
+    },
+    CommandParams = {
+        amount_of_money = 'Geldbedrag', gang_grade = 'Gangrang', gang_name = 'Gangnaam', id_of_player = 'Speler-ID',
+        id_of_player_or_x_position = 'Speler-ID of X-positie', job_grade = 'Functierang', job_name = 'Functienaam', message_to_send = 'Te verzenden bericht',
+        model_name_of_the_vehicle = 'Modelnaam van het voertuig', permission_level = 'Rechtenniveau', player_id = 'Speler-ID',
+        reason_for_closing_optional = 'Reden voor sluiten (optioneel)', type_of_money_cash_bank_crypto = 'Soort geld (contant, bank, crypto)', y_position = 'Y-positie', z_position = 'Z-positie',
+    },
+    Commands = {
+        account_choices = 'De geldsoort moet een van deze zijn: %s', already_closed = 'De server is al gesloten', already_open = 'De server is al geopend', closed = 'De server is gesloten',
+        coordinates_required = 'Niet alle argumenten zijn ingevuld (x, y, z)', deleted_entities = '%d entiteiten verwijderd', gang_status = 'Gang: %s | Rang: %s',
+        give_money_failed = 'Geld geven mislukt: %s', grade_invalid = 'De rang moet een geheel getal van 0 of hoger zijn', incorrect_format = 'Onjuist formaat',
+        job_status = 'Baan: %s | Rang: %s | In dienst: %s', kick_permission_denied = 'Je hebt hiervoor geen rechten..', location_missing = 'Locatie bestaat niet',
+        no_reason = 'Geen reden opgegeven', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC in de buurt | ', opened = 'De server is geopend',
+        permission_choices = 'De toestemming moet een van deze zijn: %s', permission_denied = 'Je hebt geen toestemming om dit commando te gebruiken.',
+        permission_granted = 'Toestemming %s verleend aan speler %d', permission_removed = 'Toestemming %s ingetrokken bij speler %d', player_offline = 'Speler is niet online',
+        player_required = 'Dit commando moet door een speler in het spel worden gebruikt.', pvp_disabled = 'PvP uitgeschakeld', pvp_enabled = 'PvP ingeschakeld',
+        server_closed = 'Server gesloten', set_money_failed = 'Geld instellen mislukt: %s', set_role_failed = '%s instellen mislukt: %s',
+    },
+    Connection = { disconnected = 'Verbinding verbroken.' },
+    Inventory = { item = 'voorwerp', received = '%dx %s ontvangen', removed = '%dx %s verwijderd' },
+    Jail = {
+        id_help = 'Server-ID van de speler', jail_help = 'Speler opsluiten', jailed = 'Je bent voor %d minuten opgesloten.', minutes_help = 'Duur van de straf in minuten',
+        reason_help = 'Reden (optioneel)', release_help = 'Speler uit de gevangenis vrijlaten', released = 'Je bent vrijgelaten.',
+    },
+    Language = { changed = 'Taal ingesteld op %s.', current = 'Huidige taal', open_selector = 'Taalkeuze openen', title = 'Taal' },
+    Notify = {
+        arguments_required = 'Alle argumenten moeten worden ingevuld!', command_denied = 'Je hebt geen toegang tot dit commando', duty_off = 'Je bent nu buiten dienst!', duty_on = 'Je bent nu in dienst!',
+        locale_invalid = 'Ongeldige taalverwijzing.', placeholder = 'Plaatshouder', stress_decreased = 'Je voelt je meer ontspannen!', stress_increased = 'Je voelt je meer gestrest!',
+        vehicle_spawn_failed = 'Dit voertuig kon niet worden gespawnd', waypoint_failed = 'Teleporteren naar de markering is mislukt', waypoint_missing = 'Er is geen markering ingesteld',
+        waypoint_start_failed = 'Teleporteren naar de markering kon niet starten', waypoint_success = 'Geteleporteerd naar de markering',
+    },
+}

@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Bigyan ng pahintulot ang manlalaro (para lamang sa head admin)', car = 'Mag-spawn ng sasakyan (para lamang sa admin)', closeserver = 'Isara ang server para sa walang pahintulot (para lamang sa admin)',
+        dv = 'Burahin ang sasakyan (para lamang sa admin)', dvall = 'Burahin ang lahat ng sasakyan (para lamang sa admin)', dvo = 'Burahin ang lahat ng object (para lamang sa admin)', dvp = 'Burahin ang lahat ng NPC (para lamang sa admin)',
+        gang = 'Tingnan ang iyong gang', givemoney = 'Bigyan ng pera ang manlalaro (para lamang sa admin)', job = 'Tingnan ang iyong trabaho', me = 'Magpakita ng lokal na mensahe', ooc = 'Mensahe sa labas ng karakter',
+        openserver = 'Buksan ang server para sa lahat (para lamang sa admin)', removepermission = 'Alisin ang pahintulot ng manlalaro (para lamang sa head admin)', setgang = 'Itakda ang gang ng manlalaro (para lamang sa admin)',
+        setjob = 'Itakda ang trabaho ng manlalaro (para lamang sa admin)', setmoney = 'Itakda ang halaga ng pera ng manlalaro (para lamang sa admin)', togglepvp = 'I-toggle ang PvP sa server (para lamang sa admin)',
+        tp = 'Mag-teleport sa manlalaro o mga coordinate (para lamang sa admin)', tpm = 'Mag-teleport sa waypoint',
+    },
+    CommandParams = {
+        amount_of_money = 'Halaga ng pera', gang_grade = 'Ranggo sa gang', gang_name = 'Pangalan ng gang', id_of_player = 'ID ng manlalaro',
+        id_of_player_or_x_position = 'ID ng manlalaro o X na posisyon', job_grade = 'Ranggo sa trabaho', job_name = 'Pangalan ng trabaho', message_to_send = 'Mensahe na ipapadala',
+        model_name_of_the_vehicle = 'Pangalan ng modelo ng sasakyan', permission_level = 'Antas ng pahintulot', player_id = 'ID ng manlalaro',
+        reason_for_closing_optional = 'Dahilan ng pagsasara (opsyonal)', type_of_money_cash_bank_crypto = 'Uri ng pera (cash, bangko, crypto)', y_position = 'Y na posisyon', z_position = 'Z na posisyon',
+    },
+    Commands = {
+        account_choices = 'Dapat isa sa mga ito ang uri ng pera: %s', already_closed = 'Sarado na ang server', already_open = 'Bukas na ang server', closed = 'Isinara ang server',
+        coordinates_required = 'Hindi nailagay ang lahat ng argumento (x, y, z)', deleted_entities = 'Nabura ang %d entity', gang_status = 'Gang: %s | Ranggo: %s',
+        give_money_failed = 'Hindi maibigay ang pera: %s', grade_invalid = 'Dapat whole number na 0 o higit pa ang ranggo', incorrect_format = 'Maling format',
+        job_status = 'Trabaho: %s | Ranggo: %s | Naka-duty: %s', kick_permission_denied = 'Wala kang pahintulot para rito..', location_missing = 'Walang ganitong lokasyon',
+        no_reason = 'Walang ibinigay na dahilan', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC sa malapit | ', opened = 'Binuksan ang server',
+        permission_choices = 'Dapat isa sa mga ito ang pahintulot: %s', permission_denied = 'Wala kang pahintulot gamitin ang command na ito.',
+        permission_granted = 'Ibinigay ang pahintulot na %s sa manlalaro %d', permission_removed = 'Inalis ang pahintulot na %s sa manlalaro %d', player_offline = 'Hindi online ang manlalaro',
+        player_required = 'Dapat gamitin ng manlalarong nasa laro ang command na ito.', pvp_disabled = 'Naka-disable ang PvP', pvp_enabled = 'Naka-enable ang PvP',
+        server_closed = 'Sarado ang server', set_money_failed = 'Hindi maitakda ang pera: %s', set_role_failed = 'Hindi maitakda ang %s: %s',
+    },
+    Connection = { disconnected = 'Nadiskonekta.' },
+    Inventory = { item = 'item', received = 'Natanggap ang %dx %s', removed = 'Inalis ang %dx %s' },
+    Jail = {
+        id_help = 'Server ID ng manlalaro', jail_help = 'Ibilanggo ang manlalaro', jailed = 'Ibinilanggo ka nang %d minuto.', minutes_help = 'Haba ng sentensiya sa minuto',
+        reason_help = 'Dahilan (opsyonal)', release_help = 'Palayain ang manlalaro mula sa kulungan', released = 'Pinalaya ka na.',
+    },
+    Language = { changed = 'Itinakda ang wika sa %s.', current = 'Kasalukuyang wika', open_selector = 'Buksan ang tagapili ng wika', title = 'Wika' },
+    Notify = {
+        arguments_required = 'Dapat punan ang lahat ng argumento!', command_denied = 'Wala kang access sa command na ito', duty_off = 'Wala ka na sa duty!', duty_on = 'Naka-duty ka na!',
+        locale_invalid = 'Hindi wastong locale reference.', placeholder = 'Placeholder', stress_decreased = 'Mas kalmado ang pakiramdam mo!', stress_increased = 'Mas nai-stress ang pakiramdam mo!',
+        vehicle_spawn_failed = 'Hindi ma-spawn ang sasakyang iyon', waypoint_failed = 'Hindi makapag-teleport sa waypoint', waypoint_missing = 'Walang itinakdang waypoint',
+        waypoint_start_failed = 'Hindi masimulan ang teleport sa waypoint', waypoint_success = 'Nag-teleport sa waypoint',
+    },
+}

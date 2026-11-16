@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Jogosultság adása játékosnak (csak főadminnak)', car = 'Jármű létrehozása (csak adminnak)', closeserver = 'Szerver bezárása a jogosulatlan játékosok előtt (csak adminnak)',
+        dv = 'Jármű törlése (csak adminnak)', dvall = 'Minden jármű törlése (csak adminnak)', dvo = 'Minden objektum törlése (csak adminnak)', dvp = 'Minden NPC törlése (csak adminnak)',
+        gang = 'Bandád megtekintése', givemoney = 'Pénz adása játékosnak (csak adminnak)', job = 'Munkád megtekintése', me = 'Helyi üzenet megjelenítése', ooc = 'Szerepen kívüli üzenet',
+        openserver = 'Szerver megnyitása mindenki előtt (csak adminnak)', removepermission = 'Játékos jogosultságainak visszavonása (csak főadminnak)', setgang = 'Játékos bandájának beállítása (csak adminnak)',
+        setjob = 'Játékos munkájának beállítása (csak adminnak)', setmoney = 'Játékos pénzösszegének beállítása (csak adminnak)', togglepvp = 'PvP be- vagy kikapcsolása a szerveren (csak adminnak)',
+        tp = 'Teleportálás játékoshoz vagy koordinátákra (csak adminnak)', tpm = 'Teleportálás a térképjelölőhöz',
+    },
+    CommandParams = {
+        amount_of_money = 'Pénzösszeg', gang_grade = 'Banda rangja', gang_name = 'Banda neve', id_of_player = 'Játékosazonosító',
+        id_of_player_or_x_position = 'Játékosazonosító vagy X pozíció', job_grade = 'Munkaköri rang', job_name = 'Munka neve', message_to_send = 'Küldendő üzenet',
+        model_name_of_the_vehicle = 'Járműmodell neve', permission_level = 'Jogosultsági szint', player_id = 'Játékosazonosító',
+        reason_for_closing_optional = 'Bezárás oka (nem kötelező)', type_of_money_cash_bank_crypto = 'Pénztípus (készpénz, bank, kripto)', y_position = 'Y pozíció', z_position = 'Z pozíció',
+    },
+    Commands = {
+        account_choices = 'A pénztípusnak ezek közül kell kikerülnie: %s', already_closed = 'A szerver már zárva van', already_open = 'A szerver már nyitva van', closed = 'A szerver bezárult',
+        coordinates_required = 'Nem lett minden argumentum megadva (x, y, z)', deleted_entities = '%d entitás törölve', gang_status = 'Banda: %s | Rang: %s',
+        give_money_failed = 'Nem sikerült pénzt adni: %s', grade_invalid = 'A rangnak legalább 0 értékű egész számnak kell lennie', incorrect_format = 'Hibás formátum',
+        job_status = 'Munka: %s | Rang: %s | Szolgálatban: %s', kick_permission_denied = 'Ehhez nincs jogosultságod..', location_missing = 'A hely nem létezik',
+        no_reason = 'Nincs megadva indok', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'Közeli OOC | ', opened = 'A szerver megnyílt',
+        permission_choices = 'A jogosultságnak ezek közül kell kikerülnie: %s', permission_denied = 'Nincs jogosultságod a parancs használatához.',
+        permission_granted = 'A(z) %s jogosultság megadva a(z) %d játékosnak', permission_removed = 'A(z) %s jogosultság elvéve a(z) %d játékostól', player_offline = 'A játékos nincs online',
+        player_required = 'Ezt a parancsot csak játékban lévő játékos használhatja.', pvp_disabled = 'PvP kikapcsolva', pvp_enabled = 'PvP bekapcsolva',
+        server_closed = 'A szerver zárva van', set_money_failed = 'Nem sikerült beállítani a pénzt: %s', set_role_failed = 'Nem sikerült beállítani: %s (%s)',
+    },
+    Connection = { disconnected = 'Kapcsolat bontva.' },
+    Inventory = { item = 'tárgy', received = 'Kapott %dx %s', removed = 'Eltávolítva %dx %s' },
+    Jail = {
+        id_help = 'A játékos szerverazonosítója', jail_help = 'Játékos bebörtönzése', jailed = '%d percre börtönbe kerültél.', minutes_help = 'A büntetés időtartama percben',
+        reason_help = 'Indok (nem kötelező)', release_help = 'Játékos szabadon engedése', released = 'Szabadon engedtek.',
+    },
+    Language = { changed = 'Nyelv beállítva erre: %s.', current = 'Jelenlegi nyelv', open_selector = 'Nyelvválasztó megnyitása', title = 'Nyelv' },
+    Notify = {
+        arguments_required = 'Minden argumentumot ki kell tölteni!', command_denied = 'Nincs hozzáférésed ehhez a parancshoz', duty_off = 'Mostantól nem vagy szolgálatban!', duty_on = 'Mostantól szolgálatban vagy!',
+        locale_invalid = 'Érvénytelen nyelvi hivatkozás.', placeholder = 'Helyőrző', stress_decreased = 'Nyugodtabbnak érzed magad!', stress_increased = 'Feszültebbnek érzed magad!',
+        vehicle_spawn_failed = 'Nem sikerült létrehozni ezt a járművet', waypoint_failed = 'Nem sikerült a jelölőhöz teleportálni', waypoint_missing = 'Nincs beállítva jelölő',
+        waypoint_start_failed = 'Nem sikerült elindítani a teleportálást a jelölőhöz', waypoint_success = 'Sikeres teleportálás a jelölőhöz',
+    },
+}

@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Dodeli dozvole igraču (samo za glavnog administratora)', car = 'Stvori vozilo (samo za administratora)', closeserver = 'Zatvori server za igrače bez dozvole (samo za administratora)',
+        dv = 'Obriši vozilo (samo za administratora)', dvall = 'Obriši sva vozila (samo za administratora)', dvo = 'Obriši sve objekte (samo za administratora)', dvp = 'Obriši sve NPC-jeve (samo za administratora)',
+        gang = 'Proveri svoju bandu', givemoney = 'Daj novac igraču (samo za administratora)', job = 'Proveri svoj posao', me = 'Prikaži lokalnu poruku', ooc = 'OOC poruka',
+        openserver = 'Otvori server za sve (samo za administratora)', removepermission = 'Ukloni dozvole igraču (samo za glavnog administratora)', setgang = 'Postavi bandu igrača (samo za administratora)',
+        setjob = 'Postavi posao igrača (samo za administratora)', setmoney = 'Postavi iznos novca igrača (samo za administratora)', togglepvp = 'Uključi ili isključi PvP na serveru (samo za administratora)',
+        tp = 'Teleportuj se do igrača ili koordinata (samo za administratora)', tpm = 'Teleportuj se do markera na mapi',
+    },
+    CommandParams = {
+        amount_of_money = 'Iznos novca', gang_grade = 'Čin u bandi', gang_name = 'Ime bande', id_of_player = 'ID igrača',
+        id_of_player_or_x_position = 'ID igrača ili X pozicija', job_grade = 'Čin na poslu', job_name = 'Ime posla', message_to_send = 'Poruka za slanje',
+        model_name_of_the_vehicle = 'Ime modela vozila', permission_level = 'Nivo dozvole', player_id = 'ID igrača',
+        reason_for_closing_optional = 'Razlog zatvaranja (opciono)', type_of_money_cash_bank_crypto = 'Vrsta novca (gotovina, banka, kripto)', y_position = 'Y pozicija', z_position = 'Z pozicija',
+    },
+    Commands = {
+        account_choices = 'Vrsta novca mora biti jedna od sledećih: %s', already_closed = 'Server je već zatvoren', already_open = 'Server je već otvoren', closed = 'Server je zatvoren',
+        coordinates_required = 'Nisu uneti svi argumenti (x, y, z)', deleted_entities = 'Obrisano je %d entiteta', gang_status = 'Banda: %s | Čin: %s',
+        give_money_failed = 'Davanje novca nije uspelo: %s', grade_invalid = 'Čin mora biti ceo broj veći ili jednak 0', incorrect_format = 'Neispravan format',
+        job_status = 'Posao: %s | Čin: %s | Na dužnosti: %s', kick_permission_denied = 'Nemaš dozvolu za to..', location_missing = 'Lokacija ne postoji',
+        no_reason = 'Razlog nije naveden', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC u blizini | ', opened = 'Server je otvoren',
+        permission_choices = 'Dozvola mora biti jedna od sledećih: %s', permission_denied = 'Nemaš dozvolu za korišćenje ove komande.',
+        permission_granted = 'Dozvola %s dodeljena je igraču %d', permission_removed = 'Dozvola %s uklonjena je igraču %d', player_offline = 'Igrač nije na serveru',
+        player_required = 'Ovu komandu mora koristiti igrač u igri.', pvp_disabled = 'PvP je isključen', pvp_enabled = 'PvP je uključen',
+        server_closed = 'Server je zatvoren', set_money_failed = 'Postavljanje novca nije uspelo: %s', set_role_failed = 'Postavljanje %s nije uspelo: %s',
+    },
+    Connection = { disconnected = 'Veza je prekinuta.' },
+    Inventory = { item = 'predmet', received = 'Primljeno %dx %s', removed = 'Uklonjeno %dx %s' },
+    Jail = {
+        id_help = 'Serverski ID igrača', jail_help = 'Zatvori igrača', jailed = 'Osuđen si na %d minuta zatvora.', minutes_help = 'Trajanje kazne u minutima',
+        reason_help = 'Razlog (opciono)', release_help = 'Oslobodi igrača iz zatvora', released = 'Oslobođen si.',
+    },
+    Language = { changed = 'Jezik je podešen na %s.', current = 'Trenutni jezik', open_selector = 'Otvori izbor jezika', title = 'Jezik' },
+    Notify = {
+        arguments_required = 'Svi argumenti moraju biti popunjeni!', command_denied = 'Nemaš pristup ovoj komandi', duty_off = 'Više nisi na dužnosti!', duty_on = 'Sada si na dužnosti!',
+        locale_invalid = 'Nevažeća jezička referenca.', placeholder = 'Zamenski tekst', stress_decreased = 'Osećaš se opuštenije!', stress_increased = 'Osećaš se napetije!',
+        vehicle_spawn_failed = 'Nije moguće stvoriti to vozilo', waypoint_failed = 'Teleportacija do markera nije uspela', waypoint_missing = 'Marker nije postavljen',
+        waypoint_start_failed = 'Nije moguće pokrenuti teleportaciju do markera', waypoint_success = 'Teleportacija do markera je uspela',
+    },
+}

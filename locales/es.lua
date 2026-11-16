@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Dar permisos a un jugador (solo para superadmin)', car = 'Crear vehículo (solo para admin)', closeserver = 'Cerrar el servidor para quienes no tengan permisos (solo para admin)',
+        dv = 'Eliminar vehículo (solo para admin)', dvall = 'Eliminar todos los vehículos (solo para admin)', dvo = 'Eliminar todos los objetos (solo para admin)', dvp = 'Eliminar todos los NPC (solo para admin)',
+        gang = 'Consultar tu banda', givemoney = 'Dar dinero a un jugador (solo para admin)', job = 'Consultar tu trabajo', me = 'Mostrar mensaje local', ooc = 'Mensaje fuera de personaje',
+        openserver = 'Abrir el servidor para todos (solo para admin)', removepermission = 'Quitar permisos a un jugador (solo para superadmin)', setgang = 'Asignar banda a un jugador (solo para admin)',
+        setjob = 'Asignar trabajo a un jugador (solo para admin)', setmoney = 'Establecer el dinero de un jugador (solo para admin)', togglepvp = 'Activar o desactivar el PvP del servidor (solo para admin)',
+        tp = 'Teletransportarse a un jugador o a unas coordenadas (solo para admin)', tpm = 'Teletransportarse al marcador',
+    },
+    CommandParams = {
+        amount_of_money = 'Cantidad de dinero', gang_grade = 'Rango de la banda', gang_name = 'Nombre de la banda', id_of_player = 'ID del jugador',
+        id_of_player_or_x_position = 'ID del jugador o posición X', job_grade = 'Rango del trabajo', job_name = 'Nombre del trabajo', message_to_send = 'Mensaje que se enviará',
+        model_name_of_the_vehicle = 'Nombre del modelo del vehículo', permission_level = 'Nivel de permisos', player_id = 'ID del jugador',
+        reason_for_closing_optional = 'Motivo del cierre (opcional)', type_of_money_cash_bank_crypto = 'Tipo de dinero (efectivo, banco, cripto)', y_position = 'Posición Y', z_position = 'Posición Z',
+    },
+    Commands = {
+        account_choices = 'El tipo de dinero debe ser uno de estos: %s', already_closed = 'El servidor ya está cerrado', already_open = 'El servidor ya está abierto', closed = 'El servidor se ha cerrado',
+        coordinates_required = 'Faltan argumentos (x, y, z)', deleted_entities = 'Se eliminaron %d entidades', gang_status = 'Banda: %s | Rango: %s',
+        give_money_failed = 'No se pudo entregar el dinero: %s', grade_invalid = 'El rango debe ser un número entero igual o superior a 0', incorrect_format = 'Formato incorrecto',
+        job_status = 'Trabajo: %s | Rango: %s | De servicio: %s', kick_permission_denied = 'No tienes permiso para eso..', location_missing = 'La ubicación no existe',
+        no_reason = 'No se indicó ningún motivo', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC cercano | ', opened = 'El servidor se ha abierto',
+        permission_choices = 'El permiso debe ser uno de estos: %s', permission_denied = 'No tienes permiso para usar este comando.',
+        permission_granted = 'Se otorgó el permiso %s al jugador %d', permission_removed = 'Se quitó el permiso %s al jugador %d', player_offline = 'El jugador no está conectado',
+        player_required = 'Este comando debe usarse dentro del juego.', pvp_disabled = 'PvP desactivado', pvp_enabled = 'PvP activado',
+        server_closed = 'Servidor cerrado', set_money_failed = 'No se pudo establecer el dinero: %s', set_role_failed = 'No se pudo establecer %s: %s',
+    },
+    Connection = { disconnected = 'Desconectado.' },
+    Inventory = { item = 'objeto', received = 'Recibiste %dx %s', removed = 'Se eliminaron %dx %s' },
+    Jail = {
+        id_help = 'ID del jugador en el servidor', jail_help = 'Encarcelar a un jugador', jailed = 'Te han encarcelado durante %d minutos.', minutes_help = 'Duración de la condena en minutos',
+        reason_help = 'Motivo (opcional)', release_help = 'Liberar a un jugador de la cárcel', released = 'Te han puesto en libertad.',
+    },
+    Language = { changed = 'Idioma cambiado a %s.', current = 'Idioma actual', open_selector = 'Abrir selector de idioma', title = 'Idioma' },
+    Notify = {
+        arguments_required = '¡Debes completar todos los argumentos!', command_denied = 'No tienes acceso a este comando', duty_off = 'Ahora estás fuera de servicio.', duty_on = 'Ahora estás de servicio.',
+        locale_invalid = 'Referencia de idioma no válida.', placeholder = 'Marcador de posición', stress_decreased = '¡Te sientes más relajado!', stress_increased = '¡Te sientes más estresado!',
+        vehicle_spawn_failed = 'No se pudo crear ese vehículo', waypoint_failed = 'No se pudo teletransportar al marcador', waypoint_missing = 'No hay ningún marcador establecido',
+        waypoint_start_failed = 'No se pudo iniciar la teletransportación al marcador', waypoint_success = 'Te has teletransportado al marcador',
+    },
+}

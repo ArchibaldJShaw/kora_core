@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Spielerberechtigungen vergeben (nur für Hauptadmin)', car = 'Fahrzeug erstellen (nur für Admins)', closeserver = 'Server für Spieler ohne Berechtigung schließen (nur für Admins)',
+        dv = 'Fahrzeug löschen (nur für Admins)', dvall = 'Alle Fahrzeuge löschen (nur für Admins)', dvo = 'Alle Objekte löschen (nur für Admins)', dvp = 'Alle NPCs löschen (nur für Admins)',
+        gang = 'Deine Gang anzeigen', givemoney = 'Einem Spieler Geld geben (nur für Admins)', job = 'Deinen Beruf anzeigen', me = 'Lokale Nachricht anzeigen', ooc = 'OOC-Nachricht',
+        openserver = 'Server für alle öffnen (nur für Admins)', removepermission = 'Spielerberechtigungen entziehen (nur für Hauptadmin)', setgang = 'Gang eines Spielers festlegen (nur für Admins)',
+        setjob = 'Beruf eines Spielers festlegen (nur für Admins)', setmoney = 'Geldbetrag eines Spielers festlegen (nur für Admins)', togglepvp = 'PvP auf dem Server umschalten (nur für Admins)',
+        tp = 'Zu einem Spieler oder zu Koordinaten teleportieren (nur für Admins)', tpm = 'Zum Kartenmarker teleportieren',
+    },
+    CommandParams = {
+        amount_of_money = 'Geldbetrag', gang_grade = 'Gangrang', gang_name = 'Gangname', id_of_player = 'Spieler-ID',
+        id_of_player_or_x_position = 'Spieler-ID oder X-Position', job_grade = 'Berufsrang', job_name = 'Berufsname', message_to_send = 'Zu sendende Nachricht',
+        model_name_of_the_vehicle = 'Fahrzeugmodellname', permission_level = 'Berechtigungsstufe', player_id = 'Spieler-ID',
+        reason_for_closing_optional = 'Grund für die Schließung (optional)', type_of_money_cash_bank_crypto = 'Geldart (Bargeld, Bank, Krypto)', y_position = 'Y-Position', z_position = 'Z-Position',
+    },
+    Commands = {
+        account_choices = 'Die Geldart muss eine der folgenden sein: %s', already_closed = 'Der Server ist bereits geschlossen', already_open = 'Der Server ist bereits geöffnet', closed = 'Der Server wurde geschlossen',
+        coordinates_required = 'Nicht alle Argumente wurden angegeben (x, y, z)', deleted_entities = '%d Entitäten gelöscht', gang_status = 'Gang: %s | Rang: %s',
+        give_money_failed = 'Geld konnte nicht gegeben werden: %s', grade_invalid = 'Der Rang muss eine ganze Zahl von mindestens 0 sein', incorrect_format = 'Falsches Format',
+        job_status = 'Beruf: %s | Rang: %s | Im Dienst: %s', kick_permission_denied = 'Dafür hast du keine Berechtigung..', location_missing = 'Der Ort existiert nicht',
+        no_reason = 'Kein Grund angegeben', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC in der Nähe | ', opened = 'Der Server wurde geöffnet',
+        permission_choices = 'Die Berechtigung muss eine der folgenden sein: %s', permission_denied = 'Du darfst diesen Befehl nicht verwenden.',
+        permission_granted = 'Spieler %s erhielt die Berechtigung %d', permission_removed = 'Spieler %s wurde die Berechtigung %d entzogen', player_offline = 'Spieler ist nicht online',
+        player_required = 'Dieser Befehl muss von einem Spieler im Spiel verwendet werden.', pvp_disabled = 'PvP deaktiviert', pvp_enabled = 'PvP aktiviert',
+        server_closed = 'Server geschlossen', set_money_failed = 'Geld konnte nicht festgelegt werden: %s', set_role_failed = '%s konnte nicht festgelegt werden: %s',
+    },
+    Connection = { disconnected = 'Verbindung getrennt.' },
+    Inventory = { item = 'Gegenstand', received = '%dx %s erhalten', removed = '%dx %s entfernt' },
+    Jail = {
+        id_help = 'Server-ID des Spielers', jail_help = 'Spieler ins Gefängnis bringen', jailed = 'Du wurdest für %d Minuten inhaftiert.', minutes_help = 'Dauer der Strafe in Minuten',
+        reason_help = 'Grund (optional)', release_help = 'Spieler aus dem Gefängnis entlassen', released = 'Du wurdest entlassen.',
+    },
+    Language = { changed = 'Sprache auf %s geändert.', current = 'Aktuelle Sprache', open_selector = 'Sprachauswahl öffnen', title = 'Sprache' },
+    Notify = {
+        arguments_required = 'Alle Argumente müssen ausgefüllt werden!', command_denied = 'Du hast keinen Zugriff auf diesen Befehl', duty_off = 'Du bist jetzt außer Dienst!', duty_on = 'Du bist jetzt im Dienst!',
+        locale_invalid = 'Ungültiger Sprachschlüssel.', placeholder = 'Platzhalter', stress_decreased = 'Du fühlst dich entspannter!', stress_increased = 'Du fühlst dich gestresster!',
+        vehicle_spawn_failed = 'Dieses Fahrzeug konnte nicht erstellt werden', waypoint_failed = 'Teleportation zum Wegpunkt fehlgeschlagen', waypoint_missing = 'Kein Wegpunkt gesetzt',
+        waypoint_start_failed = 'Teleportation zum Wegpunkt konnte nicht gestartet werden', waypoint_success = 'Zum Wegpunkt teleportiert',
+    },
+}

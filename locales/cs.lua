@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Udělit hráči oprávnění (pouze pro hlavního správce)', car = 'Vytvořit vozidlo (pouze pro správce)', closeserver = 'Zavřít server pro hráče bez oprávnění (pouze pro správce)',
+        dv = 'Odstranit vozidlo (pouze pro správce)', dvall = 'Odstranit všechna vozidla (pouze pro správce)', dvo = 'Odstranit všechny objekty (pouze pro správce)', dvp = 'Odstranit všechny NPC (pouze pro správce)',
+        gang = 'Zkontrolovat svůj gang', givemoney = 'Dát hráči peníze (pouze pro správce)', job = 'Zkontrolovat svou práci', me = 'Zobrazit místní zprávu', ooc = 'Zpráva mimo roli',
+        openserver = 'Otevřít server všem (pouze pro správce)', removepermission = 'Odebrat hráči oprávnění (pouze pro hlavního správce)', setgang = 'Nastavit hráči gang (pouze pro správce)',
+        setjob = 'Nastavit hráči práci (pouze pro správce)', setmoney = 'Nastavit hráči částku peněz (pouze pro správce)', togglepvp = 'Přepnout PvP na serveru (pouze pro správce)',
+        tp = 'Teleportovat se k hráči nebo na souřadnice (pouze pro správce)', tpm = 'Teleportovat se ke značce na mapě',
+    },
+    CommandParams = {
+        amount_of_money = 'Částka peněz', gang_grade = 'Hodnost v gangu', gang_name = 'Název gangu', id_of_player = 'ID hráče',
+        id_of_player_or_x_position = 'ID hráče nebo souřadnice X', job_grade = 'Pracovní hodnost', job_name = 'Název práce', message_to_send = 'Zpráva k odeslání',
+        model_name_of_the_vehicle = 'Název modelu vozidla', permission_level = 'Úroveň oprávnění', player_id = 'ID hráče',
+        reason_for_closing_optional = 'Důvod zavření (nepovinné)', type_of_money_cash_bank_crypto = 'Typ peněz (hotovost, banka, kryptoměna)', y_position = 'Souřadnice Y', z_position = 'Souřadnice Z',
+    },
+    Commands = {
+        account_choices = 'Typ peněz musí být jedna z možností: %s', already_closed = 'Server je již zavřený', already_open = 'Server je již otevřený', closed = 'Server byl zavřen',
+        coordinates_required = 'Nebyly zadány všechny argumenty (x, y, z)', deleted_entities = 'Odstraněno entit: %d', gang_status = 'Gang: %s | Hodnost: %s',
+        give_money_failed = 'Nepodařilo se dát peníze: %s', grade_invalid = 'Hodnost musí být celé číslo větší nebo rovno 0', incorrect_format = 'Nesprávný formát',
+        job_status = 'Práce: %s | Hodnost: %s | Ve službě: %s', kick_permission_denied = 'K tomu nemáš oprávnění..', location_missing = 'Místo neexistuje',
+        no_reason = 'Není uveden žádný důvod', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC v okolí | ', opened = 'Server byl otevřen',
+        permission_choices = 'Oprávnění musí být jedna z možností: %s', permission_denied = 'K použití tohoto příkazu nemáš oprávnění.',
+        permission_granted = 'Hráči %s bylo uděleno oprávnění %d', permission_removed = 'Hráči %s bylo odebráno oprávnění %d', player_offline = 'Hráč není online',
+        player_required = 'Tento příkaz musí použít hráč ve hře.', pvp_disabled = 'PvP vypnuto', pvp_enabled = 'PvP zapnuto',
+        server_closed = 'Server zavřen', set_money_failed = 'Nepodařilo se nastavit peníze: %s', set_role_failed = 'Nepodařilo se nastavit %s: %s',
+    },
+    Connection = { disconnected = 'Odpojeno.' },
+    Inventory = { item = 'předmět', received = 'Přijato %dx %s', removed = 'Odebráno %dx %s' },
+    Jail = {
+        id_help = 'ID hráče na serveru', jail_help = 'Uvěznit hráče', jailed = 'Byl(a) jsi uvězněn(a) na %d minut.', minutes_help = 'Délka trestu v minutách',
+        reason_help = 'Důvod (nepovinné)', release_help = 'Propustit hráče z vězení', released = 'Byl(a) jsi propuštěn(a).',
+    },
+    Language = { changed = 'Jazyk nastaven na %s.', current = 'Aktuální jazyk', open_selector = 'Otevřít výběr jazyka', title = 'Jazyk' },
+    Notify = {
+        arguments_required = 'Je nutné vyplnit všechny argumenty!', command_denied = 'K tomuto příkazu nemáš přístup', duty_off = 'Nyní nejsi ve službě!', duty_on = 'Nyní jsi ve službě!',
+        locale_invalid = 'Neplatný jazykový klíč.', placeholder = 'Zástupný text', stress_decreased = 'Cítíš se uvolněněji!', stress_increased = 'Cítíš se více ve stresu!',
+        vehicle_spawn_failed = 'Toto vozidlo se nepodařilo vytvořit', waypoint_failed = 'Teleportace ke značce se nezdařila', waypoint_missing = 'Není nastavena žádná značka',
+        waypoint_start_failed = 'Teleportaci ke značce se nepodařilo zahájit', waypoint_success = 'Teleportováno ke značce',
+    },
+}
