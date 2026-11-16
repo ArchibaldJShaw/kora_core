@@ -31,8 +31,10 @@ provide 'qb-core'
 shared_script '@kora_lib/init.lua'
 
 files {
-    'init.lua' -- '@kora_core/init.lua' -- shared registry mirror for consumers
-    , 'shared/locale.lua' -- '@qb-core/shared/locale.lua' -- real qb-core's Locale class, for compat consumers
+    'init.lua', -- '@kora_core/init.lua' -- shared registry mirror for consumers
+    'locales/en.lua',
+    'locales/*.lua',
+    'shared/locale.lua', -- '@qb-core/shared/locale.lua' -- real qb-core's Locale class, for compat consumers
 }
 
 -- Explicit, never globbed. A `modules/**/shared.lua` glob expands in
@@ -49,6 +51,7 @@ shared_scripts {
     'config.lua',
     'build/initiate.lua',
     'shared/locale.lua',
+    'shared/locale_text.lua',
     'shared/items.lua',
     'shared/vehicles.lua',
     'shared/jobs.lua',

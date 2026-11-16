@@ -59,7 +59,7 @@ Opens the language selector menu (Kora Lib NUI). The chosen language is saved by
 | --- | --- |
 | Context | In-game · client command |
 | Arguments | None. |
-| Access | Everyone. The key binding defaults to `Config.locales.defaultKey` (`F10`); an empty string means no default key. Players can rebind it under Settings, Key Bindings, FiveM. |
+| Access | Everyone. Core-owned labels come from `locales/en.lua` and use Kora's English fallback. The key binding defaults to `Config.locales.defaultKey` (`F10`); an empty string means no default key. Players can rebind it under Settings, Key Bindings, FiveM. |
 
 **Example**
 

@@ -23,21 +23,25 @@ function Core.locales.openSelector()
         items[#items + 1] = {
             id = code,
             label = languageName(code),
-            description = code == current and 'Current language' or code,
+            description = code == current and CoreLang('Language.current') or code,
             icon = 'Languages',
         }
     end
 
-    local ok, result = pcall(Kora.nui.openMenu, items, 'Language')
+    local ok, result = pcall(Kora.nui.openMenu, items, CoreLang('Language.title'))
     selectorOpen = false
     if not ok then return end
     if not result or result.cancelled or not result.selectedId then return end
 
     local set, err = Kora.locale.setLanguage(result.selectedId)
     if set then
-        Kora.notify.send({ title = 'Language', message = ('Language set to %s.'):format(languageName(result.selectedId)), type = 'success' })
+        Kora.notify.send({
+            title = CoreLang('Language.title'),
+            message = CoreLang('Language.changed', languageName(result.selectedId)),
+            type = 'success',
+        })
     else
-        Kora.notify.send({ title = 'Language', message = err, type = 'error' })
+        Kora.notify.send({ title = CoreLang('Language.title'), message = err, type = 'error' })
     end
 end
 
@@ -50,4 +54,4 @@ RegisterCommand('+language', function()
 end, false)
 RegisterCommand('-language', function() end, false)
 
-RegisterKeyMapping('+language', 'Open language selector', 'keyboard', (Config.locales and Config.locales.defaultKey) or '')
+RegisterKeyMapping('+language', CoreLang('Language.open_selector'), 'keyboard', (Config.locales and Config.locales.defaultKey) or '')

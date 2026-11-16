@@ -41,7 +41,7 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     end
     local nextDuty = not job.onduty
     if Core.jobs.setJobDuty(src, nextDuty) then
-        TriggerClientEvent('QBCore:Notify', src, nextDuty and 'You are now on duty!' or 'You are now off duty!')
+        TriggerClientEvent('QBCore:Notify', src, nextDuty and CoreLang('Notify.duty_on') or CoreLang('Notify.duty_off'))
     end
 end)
 
@@ -148,14 +148,14 @@ RegisterNetEvent('QBCore:CallCommand', function(name, args)
     if not cmd then return end
 
     if not IsPlayerAceAllowed(src, 'command.' .. name) then
-        TriggerClientEvent('QBCore:Notify', src, 'No access to this command', 'error')
+        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.command_denied'), 'error')
         return
     end
 
     if type(args) ~= 'table' or #args > 16 then args = {} end
     local declared = cmd.arguments or cmd.params
     if cmd.argsrequired and type(declared) == 'table' and #declared ~= 0 and args[#declared] == nil then
-        TriggerClientEvent('QBCore:Notify', src, 'All arguments must be filled out!', 'error')
+        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.arguments_required'), 'error')
         return
     end
 
@@ -195,14 +195,14 @@ end
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     if stressDelta(src, amount, 1) then
-        TriggerClientEvent('QBCore:Notify', src, 'Feeling More Stressed!', 'error', 1500)
+        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.stress_increased'), 'error', 1500)
     end
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local src = source
     if stressDelta(src, amount, -1) then
-        TriggerClientEvent('QBCore:Notify', src, 'Feeling More Relaxed!')
+        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.stress_decreased'))
     end
 end)
 

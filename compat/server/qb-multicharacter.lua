@@ -19,7 +19,7 @@ Kora.callback.register('qb-multicharacter:server:getSkin', function(_src, _citiz
 end)
 
 RegisterNetEvent('qb-multicharacter:server:disconnect', function(reason)
-    DropPlayer(source, reason or 'Disconnected.')
+    DropPlayer(source, reason or CoreLang('Connection.disconnected'))
 end)
 
 RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
