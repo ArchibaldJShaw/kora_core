@@ -583,6 +583,8 @@ exports.kora_core:dropPlayer(src, 'Exiting')
 Local events in order: QBCore:Server:PlayerDropped (src, reason), QBCore:Server:OnPlayerUnload (src), kora_core:server:playerDropped (src, citizenid, reason).
 ```
 
+A logout or character switch (`logout`) raises `QBCore:Server:OnPlayerUnload (src)` and then, after eviction, the native `kora_core:server:playerLoggedOut (src, citizenid)`; the client mirror raises the local `kora_core:client:playerLoggedOut` once it is cleared.
+
 #### `exports.kora_core:isCoreReady()`
 
 Readiness marker set one tick after the player module loads.

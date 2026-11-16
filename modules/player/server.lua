@@ -562,6 +562,10 @@ function Core.player.logout(src, options)
     end
     player._loggingOut = nil
     if Core.persistence._endOfflineWrite then Core.persistence._endOfflineWrite(player.citizenid) end
+    -- Native twin of QBCore:Server:OnPlayerUnload, raised after eviction like kora_core:server:playerDropped
+    -- (getPlayer(src) is already nil). Fires on logout and character switch only, never on a disconnect.
+    TriggerEvent('kora_core:server:playerLoggedOut', src, player.citizenid)
+    TriggerEvent('kora_core:server:playerUnloaded', src, player.citizenid, 'logout')
     return true
 end
 
@@ -578,6 +582,7 @@ function Core.player.dropPlayer(src, reason)
     Core.replication._forget(player)
     Core.persistence._forget(player)
     TriggerEvent('kora_core:server:playerDropped', src, player.citizenid, reason)
+    TriggerEvent('kora_core:server:playerUnloaded', src, player.citizenid, 'disconnect')
 end
 
 AddEventHandler('playerDropped', function(reason)

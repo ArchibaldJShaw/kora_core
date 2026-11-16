@@ -211,6 +211,8 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     if QBCore and type(QBCore.PlayerData) == 'table' then
         for key in pairs(QBCore.PlayerData) do QBCore.PlayerData[key] = nil end
     end
+    -- Native counterpart to kora_core:client:playerLoaded, raised once the mirror is cleared.
+    TriggerEvent('kora_core:client:playerLoggedOut')
 end)
 
 AddEventHandler('onClientResourceStop', function(resource)
