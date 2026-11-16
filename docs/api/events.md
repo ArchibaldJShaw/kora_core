@@ -51,7 +51,7 @@ In `adopt` (modules/player/server.lua) the order is: external PlayerData fields 
 
 ### Order of events at logout and disconnect
 
-Logout (`Core.player.logout`) saves first, then sets both logged-in bags to false, sends `QBCore:Client:OnPlayerUnload`, fires `QBCore:Server:OnPlayerUnload` and evicts the player. A disconnect (`Core.player.dropPlayer`) saves immediately, fires `QBCore:Server:PlayerDropped` then `QBCore:Server:OnPlayerUnload`, evicts, then fires `kora_core:server:playerDropped`. `kora_core:server:playerDropped` does NOT fire on a plain logout or character switch, so per-source caches must also clear on `QBCore:Server:OnPlayerUnload`. The jobs module does this.
+Logout (`Core.player.logout`) saves first, then sets both logged-in bags to false, sends `QBCore:Client:OnPlayerUnload`, fires `QBCore:Server:OnPlayerUnload`, evicts the player, then fires `kora_core:server:playerLoggedOut`. A disconnect (`Core.player.dropPlayer`) saves immediately, fires `QBCore:Server:PlayerDropped` then `QBCore:Server:OnPlayerUnload`, evicts, then fires `kora_core:server:playerDropped`. `kora_core:server:playerDropped` does NOT fire on a plain logout or character switch, and `kora_core:server:playerLoggedOut` does NOT fire on a disconnect, so a per-source cache that must be cleared in both cases subscribes to both native events (no legacy-named event needed).
 
 ### Security: what a client may send and what the server validates
 
@@ -181,6 +181,39 @@ end)
 
 ```text
 The per-source cache entry is removed.
+```
+
+#### `AddEventHandler('kora_core:server:playerLoggedOut', function(src, citizenid) end)`
+
+Server-local. Raised after a logout or character switch has been saved and the player evicted, so `getPlayer(src)` is already nil. Not raised on a disconnect (use `kora_core:server:playerDropped`). Native twin of `QBCore:Server:OnPlayerUnload`. Cannot be sent by a client. Raised from `Core.player.logout` in modules/player/server.lua.
+
+**Parameters**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `src` | integer | Source that logged out. |
+| `citizenid` | string | Character that was loaded. |
+
+**Returns**
+
+- **No return value.**
+
+**Example**
+
+```lua
+AddEventHandler('kora_core:server:playerLoggedOut', function(src, citizenid)
+    sessions[src] = nil
+end)
+```
+
+#### `AddEventHandler('kora_core:server:playerUnloaded', function(src, citizenid, cause) end)`
+
+Server-local. Combined unload hook: raised once after every logout, character switch or disconnect, immediately after `kora_core:server:playerLoggedOut` or `kora_core:server:playerDropped`. `cause` is `'logout'` or `'disconnect'`. The player is already evicted. Cannot be sent by a client. Raised from `Core.player.logout` and `Core.player.dropPlayer` in modules/player/server.lua.
+
+```lua
+AddEventHandler('kora_core:server:playerUnloaded', function(src, citizenid, cause)
+    sessions[src] = nil
+end)
 ```
 
 #### `AddEventHandler('QBCore:Server:PlayerDropped', function(src, reason) end)`
@@ -1954,6 +1987,8 @@ unless noted.
 | --- | --- | --- |
 | `kora_core:server:playerLoaded` | `src, citizenid` | A character was adopted (after `QBCore:Server:PlayerLoaded`). |
 | `kora_core:server:playerDropped` | `src, citizenid, reason` | After a dropped player was saved and evicted. |
+| `kora_core:server:playerLoggedOut` | `src, citizenid` | After a logout or character switch was saved and the player evicted. Not raised on a disconnect. |
+| `kora_core:server:playerUnloaded` | `src, citizenid, cause` | Combined hook raised after `playerLoggedOut` (`cause = 'logout'`) or `playerDropped` (`cause = 'disconnect'`). One subscription clears a per-source cache in both cases. |
 | `kora_core:server:inventoryChanged` | `src, path, value` | Any write under `PlayerData.items`. |
 | `kora_core:server:taxCollected` | `account, amount, reason` | A tax deposit succeeded. |
 | `kora_core:server:devModeChanged` | `src, enabled` | Development mode changed. |
@@ -1993,6 +2028,7 @@ Events kora_core listens to and you may fire:
 | Event | Payload | When |
 | --- | --- | --- |
 | `kora_core:client:playerLoaded` | `PlayerData` (the mirror) | Local event on every full snapshot (login and resyncs). |
+| `kora_core:client:playerLoggedOut` | none | Local event after logout or character switch, once the mirror has been cleared. |
 | `kora_core:client:devModeChanged` | `enabled` | Local event when development mode changes. |
 | `kora_core:client:dispatchAlert` | `payload` | Sent to each on-duty recipient of `alert`. |
 | `kora_core:client:itemBox` | `itemDef, action, amount` | Fallback inventory add/remove (`add` or `remove`). |

@@ -286,6 +286,41 @@ h.test('the replicated login state bag follows the initial player snapshot and c
     h.assertEqual(handle.playerStates[42]['isLoggedIn'], false, 'logout should also clear the legacy bare isLoggedIn key')
 end)
 
+h.test('logout fires the native kora_core:server:playerLoggedOut after eviction, and a disconnect does not', function()
+    local data = CoreInternal.player.freshData('CID-logout-native', LICENSE, 1, { firstname = 'Native', lastname = 'Logout' })
+    h.assertTrue(Core.player.login(44, 'CID-logout-native', data))
+
+    local fired, stillLoaded = {}, nil
+    AddEventHandler('kora_core:server:playerLoggedOut', function(src, citizenid)
+        fired[#fired + 1] = { src = src, citizenid = citizenid }
+        stillLoaded = Core.player.getPlayer(src) ~= nil
+    end)
+
+    h.assertTrue(Core.player.logout(44))
+    h.assertEqual(#fired, 1, 'exactly one native logout event per logout')
+    h.assertEqual(fired[1].src, 44)
+    h.assertEqual(fired[1].citizenid, 'CID-logout-native')
+    h.assertEqual(stillLoaded, false, 'the player is already evicted when the event fires')
+
+    local dropData = CoreInternal.player.freshData('CID-logout-drop', LICENSE, 1, { firstname = 'Drop', lastname = 'Only' })
+    h.assertTrue(Core.player.login(45, 'CID-logout-drop', dropData))
+    local unloaded = {}
+    AddEventHandler('kora_core:server:playerUnloaded', function(src, citizenid, cause)
+        unloaded[#unloaded + 1] = { src = src, citizenid = citizenid, cause = cause }
+    end)
+    handle.fireEvent('playerDropped', 45, 'bye')
+    h.assertEqual(#fired, 1, 'a disconnect must not raise the logout event')
+    h.assertEqual(#unloaded, 1, 'a disconnect raises the combined unload event once')
+    h.assertEqual(unloaded[1].cause, 'disconnect')
+    h.assertEqual(unloaded[1].citizenid, 'CID-logout-drop')
+
+    local third = CoreInternal.player.freshData('CID-logout-third', LICENSE, 1, { firstname = 'Third', lastname = 'Path' })
+    h.assertTrue(Core.player.login(46, 'CID-logout-third', third))
+    h.assertTrue(Core.player.logout(46))
+    h.assertEqual(#unloaded, 2, 'a logout raises the combined unload event once')
+    h.assertEqual(unloaded[2].cause, 'logout')
+end)
+
 h.test('a hard disconnect fires the modern event plus BOTH legacy-named events', function()
     local data = CoreInternal.player.freshData('CID-drop', LICENSE, 1, { firstname = 'Drop', lastname = 'Path' })
     h.assertTrue(Core.player.login(43, 'CID-drop', data))
