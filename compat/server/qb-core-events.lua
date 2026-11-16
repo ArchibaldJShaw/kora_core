@@ -41,7 +41,7 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     end
     local nextDuty = not job.onduty
     if Core.jobs.setJobDuty(src, nextDuty) then
-        TriggerClientEvent('QBCore:Notify', src, nextDuty and CoreLang('Notify.duty_on') or CoreLang('Notify.duty_off'))
+        TriggerClientEvent('QBCore:Notify', src, nextDuty and Kora.lang('Notify.duty_on') or Kora.lang('Notify.duty_off'))
     end
 end)
 
@@ -148,14 +148,14 @@ RegisterNetEvent('QBCore:CallCommand', function(name, args)
     if not cmd then return end
 
     if not IsPlayerAceAllowed(src, 'command.' .. name) then
-        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.command_denied'), 'error')
+        TriggerClientEvent('QBCore:Notify', src, Kora.lang('Notify.command_denied'), 'error')
         return
     end
 
     if type(args) ~= 'table' or #args > 16 then args = {} end
     local declared = cmd.arguments or cmd.params
     if cmd.argsrequired and type(declared) == 'table' and #declared ~= 0 and args[#declared] == nil then
-        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.arguments_required'), 'error')
+        TriggerClientEvent('QBCore:Notify', src, Kora.lang('Notify.arguments_required'), 'error')
         return
     end
 
@@ -195,14 +195,14 @@ end
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     if stressDelta(src, amount, 1) then
-        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.stress_increased'), 'error', 1500)
+        TriggerClientEvent('QBCore:Notify', src, Kora.lang('Notify.stress_increased'), 'error', 1500)
     end
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local src = source
     if stressDelta(src, amount, -1) then
-        TriggerClientEvent('QBCore:Notify', src, CoreLang('Notify.stress_decreased'))
+        TriggerClientEvent('QBCore:Notify', src, Kora.lang('Notify.stress_decreased'))
     end
 end)
 

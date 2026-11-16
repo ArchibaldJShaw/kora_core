@@ -16,7 +16,7 @@ local NOTIFY_TYPE_MAP = {
 
 local function resolveLocalizedText(value)
     if type(value) ~= 'table' or value.__kora_locale ~= true then return value end
-    if type(value.resource) ~= 'string' or type(value.key) ~= 'string' then return CoreLang('Notify.locale_invalid') end
+    if type(value.resource) ~= 'string' or type(value.key) ~= 'string' then return Kora.lang('Notify.locale_invalid') end
 
     local ok, translated = pcall(function()
         return exports.kora_lib:locale_translate(value.resource, value.key, value.substitutions)
@@ -285,7 +285,7 @@ function F.Notify(text, texttype, length, icon)
     if type(text) == 'table' and text.__kora_locale == true then
         payload.message = resolveLocalizedText(text)
     elseif type(text) == 'table' then
-        payload.message = resolveLocalizedText(text.text or CoreLang('Notify.placeholder'))
+        payload.message = resolveLocalizedText(text.text or Kora.lang('Notify.placeholder'))
         payload.title = resolveLocalizedText(text.caption)
     else
         payload.message = resolveLocalizedText(text)

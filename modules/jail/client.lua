@@ -24,14 +24,14 @@ RegisterNetEvent('kora_core:client:jailTeleport', function(coords, remainingSeco
     })
 
     Kora.notify.send({
-        message = CoreLang('Jail.jailed', math.ceil(remainingSeconds / 60)),
+        message = Kora.lang('Jail.jailed', math.ceil(remainingSeconds / 60)),
         type = 'error',
     })
 end)
 
 RegisterNetEvent('kora_core:client:jailRelease', function()
     clearContainment()
-    Kora.notify.send({ message = CoreLang('Jail.released'), type = 'success' })
+    Kora.notify.send({ message = Kora.lang('Jail.released'), type = 'success' })
 end)
 
 AddEventHandler('QBCore:Client:OnPlayerUnload', function()

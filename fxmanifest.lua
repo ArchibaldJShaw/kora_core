@@ -51,7 +51,6 @@ shared_scripts {
     'config.lua',
     'build/initiate.lua',
     'shared/locale.lua',
-    'shared/locale_text.lua',
     'shared/items.lua',
     'shared/vehicles.lua',
     'shared/jobs.lua',

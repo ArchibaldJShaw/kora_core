@@ -9,8 +9,7 @@ h.test('kora_core exposes its optional shared-registry init file to consumers', 
     local files = assert(manifest:match('files%s*{([^}]+)}'))
     h.assertTrue(files:find("'init.lua'", 1, true) ~= nil)
     h.assertTrue(files:find("'locales/en.lua'", 1, true) ~= nil)
-    local shared = assert(manifest:match('shared_scripts%s*{([^}]+)}'))
-    h.assertTrue(shared:find("'shared/locale_text.lua'", 1, true) ~= nil)
+    h.assertTrue(manifest:find("shared_script '@kora_lib/init.lua'", 1, true) ~= nil)
 end)
 
 dofile('config.lua')
