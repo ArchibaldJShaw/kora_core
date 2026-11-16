@@ -64,7 +64,8 @@ Kora Core is the player and framework core of the Kora stack: characters, Player
 - `provide 'qb-core'` satisfies another resource's `dependency` check for that name. `qb-multicharacter` and `qbx_core` are deliberately not provided.
 - `build/finalise.lua` runs last in each realm and exports every function that is stored on `Core.<module>.<fn>` and does not start with an underscore. The export name is the function name alone (no module prefix), so two modules cannot define the same name: a collision aborts the load of that realm with an assertion.
 - Shared scripts load in a fixed, explicit order (config, `Core` table, shared data, util, registry, player, inventory shapes, compat skeleton). Server modules load registry, identity, users, replication, persistence, player, then the wrappers (money, jobs, metadata, inventory, ...) and finally the compat files.
-- `init.lua` and `shared/locale.lua` are listed under `files` only. `init.lua` is for other resources that import it with `shared_script '@kora_core/init.lua'`; Kora Core does not load it itself.
+- The manifest ships `locales/en.lua` to clients. Kora Lib resolves core-owned command help and notifications from this catalog.
+- The manifest also ships `init.lua` for other resources to import with `shared_script '@kora_core/init.lua'`. The shared `shared/locale.lua` script provides the legacy QBCore locale class.
 - On the first start the persistence module creates `players`, `player_identifiers`, `inventories`, `bans`, `users`, `player_vehicles` and `kora_core_player_column_operations` and adds two `player_vehicles` compatibility triggers. See the Persistence module for details.
 
 ## If it does not start or players cannot join

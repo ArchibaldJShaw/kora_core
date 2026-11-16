@@ -2,7 +2,20 @@ local h = dofile('test/harness.lua')
 local mocks = dofile('test/mocks.lua')
 mocks.install()
 Kora.rewards = {}
-dofile('../kora_lib/modules/rewards/shared.lua')
+local libraryEnv = setmetatable({
+    GetCurrentResourceName = function() return 'kora_lib' end,
+    LoadResourceFile = function(resource, path)
+        if resource ~= 'kora_lib' then return end
+        local file = io.open('../kora_lib/' .. path, 'rb')
+        if not file then return end
+        local text = file:read('*a')
+        file:close()
+        return text
+    end,
+}, { __index = _G })
+local localeBootstrap = loadfile('../kora_lib/local/locales/shared.lua', 't', libraryEnv)
+if localeBootstrap then localeBootstrap() end
+assert(loadfile('../kora_lib/modules/rewards/shared.lua', 't', libraryEnv))()
 
 dofile('config.lua')
 dofile('shared/items.lua'); dofile('shared/jobs.lua'); dofile('shared/gangs.lua')

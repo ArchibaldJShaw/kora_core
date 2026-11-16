@@ -56,7 +56,7 @@ end
 
 local function requirePlayer(src)
     if src == 0 then
-        reply(src, 'This command must be used by a player in game.', 'error')
+        reply(src, Kora.lang('Commands.player_required'), 'error')
         return false
     end
     return true
@@ -87,7 +87,7 @@ local function register(name, help, params, argsRequired, permission, handler)
         args = type(args) == 'table' and args or {}
         if permission ~= 'user' and src ~= 0 and not F.HasPermission(src, permission) then
             audit(src, name, { args = loggable(args), denied = true })
-            return reply(src, 'You do not have permission to use this command.', 'error')
+            return reply(src, Kora.lang('Commands.permission_denied'), 'error')
         end
         if permission ~= 'user' then audit(src, name, { args = loggable(args) }) end
         return handler(src, args, raw)
@@ -96,8 +96,8 @@ end
 
 local function param(name, help) return { name = name, help = help } end
 
-register('tp', 'TP To Player or Coords (Admin Only)', {
-    param('id/x', 'ID of player or X position'), param('y', 'Y position'), param('z', 'Z position'),
+register('tp', Kora.lang('CommandHelp.tp'), {
+    param('id/x', Kora.lang('CommandParams.id_of_player_or_x_position')), param('y', Kora.lang('CommandParams.y_position')), param('z', Kora.lang('CommandParams.z_position')),
 }, false, 'admin', function(src, args)
     if not requirePlayer(src) then return end
     local first = str(args[1])
@@ -108,14 +108,14 @@ register('tp', 'TP To Player or Coords (Admin Only)', {
             if target and target ~= 0 then
                 TriggerClientEvent('QBCore:Command:TeleportToPlayer', src, GetEntityCoords(target))
             else
-                reply(src, 'Player not online', 'error')
+                reply(src, Kora.lang('Commands.player_offline'), 'error')
             end
         else
             local location = QBCore.Shared.Locations and QBCore.Shared.Locations[first]
             if location then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', src, location.x, location.y, location.z, location.w)
             else
-                reply(src, 'Location does not exist', 'error')
+                reply(src, Kora.lang('Commands.location_missing'), 'error')
             end
         end
     elseif first and args[2] and args[3] then
@@ -125,22 +125,22 @@ register('tp', 'TP To Player or Coords (Admin Only)', {
         if x and y and z then
             TriggerClientEvent('QBCore:Command:TeleportToCoords', src, x + 0.0, y + 0.0, z + 0.0, heading and heading + 0.0 or false)
         else
-            reply(src, 'Incorrect format', 'error')
+            reply(src, Kora.lang('Commands.incorrect_format'), 'error')
         end
     else
-        reply(src, 'Not every argument has been entered (x, y, z)', 'error')
+        reply(src, Kora.lang('Commands.coordinates_required'), 'error')
     end
 end)
 
-register('tpm', 'TP To Marker (Admin Only)', {}, false, 'admin', function(src)
+register('tpm', Kora.lang('CommandHelp.tpm'), {}, false, 'admin', function(src)
     if not requirePlayer(src) then return end
     TriggerClientEvent('QBCore:Command:GoToMarker', src)
 end)
 
-register('togglepvp', 'Toggle PVP on the server (Admin Only)', {}, false, 'admin', function(src)
+register('togglepvp', Kora.lang('CommandHelp.togglepvp'), {}, false, 'admin', function(src)
     QBCore.Config.Server.PVP = not QBCore.Config.Server.PVP
     TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBCore.Config.Server.PVP)
-    reply(src, QBCore.Config.Server.PVP and 'PVP enabled' or 'PVP disabled', 'success')
+    reply(src, QBCore.Config.Server.PVP and Kora.lang('Commands.pvp_enabled') or Kora.lang('Commands.pvp_disabled'), 'success')
 end)
 
 AddEventHandler('kora_core:server:playerLoaded', function(src)
@@ -156,47 +156,47 @@ local function configuredPermission(arg)
     end
 end
 
-local function permissionCommand(name, help, apply, verb)
+local function permissionCommand(name, help, apply, resultKey)
     register(name, help, {
-        param('id', 'ID of player'), param('permission', 'Permission level'),
+        param('id', Kora.lang('CommandParams.id_of_player')), param('permission', Kora.lang('CommandParams.permission_level')),
     }, true, 'god', function(src, args)
         local id = resolveTarget(args[1])
-        if not id then return reply(src, 'Player not online', 'error') end
+        if not id then return reply(src, Kora.lang('Commands.player_offline'), 'error') end
         local permission = configuredPermission(args[2])
         if not permission then
-            return reply(src, 'Permission must be one of: ' .. table.concat(QBCore.Config.Server.Permissions, ', '), 'error')
+            return reply(src, Kora.lang('Commands.permission_choices', table.concat(QBCore.Config.Server.Permissions, ', ')), 'error')
         end
         audit(src, name, { target = id, permission = permission })
         apply(id, permission)
         QBCore.Commands.Refresh(id)
-        reply(src, ('%s %s permission %s player %d'):format(verb[1], permission, verb[2], id), 'success')
+        reply(src, Kora.lang(resultKey, permission, id), 'success')
     end)
 end
 
-permissionCommand('addpermission', 'Give Player Permissions (God Only)',
-    function(id, permission) F.AddPermission(id, permission) end, { 'Granted', 'to' })
-permissionCommand('removepermission', 'Remove Player Permissions (God Only)',
-    function(id, permission) F.RemovePermission(id, permission) end, { 'Removed', 'from' })
+permissionCommand('addpermission', Kora.lang('CommandHelp.addpermission'),
+    function(id, permission) F.AddPermission(id, permission) end, 'Commands.permission_granted')
+permissionCommand('removepermission', Kora.lang('CommandHelp.removepermission'),
+    function(id, permission) F.RemovePermission(id, permission) end, 'Commands.permission_removed')
 
-register('openserver', 'Open the server for everyone (Admin Only)', {}, false, 'admin', function(src)
-    if not QBCore.Config.Server.Closed then return reply(src, 'The server is already open', 'error') end
+register('openserver', Kora.lang('CommandHelp.openserver'), {}, false, 'admin', function(src)
+    if not QBCore.Config.Server.Closed then return reply(src, Kora.lang('Commands.already_open'), 'error') end
     if src ~= 0 and not F.HasPermission(src, 'admin') then
-        return F.Kick(src, 'You don\'t have permissions for this..')
+        return F.Kick(src, Kora.lang('Commands.kick_permission_denied'))
     end
     QBCore.Config.Server.Closed = false
-    reply(src, 'The server has been opened', 'success')
+    reply(src, Kora.lang('Commands.opened'), 'success')
 end)
 
-register('closeserver', 'Close the server for people without permissions (Admin Only)', {
-    param('reason', 'Reason for closing (optional)'),
+register('closeserver', Kora.lang('CommandHelp.closeserver'), {
+    param('reason', Kora.lang('CommandParams.reason_for_closing_optional')),
 }, false, 'admin', function(src, args)
-    if QBCore.Config.Server.Closed then return reply(src, 'The server is already closed', 'error') end
+    if QBCore.Config.Server.Closed then return reply(src, Kora.lang('Commands.already_closed'), 'error') end
     if src ~= 0 and not F.HasPermission(src, 'admin') then
-        return F.Kick(src, 'You don\'t have permissions for this..')
+        return F.Kick(src, Kora.lang('Commands.kick_permission_denied'))
     end
     local parts = {}
     for i = 1, math.min(#args, 32) do parts[#parts + 1] = str(args[i], 64) or '' end
-    local reason = #parts > 0 and table.concat(parts, ' '):sub(1, MAX_REASON) or 'No reason specified'
+    local reason = #parts > 0 and table.concat(parts, ' '):sub(1, MAX_REASON) or Kora.lang('Commands.no_reason')
     QBCore.Config.Server.Closed = true
     QBCore.Config.Server.ClosedReason = reason
     for playerSrc in pairs(QBCore.Players) do
@@ -204,13 +204,13 @@ register('closeserver', 'Close the server for people without permissions (Admin 
             F.Kick(playerSrc, reason)
         end
     end
-    reply(src, 'The server has been closed', 'success')
+    reply(src, Kora.lang('Commands.closed'), 'success')
 end)
 
 AddEventHandler('playerConnecting', function(_, setKickReason, deferrals)
     if not QBCore.Config.Server.Closed then return end
     if F.HasPermission(source, QBCore.Config.Server.WhitelistPermission) then return end
-    local reason = QBCore.Config.Server.ClosedReason or 'Server Closed'
+    local reason = QBCore.Config.Server.ClosedReason or Kora.lang('Commands.server_closed')
     if setKickReason then setKickReason(reason) end
     deferrals.defer()
     deferrals.done(reason)
@@ -221,18 +221,18 @@ local function playerVehicle(ped)
     return vehicle ~= 0 and vehicle or nil
 end
 
-register('car', 'Spawn Vehicle (Admin Only)', { param('model', 'Model name of the vehicle') }, true, 'admin', function(src, args)
+register('car', Kora.lang('CommandHelp.car'), { param('model', Kora.lang('CommandParams.model_name_of_the_vehicle')) }, true, 'admin', function(src, args)
     if not requirePlayer(src) then return end
     local model = str(args[1], 64)
     if not model or not model:match('^[%w_]+$') or #model > 32 then
-        return reply(src, 'Incorrect format', 'error')
+        return reply(src, Kora.lang('Commands.incorrect_format'), 'error')
     end
     local ped = GetPlayerPed(src)
     if not ped or ped == 0 then return end
     local coords = GetEntityCoords(ped)
     local previous = playerVehicle(ped)
     local vehicle = F.SpawnVehicle(src, model, { x = coords.x, y = coords.y, z = coords.z, w = GetEntityHeading(ped) }, true)
-    if not vehicle then return reply(src, 'Unable to spawn that vehicle', 'error') end
+    if not vehicle then return reply(src, Kora.lang('Notify.vehicle_spawn_failed'), 'error') end
     if previous and previous ~= vehicle then DeleteEntity(previous) end
 
     local plate = GetVehicleNumberPlateText(vehicle)
@@ -243,7 +243,7 @@ register('car', 'Spawn Vehicle (Admin Only)', { param('model', 'Model name of th
     audit(src, 'car', { model = model, plate = plate })
 end)
 
-register('dv', 'Delete Vehicle (Admin Only)', {}, false, 'admin', function(src)
+register('dv', Kora.lang('CommandHelp.dv'), {}, false, 'admin', function(src)
     if not requirePlayer(src) then return end
     local ped = GetPlayerPed(src)
     if not ped or ped == 0 then return end
@@ -274,85 +274,85 @@ local function deleteAll(name, help, list, skip)
             end
         end
         audit(src, name, { removed = removed })
-        reply(src, ('Deleted %d entities'):format(removed), 'success')
+        reply(src, Kora.lang('Commands.deleted_entities', removed), 'success')
     end)
 end
 
-deleteAll('dvall', 'Delete All Vehicles (Admin Only)', function() return GetAllVehicles() end)
-deleteAll('dvp', 'Delete All Peds (Admin Only)', function() return GetAllPeds() end, function(ped) return IsPedAPlayer and IsPedAPlayer(ped) end)
-deleteAll('dvo', 'Delete All Objects (Admin Only)', function() return GetAllObjects() end)
+deleteAll('dvall', Kora.lang('CommandHelp.dvall'), function() return GetAllVehicles() end)
+deleteAll('dvp', Kora.lang('CommandHelp.dvp'), function() return GetAllPeds() end, function(ped) return IsPedAPlayer and IsPedAPlayer(ped) end)
+deleteAll('dvo', Kora.lang('CommandHelp.dvo'), function() return GetAllObjects() end)
 
 local function moneyArgs(src, args)
     local id = resolveTarget(args[1])
-    if not id then reply(src, 'Player not online', 'error'); return end
+    if not id then reply(src, Kora.lang('Commands.player_offline'), 'error'); return end
     local account = moneyType(args[2])
     if not account then
-        reply(src, 'Type of money must be one of: ' .. table.concat(Config.money.types, ', '), 'error')
+        reply(src, Kora.lang('Commands.account_choices', table.concat(Config.money.types, ', ')), 'error')
         return
     end
     local amount = finite(args[3])
-    if not amount then reply(src, 'Incorrect format', 'error'); return end
+    if not amount then reply(src, Kora.lang('Commands.incorrect_format'), 'error'); return end
     return id, account, amount
 end
 
 local MONEY_PARAMS = {
-    param('id', 'Player ID'), param('moneytype', 'Type of money (cash, bank, crypto)'), param('amount', 'Amount of money'),
+    param('id', Kora.lang('CommandParams.player_id')), param('moneytype', Kora.lang('CommandParams.type_of_money_cash_bank_crypto')), param('amount', Kora.lang('CommandParams.amount_of_money')),
 }
 
-register('givemoney', 'Give A Player Money (Admin Only)', MONEY_PARAMS, true, 'admin', function(src, args)
+register('givemoney', Kora.lang('CommandHelp.givemoney'), MONEY_PARAMS, true, 'admin', function(src, args)
     local id, account, amount = moneyArgs(src, args)
     if not id then return end
     local ok, err = Core.money.addMoney(id, account, amount, 'Admin give money', true)
     audit(src, 'givemoney', { target = id, account = account, amount = amount, ok = ok and true or false })
-    if not ok then reply(src, 'Could not give money: ' .. tostring(err), 'error') end
+    if not ok then reply(src, Kora.lang('Commands.give_money_failed', tostring(err)), 'error') end
 end)
 
-register('setmoney', 'Set Players Money Amount (Admin Only)', MONEY_PARAMS, true, 'admin', function(src, args)
+register('setmoney', Kora.lang('CommandHelp.setmoney'), MONEY_PARAMS, true, 'admin', function(src, args)
     local id, account, amount = moneyArgs(src, args)
     if not id then return end
     local ok, err = Core.money.setMoney(id, account, amount, 'Admin set money')
     audit(src, 'setmoney', { target = id, account = account, amount = amount, ok = ok and true or false })
-    if not ok then reply(src, 'Could not set money: ' .. tostring(err), 'error') end
+    if not ok then reply(src, Kora.lang('Commands.set_money_failed', tostring(err)), 'error') end
 end)
 
-register('job', 'Check Your Job', {}, false, 'user', function(src)
+register('job', Kora.lang('CommandHelp.job'), {}, false, 'user', function(src)
     local player = src ~= 0 and F.GetPlayer(src)
     if not player then return end
     local job = player.PlayerData.job
-    reply(src, ('Job: %s | Grade: %s | Duty: %s'):format(tostring(job.label), tostring(job.grade.name), tostring(job.onduty)))
+    reply(src, Kora.lang('Commands.job_status', tostring(job.label), tostring(job.grade.name), tostring(job.onduty)))
 end)
 
-register('gang', 'Check Your Gang', {}, false, 'user', function(src)
+register('gang', Kora.lang('CommandHelp.gang'), {}, false, 'user', function(src)
     local player = src ~= 0 and F.GetPlayer(src)
     if not player then return end
     local gang = player.PlayerData.gang
-    reply(src, ('Gang: %s | Grade: %s'):format(tostring(gang.label), tostring(gang.grade.name)))
+    reply(src, Kora.lang('Commands.gang_status', tostring(gang.label), tostring(gang.grade.name)))
 end)
 
 local function roleCommand(name, help, kind, apply)
     register(name, help, {
-        param('id', 'Player ID'), param(kind, kind == 'job' and 'Job name' or 'Gang name'),
-        param('grade', kind == 'job' and 'Job grade' or 'Gang grade'),
+        param('id', Kora.lang('CommandParams.player_id')), param(kind, kind == 'job' and Kora.lang('CommandParams.job_name') or Kora.lang('CommandParams.gang_name')),
+        param('grade', kind == 'job' and Kora.lang('CommandParams.job_grade') or Kora.lang('CommandParams.gang_grade')),
     }, true, 'admin', function(src, args)
         local id = resolveTarget(args[1])
-        if not id then return reply(src, 'Player not online', 'error') end
+        if not id then return reply(src, Kora.lang('Commands.player_offline'), 'error') end
         local role = str(args[2], 64)
         role = role and role:lower()
         local grade = toInteger(args[3])
         if not role or not role:match('^[%w_%-]+$') then
-            return reply(src, 'Incorrect format', 'error')
+            return reply(src, Kora.lang('Commands.incorrect_format'), 'error')
         end
         if not grade or grade < 0 then
-            return reply(src, 'Grade must be a whole number of 0 or more', 'error')
+            return reply(src, Kora.lang('Commands.grade_invalid'), 'error')
         end
         local ok, err = apply(id, role, Core.compat.fromLegacyGradeLevel(grade))
         audit(src, name, { target = id, [kind] = role, grade = grade, ok = ok and true or false })
-        if not ok then reply(src, ('Could not set %s: %s'):format(kind, tostring(err)), 'error') end
+        if not ok then reply(src, Kora.lang('Commands.set_role_failed', kind, tostring(err)), 'error') end
     end)
 end
 
-roleCommand('setjob', 'Set A Players Job (Admin Only)', 'job', Core.jobs.setJob)
-roleCommand('setgang', 'Set A Players Gang (Admin Only)', 'gang', Core.jobs.setGang)
+roleCommand('setjob', Kora.lang('CommandHelp.setjob'), 'job', Core.jobs.setJob)
+roleCommand('setgang', Kora.lang('CommandHelp.setgang'), 'gang', Core.jobs.setGang)
 
 local function messageOf(args, max)
     local parts = {}
@@ -360,21 +360,21 @@ local function messageOf(args, max)
     return table.concat(parts, ' '):sub(1, max)
 end
 
-register('ooc', 'OOC Chat Message', {}, false, 'user', function(src, args)
+register('ooc', Kora.lang('CommandHelp.ooc'), {}, false, 'user', function(src, args)
     if not requirePlayer(src) then return end
     local player = F.GetPlayer(src)
     if not player then return end
     local message = messageOf(args, MAX_MESSAGE)
-    if message == '' then return reply(src, 'All arguments must be filled out!', 'error') end
+    if message == '' then return reply(src, Kora.lang('Notify.arguments_required'), 'error') end
     local name = GetPlayerName(src) or tostring(src)
     local origin = GetEntityCoords(GetPlayerPed(src))
     local color = QBCore.Config.Commands.OOCColor
     for _, target in pairs(F.GetPlayers()) do
         local prefix
         if target == src or distance(origin, GetEntityCoords(GetPlayerPed(target))) < NEARBY_RADIUS then
-            prefix = 'OOC | '
+            prefix = Kora.lang('Commands.ooc_prefix')
         elseif F.HasPermission(target, 'admin') and F.IsOptin(target) then
-            prefix = 'Proximity OOC | '
+            prefix = Kora.lang('Commands.ooc_proximity_prefix')
             TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white',
                 ('**%s** (CitizenID: %s | ID: %s) **Message:** %s'):format(name, player.PlayerData.citizenid, src, message), false)
         end
@@ -384,10 +384,10 @@ register('ooc', 'OOC Chat Message', {}, false, 'user', function(src, args)
     end
 end)
 
-register('me', 'Show local message', { param('message', 'Message to send') }, false, 'user', function(src, args)
+register('me', Kora.lang('CommandHelp.me'), { param('message', Kora.lang('CommandParams.message_to_send')) }, false, 'user', function(src, args)
     if not requirePlayer(src) then return end
     local message = messageOf(args, MAX_MESSAGE):gsub('[~<].-[>~]', '')
-    if message == '' then return reply(src, 'All arguments must be filled out!', 'error') end
+    if message == '' then return reply(src, Kora.lang('Notify.arguments_required'), 'error') end
     local ped = GetPlayerPed(src)
     local origin = GetEntityCoords(ped)
     for _, target in ipairs(F.GetPlayers()) do

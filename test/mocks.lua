@@ -292,6 +292,17 @@ function M.install(opts)
         end
     end
 
+    local root = (debug.getinfo(1, 'S').source:match('^@(.*/)') or 'test/') .. '../'
+    local english = dofile(root .. 'locales/en.lua')
+    Kora.lang = function(key, ...)
+            local value = english
+            for part in key:gmatch('[^.]+') do
+                assert(type(value) == 'table' and value[part] ~= nil, 'Unknown English locale key: ' .. key)
+                value = value[part]
+            end
+            if select('#', ...) == 0 then return value end
+            return value:format(...)
+    end
     _G.Kora = Kora
     _G.exports = setmetatable({}, { __index = function() return setmetatable({}, { __index = function() return function() end end }) end })
 

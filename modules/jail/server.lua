@@ -101,10 +101,10 @@ AddEventHandler('kora_core:server:playerLoaded', function(src)
     scheduleRelease(src, p, p.PlayerData.metadata.jailed)
 end)
 
-Core.commands.addCommand('jail', 'Jail a player', {
-    { name = 'id', help = 'Player server id' },
-    { name = 'minutes', help = 'Sentence length in minutes' },
-    { name = 'reason', help = 'Reason (optional)' },
+Core.commands.addCommand('jail', Kora.lang('Jail.jail_help'), {
+    { name = 'id', help = Kora.lang('Jail.id_help') },
+    { name = 'minutes', help = Kora.lang('Jail.minutes_help') },
+    { name = 'reason', help = Kora.lang('Jail.reason_help') },
 }, true, function(_, args)
     local target = tonumber(args[1])
     local minutes = tonumber(args[2])
@@ -112,8 +112,8 @@ Core.commands.addCommand('jail', 'Jail a player', {
     Core.jail.jailPlayer(target, minutes, table.concat(args, ' ', 3))
 end, 'admin')
 
-Core.commands.addCommand('unjail', 'Release a player from jail', {
-    { name = 'id', help = 'Player server id' },
+Core.commands.addCommand('unjail', Kora.lang('Jail.release_help'), {
+    { name = 'id', help = Kora.lang('Jail.id_help') },
 }, true, function(_, args)
     local target = tonumber(args[1])
     if not target then return end
