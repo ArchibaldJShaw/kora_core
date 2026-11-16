@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Conceder permissões a um jogador (apenas para administrador-chefe)', car = 'Criar veículo (apenas para administrador)', closeserver = 'Fechar o servidor a quem não tem permissão (apenas para administrador)',
+        dv = 'Eliminar veículo (apenas para administrador)', dvall = 'Eliminar todos os veículos (apenas para administrador)', dvo = 'Eliminar todos os objetos (apenas para administrador)', dvp = 'Eliminar todos os NPC (apenas para administrador)',
+        gang = 'Consultar a tua gangue', givemoney = 'Dar dinheiro a um jogador (apenas para administrador)', job = 'Consultar o teu emprego', me = 'Mostrar mensagem local', ooc = 'Mensagem fora da personagem',
+        openserver = 'Abrir o servidor a todos (apenas para administrador)', removepermission = 'Remover permissões de um jogador (apenas para administrador-chefe)', setgang = 'Definir a gangue de um jogador (apenas para administrador)',
+        setjob = 'Definir o emprego de um jogador (apenas para administrador)', setmoney = 'Definir o montante de dinheiro de um jogador (apenas para administrador)', togglepvp = 'Ativar ou desativar o PvP do servidor (apenas para administrador)',
+        tp = 'Teletransportar para um jogador ou coordenadas (apenas para administrador)', tpm = 'Teletransportar para o marcador do mapa',
+    },
+    CommandParams = {
+        amount_of_money = 'Montante de dinheiro', gang_grade = 'Cargo na gangue', gang_name = 'Nome da gangue', id_of_player = 'ID do jogador',
+        id_of_player_or_x_position = 'ID do jogador ou posição X', job_grade = 'Cargo no emprego', job_name = 'Nome do emprego', message_to_send = 'Mensagem a enviar',
+        model_name_of_the_vehicle = 'Nome do modelo do veículo', permission_level = 'Nível de permissão', player_id = 'ID do jogador',
+        reason_for_closing_optional = 'Motivo do encerramento (opcional)', type_of_money_cash_bank_crypto = 'Tipo de dinheiro (dinheiro, banco, cripto)', y_position = 'Posição Y', z_position = 'Posição Z',
+    },
+    Commands = {
+        account_choices = 'O tipo de dinheiro tem de ser um destes: %s', already_closed = 'O servidor já está fechado', already_open = 'O servidor já está aberto', closed = 'O servidor foi fechado',
+        coordinates_required = 'Nem todos os argumentos foram introduzidos (x, y, z)', deleted_entities = '%d entidades eliminadas', gang_status = 'Gangue: %s | Cargo: %s',
+        give_money_failed = 'Não foi possível dar o dinheiro: %s', grade_invalid = 'O cargo tem de ser um número inteiro igual ou superior a 0', incorrect_format = 'Formato incorreto',
+        job_status = 'Emprego: %s | Cargo: %s | Em serviço: %s', kick_permission_denied = 'Não tens permissão para isso..', location_missing = 'A localização não existe',
+        no_reason = 'Não foi indicado qualquer motivo', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC nas proximidades | ', opened = 'O servidor foi aberto',
+        permission_choices = 'A permissão tem de ser uma destas: %s', permission_denied = 'Não tens permissão para usar este comando.',
+        permission_granted = 'Permissão %s concedida ao jogador %d', permission_removed = 'Permissão %s removida do jogador %d', player_offline = 'O jogador não está online',
+        player_required = 'Este comando tem de ser usado por um jogador dentro do jogo.', pvp_disabled = 'PvP desativado', pvp_enabled = 'PvP ativado',
+        server_closed = 'Servidor fechado', set_money_failed = 'Não foi possível definir o dinheiro: %s', set_role_failed = 'Não foi possível definir %s: %s',
+    },
+    Connection = { disconnected = 'Desligado.' },
+    Inventory = { item = 'objeto', received = '%dx %s recebido(s)', removed = '%dx %s removido(s)' },
+    Jail = {
+        id_help = 'ID do jogador no servidor', jail_help = 'Prender um jogador', jailed = 'Foste preso durante %d minutos.', minutes_help = 'Duração da pena em minutos',
+        reason_help = 'Motivo (opcional)', release_help = 'Libertar um jogador da prisão', released = 'Foste libertado.',
+    },
+    Language = { changed = 'Idioma definido para %s.', current = 'Idioma atual', open_selector = 'Abrir seletor de idioma', title = 'Idioma' },
+    Notify = {
+        arguments_required = 'Todos os argumentos têm de ser preenchidos!', command_denied = 'Não tens acesso a este comando', duty_off = 'Estás fora de serviço!', duty_on = 'Estás em serviço!',
+        locale_invalid = 'Referência de idioma inválida.', placeholder = 'Marcador de posição', stress_decreased = 'Sentes-te mais descontraído!', stress_increased = 'Sentes-te mais stressado!',
+        vehicle_spawn_failed = 'Não foi possível criar esse veículo', waypoint_failed = 'Falha ao teletransportar para o marcador', waypoint_missing = 'Não foi definido nenhum marcador',
+        waypoint_start_failed = 'Não foi possível iniciar o teletransporte para o marcador', waypoint_success = 'Teletransportado para o marcador',
+    },
+}

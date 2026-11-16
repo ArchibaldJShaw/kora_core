@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Berikan izin kepada pemain (khusus admin utama)', car = 'Buat kendaraan (khusus admin)', closeserver = 'Tutup server bagi pemain tanpa izin (khusus admin)',
+        dv = 'Hapus kendaraan (khusus admin)', dvall = 'Hapus semua kendaraan (khusus admin)', dvo = 'Hapus semua objek (khusus admin)', dvp = 'Hapus semua NPC (khusus admin)',
+        gang = 'Periksa geng Anda', givemoney = 'Berikan uang kepada pemain (khusus admin)', job = 'Periksa pekerjaan Anda', me = 'Tampilkan pesan lokal', ooc = 'Pesan di luar karakter',
+        openserver = 'Buka server untuk semua orang (khusus admin)', removepermission = 'Cabut izin pemain (khusus admin utama)', setgang = 'Atur geng pemain (khusus admin)',
+        setjob = 'Atur pekerjaan pemain (khusus admin)', setmoney = 'Atur jumlah uang pemain (khusus admin)', togglepvp = 'Aktifkan atau nonaktifkan PvP server (khusus admin)',
+        tp = 'Teleportasi ke pemain atau koordinat (khusus admin)', tpm = 'Teleportasi ke penanda peta',
+    },
+    CommandParams = {
+        amount_of_money = 'Jumlah uang', gang_grade = 'Peringkat geng', gang_name = 'Nama geng', id_of_player = 'ID pemain',
+        id_of_player_or_x_position = 'ID pemain atau posisi X', job_grade = 'Peringkat pekerjaan', job_name = 'Nama pekerjaan', message_to_send = 'Pesan yang akan dikirim',
+        model_name_of_the_vehicle = 'Nama model kendaraan', permission_level = 'Tingkat izin', player_id = 'ID pemain',
+        reason_for_closing_optional = 'Alasan penutupan (opsional)', type_of_money_cash_bank_crypto = 'Jenis uang (tunai, bank, kripto)', y_position = 'Posisi Y', z_position = 'Posisi Z',
+    },
+    Commands = {
+        account_choices = 'Jenis uang harus salah satu dari: %s', already_closed = 'Server sudah ditutup', already_open = 'Server sudah dibuka', closed = 'Server telah ditutup',
+        coordinates_required = 'Tidak semua argumen telah diisi (x, y, z)', deleted_entities = '%d entitas dihapus', gang_status = 'Geng: %s | Peringkat: %s',
+        give_money_failed = 'Gagal memberikan uang: %s', grade_invalid = 'Peringkat harus berupa bilangan bulat 0 atau lebih', incorrect_format = 'Format salah',
+        job_status = 'Pekerjaan: %s | Peringkat: %s | Sedang bertugas: %s', kick_permission_denied = 'Anda tidak memiliki izin untuk itu..', location_missing = 'Lokasi tidak ada',
+        no_reason = 'Tidak ada alasan yang diberikan', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC sekitar | ', opened = 'Server telah dibuka',
+        permission_choices = 'Izin harus salah satu dari: %s', permission_denied = 'Anda tidak memiliki izin untuk menggunakan perintah ini.',
+        permission_granted = 'Izin %s diberikan kepada pemain %d', permission_removed = 'Izin %s dicabut dari pemain %d', player_offline = 'Pemain tidak sedang online',
+        player_required = 'Perintah ini harus digunakan oleh pemain di dalam game.', pvp_disabled = 'PvP dinonaktifkan', pvp_enabled = 'PvP diaktifkan',
+        server_closed = 'Server ditutup', set_money_failed = 'Gagal mengatur uang: %s', set_role_failed = 'Gagal mengatur %s: %s',
+    },
+    Connection = { disconnected = 'Terputus.' },
+    Inventory = { item = 'barang', received = 'Menerima %dx %s', removed = 'Menghapus %dx %s' },
+    Jail = {
+        id_help = 'ID pemain di server', jail_help = 'Penjarakan pemain', jailed = 'Anda dipenjara selama %d menit.', minutes_help = 'Lama hukuman dalam menit',
+        reason_help = 'Alasan (opsional)', release_help = 'Bebaskan pemain dari penjara', released = 'Anda telah dibebaskan.',
+    },
+    Language = { changed = 'Bahasa diatur ke %s.', current = 'Bahasa saat ini', open_selector = 'Buka pemilih bahasa', title = 'Bahasa' },
+    Notify = {
+        arguments_required = 'Semua argumen harus diisi!', command_denied = 'Anda tidak memiliki akses ke perintah ini', duty_off = 'Anda sekarang tidak bertugas!', duty_on = 'Anda sekarang bertugas!',
+        locale_invalid = 'Referensi bahasa tidak valid.', placeholder = 'Teks pengganti', stress_decreased = 'Anda merasa lebih rileks!', stress_increased = 'Anda merasa lebih stres!',
+        vehicle_spawn_failed = 'Kendaraan tersebut tidak dapat dibuat', waypoint_failed = 'Gagal teleportasi ke penanda', waypoint_missing = 'Tidak ada penanda yang ditetapkan',
+        waypoint_start_failed = 'Teleportasi ke penanda tidak dapat dimulai', waypoint_success = 'Berhasil teleportasi ke penanda',
+    },
+}

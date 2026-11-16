@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Gi en spiller tillatelser (kun for hovedadministrator)', car = 'Opprett et kjøretøy (kun for administrator)', closeserver = 'Steng serveren for spillere uten tillatelse (kun for administrator)',
+        dv = 'Slett et kjøretøy (kun for administrator)', dvall = 'Slett alle kjøretøy (kun for administrator)', dvo = 'Slett alle objekter (kun for administrator)', dvp = 'Slett alle NPC-er (kun for administrator)',
+        gang = 'Sjekk gjengen din', givemoney = 'Gi en spiller penger (kun for administrator)', job = 'Sjekk jobben din', me = 'Vis lokal melding', ooc = 'OOC-melding',
+        openserver = 'Åpne serveren for alle (kun for administrator)', removepermission = 'Fjern en spillers tillatelser (kun for hovedadministrator)', setgang = 'Angi en spillers gjeng (kun for administrator)',
+        setjob = 'Angi en spillers jobb (kun for administrator)', setmoney = 'Angi en spillers pengebeløp (kun for administrator)', togglepvp = 'Slå PvP av eller på på serveren (kun for administrator)',
+        tp = 'Teleporter til en spiller eller koordinater (kun for administrator)', tpm = 'Teleporter til kartmarkøren',
+    },
+    CommandParams = {
+        amount_of_money = 'Pengebeløp', gang_grade = 'Gjengrang', gang_name = 'Gjengnavn', id_of_player = 'Spiller-ID',
+        id_of_player_or_x_position = 'Spiller-ID eller X-posisjon', job_grade = 'Jobbrang', job_name = 'Jobbnavn', message_to_send = 'Melding som skal sendes',
+        model_name_of_the_vehicle = 'Kjøretøyets modellnavn', permission_level = 'Tillatelsesnivå', player_id = 'Spiller-ID',
+        reason_for_closing_optional = 'Årsak til stenging (valgfritt)', type_of_money_cash_bank_crypto = 'Pengetype (kontanter, bank, krypto)', y_position = 'Y-posisjon', z_position = 'Z-posisjon',
+    },
+    Commands = {
+        account_choices = 'Pengetypen må være en av disse: %s', already_closed = 'Serveren er allerede stengt', already_open = 'Serveren er allerede åpen', closed = 'Serveren er stengt',
+        coordinates_required = 'Ikke alle argumenter er angitt (x, y, z)', deleted_entities = '%d enheter slettet', gang_status = 'Gjeng: %s | Rang: %s',
+        give_money_failed = 'Kunne ikke gi penger: %s', grade_invalid = 'Rangen må være et heltall på 0 eller høyere', incorrect_format = 'Feil format',
+        job_status = 'Jobb: %s | Rang: %s | På vakt: %s', kick_permission_denied = 'Du har ikke tillatelse til dette..', location_missing = 'Stedet finnes ikke',
+        no_reason = 'Ingen årsak oppgitt', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC i nærheten | ', opened = 'Serveren er åpnet',
+        permission_choices = 'Tillatelsen må være en av disse: %s', permission_denied = 'Du har ikke tillatelse til å bruke denne kommandoen.',
+        permission_granted = 'Spiller %s fikk tillatelsen %d', permission_removed = 'Tillatelsen %s ble fjernet fra spiller %d', player_offline = 'Spilleren er ikke pålogget',
+        player_required = 'Denne kommandoen må brukes av en spiller i spillet.', pvp_disabled = 'PvP deaktivert', pvp_enabled = 'PvP aktivert',
+        server_closed = 'Serveren er stengt', set_money_failed = 'Kunne ikke angi penger: %s', set_role_failed = 'Kunne ikke angi %s: %s',
+    },
+    Connection = { disconnected = 'Frakoblet.' },
+    Inventory = { item = 'gjenstand', received = 'Mottok %dx %s', removed = 'Fjernet %dx %s' },
+    Jail = {
+        id_help = 'Spillerens server-ID', jail_help = 'Sett en spiller i fengsel', jailed = 'Du er satt i fengsel i %d minutter.', minutes_help = 'Straffens lengde i minutter',
+        reason_help = 'Årsak (valgfritt)', release_help = 'Løslat en spiller fra fengselet', released = 'Du er løslatt.',
+    },
+    Language = { changed = 'Språket er satt til %s.', current = 'Nåværende språk', open_selector = 'Åpne språkvalg', title = 'Språk' },
+    Notify = {
+        arguments_required = 'Alle argumenter må fylles ut!', command_denied = 'Du har ikke tilgang til denne kommandoen', duty_off = 'Du er nå av vakt!', duty_on = 'Du er nå på vakt!',
+        locale_invalid = 'Ugyldig språkreferanse.', placeholder = 'Plassholder', stress_decreased = 'Du føler deg mer avslappet!', stress_increased = 'Du føler deg mer stresset!',
+        vehicle_spawn_failed = 'Kunne ikke opprette dette kjøretøyet', waypoint_failed = 'Kunne ikke teleportere til markøren', waypoint_missing = 'Ingen markør er angitt',
+        waypoint_start_failed = 'Kunne ikke starte teleporteringen til markøren', waypoint_success = 'Teleportert til markøren',
+    },
+}

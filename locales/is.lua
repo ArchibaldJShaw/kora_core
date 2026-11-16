@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Veita leikmanni heimildir (aðeins yfirumsjónaraðili)', car = 'Búa til ökutæki (aðeins stjórnandi)', closeserver = 'Loka þjóninum fyrir leikmönnum án heimilda (aðeins stjórnandi)',
+        dv = 'Eyða ökutæki (aðeins stjórnandi)', dvall = 'Eyða öllum ökutækjum (aðeins stjórnandi)', dvo = 'Eyða öllum hlutum (aðeins stjórnandi)', dvp = 'Eyða öllum NPC (aðeins stjórnandi)',
+        gang = 'Skoða gengið þitt', givemoney = 'Gefa leikmanni peninga (aðeins stjórnandi)', job = 'Skoða starfið þitt', me = 'Birta staðbundin skilaboð', ooc = 'Skilaboð utan hlutverks',
+        openserver = 'Opna þjóninn fyrir öllum (aðeins stjórnandi)', removepermission = 'Fjarlægja heimildir leikmanns (aðeins yfirumsjónaraðili)', setgang = 'Velja gengi leikmanns (aðeins stjórnandi)',
+        setjob = 'Velja starf leikmanns (aðeins stjórnandi)', setmoney = 'Velja peningaupphæð leikmanns (aðeins stjórnandi)', togglepvp = 'Kveikja eða slökkva á PvP á þjóninum (aðeins stjórnandi)',
+        tp = 'Fjarskipta til leikmanns eða hnitanna (aðeins stjórnandi)', tpm = 'Fjarskipta að kortamerki',
+    },
+    CommandParams = {
+        amount_of_money = 'Peningaupphæð', gang_grade = 'Staða í gengi', gang_name = 'Nafn gengis', id_of_player = 'Auðkenni leikmanns',
+        id_of_player_or_x_position = 'Auðkenni leikmanns eða X-hnit', job_grade = 'Starfsstaða', job_name = 'Nafn starfs', message_to_send = 'Skilaboð til að senda',
+        model_name_of_the_vehicle = 'Heiti ökutækjagerðar', permission_level = 'Heimildastig', player_id = 'Auðkenni leikmanns',
+        reason_for_closing_optional = 'Ástæða lokunar (valfrjálst)', type_of_money_cash_bank_crypto = 'Tegund peninga (reiðufé, banki, rafmynt)', y_position = 'Y-hnit', z_position = 'Z-hnit',
+    },
+    Commands = {
+        account_choices = 'Tegund peninga verður að vera ein af þessum: %s', already_closed = 'Þjónninn er þegar lokaður', already_open = 'Þjónninn er þegar opinn', closed = 'Þjóninum hefur verið lokað',
+        coordinates_required = 'Ekki hafa öll viðföng verið færð inn (x, y, z)', deleted_entities = '%d einingum eytt', gang_status = 'Gengi: %s | Staða: %s',
+        give_money_failed = 'Ekki tókst að gefa peninga: %s', grade_invalid = 'Staðan verður að vera heiltala sem er að minnsta kosti 0', incorrect_format = 'Rangt snið',
+        job_status = 'Starf: %s | Staða: %s | Á vakt: %s', kick_permission_denied = 'Þú hefur ekki heimild til þess..', location_missing = 'Staðsetningin er ekki til',
+        no_reason = 'Engin ástæða gefin upp', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC í nágrenninu | ', opened = 'Þjónninn hefur verið opnaður',
+        permission_choices = 'Heimildin verður að vera ein af þessum: %s', permission_denied = 'Þú hefur ekki heimild til að nota þessa skipun.',
+        permission_granted = 'Leikmanni %s var veitt heimildin %d', permission_removed = 'Heimildin %s var fjarlægð af leikmanni %d', player_offline = 'Leikmaðurinn er ekki tengdur',
+        player_required = 'Leikmaður þarf að vera inni í leiknum til að nota þessa skipun.', pvp_disabled = 'Slökkt á PvP', pvp_enabled = 'Kveikt á PvP',
+        server_closed = 'Þjónninn er lokaður', set_money_failed = 'Ekki tókst að stilla peninga: %s', set_role_failed = 'Ekki tókst að stilla %s: %s',
+    },
+    Connection = { disconnected = 'Tenging rofin.' },
+    Inventory = { item = 'hlutur', received = '%dx %s móttekið', removed = '%dx %s fjarlægt' },
+    Jail = {
+        id_help = 'Auðkenni leikmanns á þjóninum', jail_help = 'Setja leikmann í fangelsi', jailed = 'Þú hefur verið sett(ur) í fangelsi í %d mínútur.', minutes_help = 'Lengd refsingar í mínútum',
+        reason_help = 'Ástæða (valfrjálst)', release_help = 'Losa leikmann úr fangelsi', released = 'Þér hefur verið sleppt.',
+    },
+    Language = { changed = 'Tungumál stillt á %s.', current = 'Núverandi tungumál', open_selector = 'Opna tungumálaval', title = 'Tungumál' },
+    Notify = {
+        arguments_required = 'Öll viðföng verða að vera fyllt út!', command_denied = 'Þú hefur ekki aðgang að þessari skipun', duty_off = 'Þú ert ekki lengur á vakt!', duty_on = 'Þú ert nú á vakt!',
+        locale_invalid = 'Ógild tungumálatilvísun.', placeholder = 'Staðgengill', stress_decreased = 'Þér líður betur og ert rólegri!', stress_increased = 'Þér líður verr og ert stressaðri!',
+        vehicle_spawn_failed = 'Ekki tókst að búa til þetta ökutæki', waypoint_failed = 'Ekki tókst að fjarskipta að kortamerki', waypoint_missing = 'Ekkert kortamerki valið',
+        waypoint_start_failed = 'Ekki tókst að hefja fjarskiptingu að kortamerki', waypoint_success = 'Fjarskipting að kortamerki tókst',
+    },
+}

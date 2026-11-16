@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Na nya la asisiwo (dɔla kple dɔla gã ko)', car = 'Wɔ kplɔ̃ɖoƒe (dɔla ko)', closeserver = 'Tu server la na amesiwo mekpɔ mɔɖeɖe o (dɔla ko)',
+        dv = 'Ɖe kplɔ̃ɖoƒe ɖa (dɔla ko)', dvall = 'Ɖe kplɔ̃ɖoƒe katã ɖa (dɔla ko)', dvo = 'Ɖe nuwo katã ɖa (dɔla ko)', dvp = 'Ɖe NPC katã ɖa (dɔla ko)',
+        gang = 'Kpɔ wò gang', givemoney = 'Na nya ga (dɔla ko)', job = 'Kpɔ wò dɔ', me = 'Fia nyagbɔgblɔ le teƒe sia', ooc = 'OOC nyagbɔgblɔ',
+        openserver = 'Ɖe server la nu na amewo katã (dɔla ko)', removepermission = 'Ɖe mɔɖeɖe ɖa le nya si (dɔla kple dɔla gã ko)', setgang = 'Tɔ gang na nya (dɔla ko)',
+        setjob = 'Tɔ dɔ na nya (dɔla ko)', setmoney = 'Tɔ gaƒoƒo na nya (dɔla ko)', togglepvp = 'Trɔ PvP le server la me (dɔla ko)',
+        tp = 'Trɔ yi nya gbɔ alo x/y/z (dɔla ko)', tpm = 'Trɔ yi map marker gbɔ',
+    },
+    CommandParams = {
+        amount_of_money = 'Gaƒoƒo', gang_grade = 'Gangƒe nɔnɔme', gang_name = 'Gangƒe ŋkɔ', id_of_player = 'Nyaƒe ID',
+        id_of_player_or_x_position = 'Nyaƒe ID alo X nɔƒe', job_grade = 'Dɔƒe nɔnɔme', job_name = 'Dɔƒe ŋkɔ', message_to_send = 'Nyagbɔgblɔ si woaɖo',
+        model_name_of_the_vehicle = 'Kplɔ̃ɖoƒe model ƒe ŋkɔ', permission_level = 'Mɔɖeɖe ƒe nɔnɔme', player_id = 'Nyaƒe ID',
+        reason_for_closing_optional = 'Nu si ta woatu (mehiã o)', type_of_money_cash_bank_crypto = 'Ga ƒomevi (cash, bank, crypto)', y_position = 'Y nɔƒe', z_position = 'Z nɔƒe',
+    },
+    Commands = {
+        account_choices = 'Ga ƒomevi la nye esiawo dometɔ ɖeka: %s', already_closed = 'Wotu server la xoxo', already_open = 'Server la le ʋuʋu xoxo', closed = 'Wotu server la',
+        coordinates_required = 'Woŋlɔ nuɖoɖo katã me o (x, y, z)', deleted_entities = 'Woɖe nuwo %d ɖa', gang_status = 'Gang: %s | Nɔnɔme: %s',
+        give_money_failed = 'Mena ga o: %s', grade_invalid = 'Nɔnɔme la dze be enye xexlẽme si me xɔ asi 0 alo wu', incorrect_format = 'Ŋɔŋlɔ ƒe nɔnɔme mate ŋu o',
+        job_status = 'Dɔ: %s | Nɔnɔme: %s | Le dɔ me: %s', kick_permission_denied = 'Mele mɔɖeɖe si na esia o..', location_missing = 'Nɔƒe la mele o',
+        no_reason = 'Mewɔ nuɖoɖo aɖeke o', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC le teƒe sia | ', opened = 'Wɔʋu server la',
+        permission_choices = 'Mɔɖeɖe la nye esiawo dometɔ ɖeka: %s', permission_denied = 'Mele mɔɖeɖe na be nàzã dɔ sia o.',
+        permission_granted = 'Wona mɔɖeɖe %s na nya %d', permission_removed = 'Wɔɖe mɔɖeɖe %s ɖa le nya %d si', player_offline = 'Nya la mele online o',
+        player_required = 'Ele be nya aɖe le game me na zã dɔ sia.', pvp_disabled = 'Wɔdze PvP ɖa', pvp_enabled = 'Wɔɖo PvP ɖe edzi',
+        server_closed = 'Wotu server la', set_money_failed = 'Meŋlɔ ga o: %s', set_role_failed = 'Meŋlɔ %s o: %s',
+    },
+    Connection = { disconnected = 'Wɔtsɔ kpekpeɖeŋu la ɖa.' },
+    Inventory = { item = 'nu', received = 'Èxɔ %dx %s', removed = 'Wɔɖe %dx %s ɖa' },
+    Jail = {
+        id_help = 'Nyaƒe server ID', jail_help = 'De nya aɖe gaxɔ me', jailed = 'Wode wò gaxɔ me ɣleti %d.', minutes_help = 'Gaxɔ ƒe ɣeyiɣi le minutes me',
+        reason_help = 'Nu si ta (mehiã o)', release_help = 'Ɖe nya aɖe le gaxɔ me', released = 'Wɔɖe wò le gaxɔ me.',
+    },
+    Language = { changed = 'Wɔtrɔ gbe la ɖe %s.', current = 'Gbe si le egɔme', open_selector = 'Ɖe gbe tiaɖoƒe', title = 'Gbe' },
+    Notify = {
+        arguments_required = 'Ele be woaŋlɔ nuɖoɖo katã!', command_denied = 'Mele mɔɖeɖe na dɔ sia o', duty_off = 'Mele dɔ me azɔ o!', duty_on = 'Ele dɔ me azɔ!',
+        locale_invalid = 'Gbeƒe nɔnɔme mate ŋu o.', placeholder = 'Teƒe si woaɖo nu', stress_decreased = 'Èle dzidzɔ me wu!', stress_increased = 'Èle dzikadzo me wu!',
+        vehicle_spawn_failed = 'Meŋlɔ kplɔ̃ɖoƒe sia o', waypoint_failed = 'Meŋlɔ yi marker gbɔ o', waypoint_missing = 'Marker aɖeke mele o',
+        waypoint_start_failed = 'Meŋlɔ dze marker teleport o', waypoint_success = 'Èyi marker gbɔ',
+    },
+}

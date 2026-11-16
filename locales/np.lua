@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'खेलाडीलाई अनुमति दिनुहोस् (मुख्य प्रशासकका लागि मात्र)', car = 'सवारी साधन सिर्जना गर्नुहोस् (प्रशासकका लागि मात्र)', closeserver = 'अनुमति नभएका खेलाडीका लागि सर्भर बन्द गर्नुहोस् (प्रशासकका लागि मात्र)',
+        dv = 'सवारी साधन मेटाउनुहोस् (प्रशासकका लागि मात्र)', dvall = 'सबै सवारी साधन मेटाउनुहोस् (प्रशासकका लागि मात्र)', dvo = 'सबै वस्तु मेटाउनुहोस् (प्रशासकका लागि मात्र)', dvp = 'सबै NPC मेटाउनुहोस् (प्रशासकका लागि मात्र)',
+        gang = 'आफ्नो गिरोह हेर्नुहोस्', givemoney = 'खेलाडीलाई पैसा दिनुहोस् (प्रशासकका लागि मात्र)', job = 'आफ्नो काम हेर्नुहोस्', me = 'स्थानीय सन्देश देखाउनुहोस्', ooc = 'भूमिकाबाहिरको सन्देश',
+        openserver = 'सबैका लागि सर्भर खोल्नुहोस् (प्रशासकका लागि मात्र)', removepermission = 'खेलाडीको अनुमति हटाउनुहोस् (मुख्य प्रशासकका लागि मात्र)', setgang = 'खेलाडीको गिरोह तोक्नुहोस् (प्रशासकका लागि मात्र)',
+        setjob = 'खेलाडीको काम तोक्नुहोस् (प्रशासकका लागि मात्र)', setmoney = 'खेलाडीको रकम तोक्नुहोस् (प्रशासकका लागि मात्र)', togglepvp = 'सर्भरमा PvP चालु वा बन्द गर्नुहोस् (प्रशासकका लागि मात्र)',
+        tp = 'खेलाडी वा निर्देशांकमा टेलिपोर्ट गर्नुहोस् (प्रशासकका लागि मात्र)', tpm = 'नक्साको चिन्हमा टेलिपोर्ट गर्नुहोस्',
+    },
+    CommandParams = {
+        amount_of_money = 'रकम', gang_grade = 'गिरोहको पद', gang_name = 'गिरोहको नाम', id_of_player = 'खेलाडीको ID',
+        id_of_player_or_x_position = 'खेलाडीको ID वा X स्थान', job_grade = 'कामको पद', job_name = 'कामको नाम', message_to_send = 'पठाउने सन्देश',
+        model_name_of_the_vehicle = 'सवारी साधनको मोडेल नाम', permission_level = 'अनुमति स्तर', player_id = 'खेलाडीको ID',
+        reason_for_closing_optional = 'बन्द गर्नुको कारण (वैकल्पिक)', type_of_money_cash_bank_crypto = 'पैसाको प्रकार (नगद, बैंक, क्रिप्टो)', y_position = 'Y स्थान', z_position = 'Z स्थान',
+    },
+    Commands = {
+        account_choices = 'पैसाको प्रकार यीमध्ये एउटा हुनुपर्छ: %s', already_closed = 'सर्भर पहिले नै बन्द छ', already_open = 'सर्भर पहिले नै खुला छ', closed = 'सर्भर बन्द भयो',
+        coordinates_required = 'सबै आर्गुमेन्ट दिइएका छैनन् (x, y, z)', deleted_entities = '%d वस्तु मेटाइयो', gang_status = 'गिरोह: %s | पद: %s',
+        give_money_failed = 'पैसा दिन सकिएन: %s', grade_invalid = 'पद 0 वा सोभन्दा ठूलो पूर्णाङ्क हुनुपर्छ', incorrect_format = 'गलत ढाँचा',
+        job_status = 'काम: %s | पद: %s | ड्युटीमा: %s', kick_permission_denied = 'तपाईंसँग यसको अनुमति छैन..', location_missing = 'स्थान उपलब्ध छैन',
+        no_reason = 'कारण दिइएको छैन', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'नजिकको OOC | ', opened = 'सर्भर खोलियो',
+        permission_choices = 'अनुमति यीमध्ये एउटा हुनुपर्छ: %s', permission_denied = 'यो आदेश प्रयोग गर्ने अनुमति तपाईंसँग छैन।',
+        permission_granted = 'खेलाडी %s लाई %d अनुमति दिइयो', permission_removed = 'खेलाडी %s बाट %d अनुमति हटाइयो', player_offline = 'खेलाडी अनलाइन छैन',
+        player_required = 'यो आदेश खेलभित्रको खेलाडीले प्रयोग गर्नुपर्छ।', pvp_disabled = 'PvP बन्द गरियो', pvp_enabled = 'PvP चालु गरियो',
+        server_closed = 'सर्भर बन्द छ', set_money_failed = 'रकम तोक्न सकिएन: %s', set_role_failed = '%s तोक्न सकिएन: %s',
+    },
+    Connection = { disconnected = 'सम्पर्क विच्छेद भयो।' },
+    Inventory = { item = 'वस्तु', received = '%dx %s प्राप्त भयो', removed = '%dx %s हटाइयो' },
+    Jail = {
+        id_help = 'खेलाडीको सर्भर ID', jail_help = 'खेलाडीलाई जेल हाल्नुहोस्', jailed = 'तपाईंलाई %d मिनेटका लागि जेल हालिएको छ।', minutes_help = 'मिनेटमा सजाय अवधि',
+        reason_help = 'कारण (वैकल्पिक)', release_help = 'खेलाडीलाई जेलबाट रिहा गर्नुहोस्', released = 'तपाईं रिहा हुनुभयो।',
+    },
+    Language = { changed = 'भाषा %s मा सेट गरियो।', current = 'हालको भाषा', open_selector = 'भाषा चयन खोल्नुहोस्', title = 'भाषा' },
+    Notify = {
+        arguments_required = 'सबै आर्गुमेन्ट भर्नुपर्छ!', command_denied = 'यो आदेशको पहुँच तपाईंसँग छैन', duty_off = 'तपाईं अहिले ड्युटीमा हुनुहुन्न!', duty_on = 'तपाईं अहिले ड्युटीमा हुनुहुन्छ!',
+        locale_invalid = 'अमान्य भाषा सन्दर्भ।', placeholder = 'स्थानधारक', stress_decreased = 'तपाईंलाई अझ शान्त महसुस हुँदैछ!', stress_increased = 'तपाईंलाई अझ तनाव महसुस हुँदैछ!',
+        vehicle_spawn_failed = 'त्यो सवारी साधन सिर्जना गर्न सकिएन', waypoint_failed = 'नक्साको चिन्हमा टेलिपोर्ट गर्न सकिएन', waypoint_missing = 'कुनै चिन्ह तोकिएको छैन',
+        waypoint_start_failed = 'नक्साको चिन्हमा टेलिपोर्ट सुरु गर्न सकिएन', waypoint_success = 'नक्साको चिन्हमा टेलिपोर्ट गरियो',
+    },
+}

@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Acordă permisiuni unui jucător (doar pentru administrator principal)', car = 'Generează un vehicul (doar pentru administrator)', closeserver = 'Închide serverul pentru jucătorii fără permisiuni (doar pentru administrator)',
+        dv = 'Șterge un vehicul (doar pentru administrator)', dvall = 'Șterge toate vehiculele (doar pentru administrator)', dvo = 'Șterge toate obiectele (doar pentru administrator)', dvp = 'Șterge toți NPC-ii (doar pentru administrator)',
+        gang = 'Verifică-ți banda', givemoney = 'Dă bani unui jucător (doar pentru administrator)', job = 'Verifică-ți slujba', me = 'Afișează un mesaj local', ooc = 'Mesaj în afara personajului',
+        openserver = 'Deschide serverul pentru toți (doar pentru administrator)', removepermission = 'Retrage permisiunile unui jucător (doar pentru administrator principal)', setgang = 'Setează banda unui jucător (doar pentru administrator)',
+        setjob = 'Setează slujba unui jucător (doar pentru administrator)', setmoney = 'Setează suma de bani a unui jucător (doar pentru administrator)', togglepvp = 'Activează sau dezactivează PvP pe server (doar pentru administrator)',
+        tp = 'Teleportează-te la un jucător sau la coordonate (doar pentru administrator)', tpm = 'Teleportează-te la marcajul de pe hartă',
+    },
+    CommandParams = {
+        amount_of_money = 'Sumă de bani', gang_grade = 'Rangul bandei', gang_name = 'Numele bandei', id_of_player = 'ID-ul jucătorului',
+        id_of_player_or_x_position = 'ID-ul jucătorului sau poziția X', job_grade = 'Rangul slujbei', job_name = 'Numele slujbei', message_to_send = 'Mesaj de trimis',
+        model_name_of_the_vehicle = 'Numele modelului vehiculului', permission_level = 'Nivel de permisiune', player_id = 'ID-ul jucătorului',
+        reason_for_closing_optional = 'Motivul închiderii (opțional)', type_of_money_cash_bank_crypto = 'Tipul banilor (numerar, bancă, cripto)', y_position = 'Poziția Y', z_position = 'Poziția Z',
+    },
+    Commands = {
+        account_choices = 'Tipul banilor trebuie să fie unul dintre: %s', already_closed = 'Serverul este deja închis', already_open = 'Serverul este deja deschis', closed = 'Serverul a fost închis',
+        coordinates_required = 'Nu au fost introduse toate argumentele (x, y, z)', deleted_entities = 'Au fost șterse %d entități', gang_status = 'Bandă: %s | Rang: %s',
+        give_money_failed = 'Nu s-au putut da banii: %s', grade_invalid = 'Rangul trebuie să fie un număr întreg de cel puțin 0', incorrect_format = 'Format incorect',
+        job_status = 'Slujbă: %s | Rang: %s | În serviciu: %s', kick_permission_denied = 'Nu ai permisiunea pentru asta..', location_missing = 'Locația nu există',
+        no_reason = 'Nu a fost specificat niciun motiv', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC în apropiere | ', opened = 'Serverul a fost deschis',
+        permission_choices = 'Permisiunea trebuie să fie una dintre: %s', permission_denied = 'Nu ai permisiunea de a folosi această comandă.',
+        permission_granted = 'Permisiunea %s a fost acordată jucătorului %d', permission_removed = 'Permisiunea %s a fost retrasă jucătorului %d', player_offline = 'Jucătorul nu este online',
+        player_required = 'Această comandă trebuie folosită de un jucător din joc.', pvp_disabled = 'PvP dezactivat', pvp_enabled = 'PvP activat',
+        server_closed = 'Server închis', set_money_failed = 'Nu s-au putut seta banii: %s', set_role_failed = 'Nu s-a putut seta %s: %s',
+    },
+    Connection = { disconnected = 'Deconectat.' },
+    Inventory = { item = 'obiect', received = 'Ai primit %dx %s', removed = 'S-au eliminat %dx %s' },
+    Jail = {
+        id_help = 'ID-ul jucătorului pe server', jail_help = 'Închide un jucător', jailed = 'Ai fost închis pentru %d minute.', minutes_help = 'Durata pedepsei în minute',
+        reason_help = 'Motiv (opțional)', release_help = 'Eliberează un jucător din închisoare', released = 'Ai fost eliberat.',
+    },
+    Language = { changed = 'Limba a fost setată la %s.', current = 'Limba curentă', open_selector = 'Deschide selectorul de limbă', title = 'Limbă' },
+    Notify = {
+        arguments_required = 'Toate argumentele trebuie completate!', command_denied = 'Nu ai acces la această comandă', duty_off = 'Acum nu ești în serviciu!', duty_on = 'Acum ești în serviciu!',
+        locale_invalid = 'Referință de limbă nevalidă.', placeholder = 'Substituent', stress_decreased = 'Te simți mai relaxat!', stress_increased = 'Te simți mai stresat!',
+        vehicle_spawn_failed = 'Nu s-a putut genera acel vehicul', waypoint_failed = 'Teleportarea la marcaj a eșuat', waypoint_missing = 'Nu este setat niciun marcaj',
+        waypoint_start_failed = 'Nu s-a putut începe teleportarea la marcaj', waypoint_success = 'Teleportat la marcaj',
+    },
+}

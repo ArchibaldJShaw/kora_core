@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'دادن دسترسی به بازیکن (فقط مدیر ارشد)', car = 'ساخت وسیله نقلیه (فقط مدیر)', closeserver = 'بستن سرور برای افراد بدون دسترسی (فقط مدیر)',
+        dv = 'حذف وسیله نقلیه (فقط مدیر)', dvall = 'حذف همه وسایل نقلیه (فقط مدیر)', dvo = 'حذف همه اشیا (فقط مدیر)', dvp = 'حذف همه شخصیت‌های غیرقابل‌بازی (فقط مدیر)',
+        gang = 'بررسی گروه خود', givemoney = 'دادن پول به بازیکن (فقط مدیر)', job = 'بررسی شغل خود', me = 'نمایش پیام محلی', ooc = 'پیام خارج از نقش',
+        openserver = 'باز کردن سرور برای همه (فقط مدیر)', removepermission = 'گرفتن دسترسی از بازیکن (فقط مدیر ارشد)', setgang = 'تنظیم گروه بازیکن (فقط مدیر)',
+        setjob = 'تنظیم شغل بازیکن (فقط مدیر)', setmoney = 'تنظیم مقدار پول بازیکن (فقط مدیر)', togglepvp = 'تغییر وضعیت PvP سرور (فقط مدیر)',
+        tp = 'انتقال به بازیکن یا مختصات (فقط مدیر)', tpm = 'انتقال به نشانگر نقشه',
+    },
+    CommandParams = {
+        amount_of_money = 'مقدار پول', gang_grade = 'درجه گروه', gang_name = 'نام گروه', id_of_player = 'شناسه بازیکن',
+        id_of_player_or_x_position = 'شناسه بازیکن یا موقعیت X', job_grade = 'درجه شغلی', job_name = 'نام شغل', message_to_send = 'پیام برای ارسال',
+        model_name_of_the_vehicle = 'نام مدل وسیله نقلیه', permission_level = 'سطح دسترسی', player_id = 'شناسه بازیکن',
+        reason_for_closing_optional = 'دلیل بستن (اختیاری)', type_of_money_cash_bank_crypto = 'نوع پول (نقدی، بانک، رمزارز)', y_position = 'موقعیت Y', z_position = 'موقعیت Z',
+    },
+    Commands = {
+        account_choices = 'نوع پول باید یکی از این موارد باشد: %s', already_closed = 'سرور از قبل بسته است', already_open = 'سرور از قبل باز است', closed = 'سرور بسته شد',
+        coordinates_required = 'همه ورودی‌ها وارد نشده‌اند (x، y، z)', deleted_entities = '%d موجودیت حذف شد', gang_status = 'گروه: %s | درجه: %s',
+        give_money_failed = 'دادن پول ناموفق بود: %s', grade_invalid = 'درجه باید عدد صحیح بزرگ‌تر یا مساوی 0 باشد', incorrect_format = 'قالب نادرست',
+        job_status = 'شغل: %s | درجه: %s | در حال خدمت: %s', kick_permission_denied = 'برای این کار دسترسی نداری..', location_missing = 'مکان وجود ندارد',
+        no_reason = 'دلیلی مشخص نشده است', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC نزدیک | ', opened = 'سرور باز شد',
+        permission_choices = 'دسترسی باید یکی از این موارد باشد: %s', permission_denied = 'اجازه استفاده از این دستور را نداری.',
+        permission_granted = 'دسترسی %s به بازیکن %d داده شد', permission_removed = 'دسترسی %s از بازیکن %d گرفته شد', player_offline = 'بازیکن آنلاین نیست',
+        player_required = 'این دستور باید توسط بازیکنی داخل بازی استفاده شود.', pvp_disabled = 'PvP غیرفعال شد', pvp_enabled = 'PvP فعال شد',
+        server_closed = 'سرور بسته است', set_money_failed = 'تنظیم پول ناموفق بود: %s', set_role_failed = 'تنظیم %s ناموفق بود: %s',
+    },
+    Connection = { disconnected = 'ارتباط قطع شد.' },
+    Inventory = { item = 'آیتم', received = '%dx %s دریافت شد', removed = '%dx %s حذف شد' },
+    Jail = {
+        id_help = 'شناسه بازیکن در سرور', jail_help = 'زندانی کردن بازیکن', jailed = 'به مدت %d دقیقه زندانی شدی.', minutes_help = 'مدت محکومیت به دقیقه',
+        reason_help = 'دلیل (اختیاری)', release_help = 'آزاد کردن بازیکن از زندان', released = 'آزاد شدی.',
+    },
+    Language = { changed = 'زبان به %s تغییر کرد.', current = 'زبان فعلی', open_selector = 'باز کردن انتخاب‌گر زبان', title = 'زبان' },
+    Notify = {
+        arguments_required = 'همه ورودی‌ها باید تکمیل شوند!', command_denied = 'به این دستور دسترسی نداری', duty_off = 'اکنون خارج از خدمت هستی!', duty_on = 'اکنون در خدمت هستی!',
+        locale_invalid = 'ارجاع زبان نامعتبر است.', placeholder = 'جای‌نگهدار', stress_decreased = 'احساس آرامش بیشتری داری!', stress_increased = 'احساس استرس بیشتری داری!',
+        vehicle_spawn_failed = 'ساخت این وسیله نقلیه ممکن نبود', waypoint_failed = 'انتقال به نشانگر ناموفق بود', waypoint_missing = 'نشانگری تنظیم نشده است',
+        waypoint_start_failed = 'شروع انتقال به نشانگر ممکن نبود', waypoint_success = 'به نشانگر منتقل شدی',
+    },
+}

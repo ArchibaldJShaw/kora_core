@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'プレイヤーに権限を付与（ヘッド管理者のみ）', car = '車両を出現させる（管理者のみ）', closeserver = '権限のないプレイヤーに対してサーバーを閉じる（管理者のみ）',
+        dv = '車両を削除（管理者のみ）', dvall = 'すべての車両を削除（管理者のみ）', dvo = 'すべてのオブジェクトを削除（管理者のみ）', dvp = 'すべてのNPCを削除（管理者のみ）',
+        gang = '所属ギャングを確認', givemoney = 'プレイヤーにお金を渡す（管理者のみ）', job = '職業を確認', me = 'ローカルメッセージを表示', ooc = 'キャラクター外メッセージ',
+        openserver = '全員にサーバーを開放（管理者のみ）', removepermission = 'プレイヤーの権限を削除（ヘッド管理者のみ）', setgang = 'プレイヤーのギャングを設定（管理者のみ）',
+        setjob = 'プレイヤーの職業を設定（管理者のみ）', setmoney = 'プレイヤーの所持金を設定（管理者のみ）', togglepvp = 'サーバーのPvPを切り替え（管理者のみ）',
+        tp = 'プレイヤーまたは座標へテレポート（管理者のみ）', tpm = 'マップのウェイポイントへテレポート',
+    },
+    CommandParams = {
+        amount_of_money = '金額', gang_grade = 'ギャングの階級', gang_name = 'ギャング名', id_of_player = 'プレイヤーID',
+        id_of_player_or_x_position = 'プレイヤーIDまたはX座標', job_grade = '職業ランク', job_name = '職業名', message_to_send = '送信するメッセージ',
+        model_name_of_the_vehicle = '車両モデル名', permission_level = '権限レベル', player_id = 'プレイヤーID',
+        reason_for_closing_optional = '閉鎖理由（任意）', type_of_money_cash_bank_crypto = 'お金の種類（現金、銀行、暗号資産）', y_position = 'Y座標', z_position = 'Z座標',
+    },
+    Commands = {
+        account_choices = 'お金の種類は次のいずれかである必要があります: %s', already_closed = 'サーバーはすでに閉鎖されています', already_open = 'サーバーはすでに開いています', closed = 'サーバーを閉鎖しました',
+        coordinates_required = 'すべての引数が入力されていません (x, y, z)', deleted_entities = '%d 個のエンティティを削除しました', gang_status = 'ギャング: %s | 階級: %s',
+        give_money_failed = 'お金を渡せませんでした: %s', grade_invalid = '階級は0以上の整数である必要があります', incorrect_format = '形式が正しくありません',
+        job_status = '職業: %s | ランク: %s | 勤務中: %s', kick_permission_denied = 'その操作を行う権限がありません..', location_missing = '場所が見つかりません',
+        no_reason = '理由が指定されていません', ooc_prefix = 'OOC | ', ooc_proximity_prefix = '近くのOOC | ', opened = 'サーバーを開放しました',
+        permission_choices = '権限は次のいずれかである必要があります: %s', permission_denied = 'このコマンドを使う権限がありません。',
+        permission_granted = 'プレイヤー%sに権限%dを付与しました', permission_removed = 'プレイヤー%sから権限%dを削除しました', player_offline = 'プレイヤーはオンラインではありません',
+        player_required = 'このコマンドはゲーム内のプレイヤーが使用してください。', pvp_disabled = 'PvPを無効にしました', pvp_enabled = 'PvPを有効にしました',
+        server_closed = 'サーバーは閉鎖されています', set_money_failed = '所持金を設定できませんでした: %s', set_role_failed = '%sを設定できませんでした: %s',
+    },
+    Connection = { disconnected = '接続が切断されました。' },
+    Inventory = { item = 'アイテム', received = '%dx %sを受け取りました', removed = '%dx %sを削除しました' },
+    Jail = {
+        id_help = 'プレイヤーのサーバーID', jail_help = 'プレイヤーを投獄', jailed = '%d分間、投獄されました。', minutes_help = '刑期（分）',
+        reason_help = '理由（任意）', release_help = 'プレイヤーを釈放', released = '釈放されました。',
+    },
+    Language = { changed = '言語を%sに設定しました。', current = '現在の言語', open_selector = '言語選択を開く', title = '言語' },
+    Notify = {
+        arguments_required = 'すべての引数を入力してください！', command_denied = 'このコマンドを使用する権限がありません', duty_off = '勤務を終了しました！', duty_on = '勤務を開始しました！',
+        locale_invalid = '無効な言語参照です。', placeholder = 'プレースホルダー', stress_decreased = '少し落ち着きました！', stress_increased = 'ストレスを感じています！',
+        vehicle_spawn_failed = 'その車両を出現させられませんでした', waypoint_failed = 'ウェイポイントへのテレポートに失敗しました', waypoint_missing = 'ウェイポイントが設定されていません',
+        waypoint_start_failed = 'ウェイポイントへのテレポートを開始できませんでした', waypoint_success = 'ウェイポイントへテレポートしました',
+    },
+}

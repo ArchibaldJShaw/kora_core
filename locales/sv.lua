@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Ge en spelare behörigheter (endast huvudadmin)', car = 'Skapa ett fordon (endast admin)', closeserver = 'Stäng servern för spelare utan behörighet (endast admin)',
+        dv = 'Ta bort ett fordon (endast admin)', dvall = 'Ta bort alla fordon (endast admin)', dvo = 'Ta bort alla objekt (endast admin)', dvp = 'Ta bort alla NPC:er (endast admin)',
+        gang = 'Kontrollera ditt gäng', givemoney = 'Ge en spelare pengar (endast admin)', job = 'Kontrollera ditt jobb', me = 'Visa lokalt meddelande', ooc = 'Meddelande utanför roll',
+        openserver = 'Öppna servern för alla (endast admin)', removepermission = 'Ta bort en spelares behörigheter (endast huvudadmin)', setgang = 'Ange en spelares gäng (endast admin)',
+        setjob = 'Ange en spelares jobb (endast admin)', setmoney = 'Ange en spelares pengasumma (endast admin)', togglepvp = 'Slå på eller av PvP på servern (endast admin)',
+        tp = 'Teleportera till en spelare eller koordinater (endast admin)', tpm = 'Teleportera till kartmarkören',
+    },
+    CommandParams = {
+        amount_of_money = 'Pengasumma', gang_grade = 'Gängrang', gang_name = 'Gängnamn', id_of_player = 'Spelar-ID',
+        id_of_player_or_x_position = 'Spelar-ID eller X-position', job_grade = 'Jobbrang', job_name = 'Jobbnamn', message_to_send = 'Meddelande att skicka',
+        model_name_of_the_vehicle = 'Fordonets modellnamn', permission_level = 'Behörighetsnivå', player_id = 'Spelar-ID',
+        reason_for_closing_optional = 'Orsak till stängning (valfritt)', type_of_money_cash_bank_crypto = 'Typ av pengar (kontanter, bank, krypto)', y_position = 'Y-position', z_position = 'Z-position',
+    },
+    Commands = {
+        account_choices = 'Typen av pengar måste vara en av följande: %s', already_closed = 'Servern är redan stängd', already_open = 'Servern är redan öppen', closed = 'Servern har stängts',
+        coordinates_required = 'Alla argument har inte angetts (x, y, z)', deleted_entities = '%d objekt borttagna', gang_status = 'Gäng: %s | Rang: %s',
+        give_money_failed = 'Kunde inte ge pengar: %s', grade_invalid = 'Rangen måste vara ett heltal som är minst 0', incorrect_format = 'Felaktigt format',
+        job_status = 'Jobb: %s | Rang: %s | I tjänst: %s', kick_permission_denied = 'Du har inte behörighet till det..', location_missing = 'Platsen finns inte',
+        no_reason = 'Ingen orsak angiven', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC i närheten | ', opened = 'Servern har öppnats',
+        permission_choices = 'Behörigheten måste vara en av följande: %s', permission_denied = 'Du har inte behörighet att använda det här kommandot.',
+        permission_granted = 'Behörigheten %s gavs till spelare %d', permission_removed = 'Behörigheten %s togs bort från spelare %d', player_offline = 'Spelaren är inte online',
+        player_required = 'Det här kommandot måste användas av en spelare i spelet.', pvp_disabled = 'PvP inaktiverat', pvp_enabled = 'PvP aktiverat',
+        server_closed = 'Servern är stängd', set_money_failed = 'Kunde inte ange pengar: %s', set_role_failed = 'Kunde inte ange %s: %s',
+    },
+    Connection = { disconnected = 'Frånkopplad.' },
+    Inventory = { item = 'föremål', received = 'Tog emot %dx %s', removed = 'Tog bort %dx %s' },
+    Jail = {
+        id_help = 'Spelarens server-ID', jail_help = 'Sätt en spelare i fängelse', jailed = 'Du har dömts till fängelse i %d minuter.', minutes_help = 'Straffets längd i minuter',
+        reason_help = 'Orsak (valfritt)', release_help = 'Frige en spelare från fängelset', released = 'Du har frigivits.',
+    },
+    Language = { changed = 'Språket har ställts in på %s.', current = 'Nuvarande språk', open_selector = 'Öppna språkval', title = 'Språk' },
+    Notify = {
+        arguments_required = 'Alla argument måste fyllas i!', command_denied = 'Du har inte åtkomst till det här kommandot', duty_off = 'Du är nu inte i tjänst!', duty_on = 'Du är nu i tjänst!',
+        locale_invalid = 'Ogiltig språknyckel.', placeholder = 'Platshållare', stress_decreased = 'Du känner dig mer avslappnad!', stress_increased = 'Du känner dig mer stressad!',
+        vehicle_spawn_failed = 'Det gick inte att skapa fordonet', waypoint_failed = 'Det gick inte att teleportera till markören', waypoint_missing = 'Ingen markör har angetts',
+        waypoint_start_failed = 'Det gick inte att starta teleporteringen till markören', waypoint_success = 'Teleporterade till markören',
+    },
+}

@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Pasihan idin ka pamaén (ngan pikeun admin utama)', car = 'Jieun kendaraan (ngan pikeun admin)', closeserver = 'Tutup server pikeun pamaén tanpa idin (ngan pikeun admin)',
+        dv = 'Hapus kendaraan (ngan pikeun admin)', dvall = 'Hapus sakabéh kendaraan (ngan pikeun admin)', dvo = 'Hapus sakabéh obyék (ngan pikeun admin)', dvp = 'Hapus sakabéh NPC (ngan pikeun admin)',
+        gang = 'Pariksa geng anjeun', givemoney = 'Pasihan duit ka pamaén (ngan pikeun admin)', job = 'Pariksa pagawéan anjeun', me = 'Témbongkeun pesen lokal', ooc = 'Pesen di luar peran',
+        openserver = 'Buka server pikeun saréréa (ngan pikeun admin)', removepermission = 'Cabut idin pamaén (ngan pikeun admin utama)', setgang = 'Atur geng pamaén (ngan pikeun admin)',
+        setjob = 'Atur pagawéan pamaén (ngan pikeun admin)', setmoney = 'Atur jumlah duit pamaén (ngan pikeun admin)', togglepvp = 'Hurungkeun atawa pareuman PvP server (ngan pikeun admin)',
+        tp = 'Teleportasi ka pamaén atawa koordinat (ngan pikeun admin)', tpm = 'Teleportasi ka pananda peta',
+    },
+    CommandParams = {
+        amount_of_money = 'Jumlah duit', gang_grade = 'Pangkat geng', gang_name = 'Ngaran geng', id_of_player = 'ID pamaén',
+        id_of_player_or_x_position = 'ID pamaén atawa posisi X', job_grade = 'Pangkat pagawéan', job_name = 'Ngaran pagawéan', message_to_send = 'Pesen pikeun dikirim',
+        model_name_of_the_vehicle = 'Ngaran modél kendaraan', permission_level = 'Tingkat idin', player_id = 'ID pamaén',
+        reason_for_closing_optional = 'Alesan nutup (opsional)', type_of_money_cash_bank_crypto = 'Jenis duit (kontan, bank, kripto)', y_position = 'Posisi Y', z_position = 'Posisi Z',
+    },
+    Commands = {
+        account_choices = 'Jenis duit kudu salah sahiji tina: %s', already_closed = 'Server geus ditutup', already_open = 'Server geus dibuka', closed = 'Server geus ditutup',
+        coordinates_required = 'Teu kabéh argumén diasupkeun (x, y, z)', deleted_entities = '%d éntitas dihapus', gang_status = 'Geng: %s | Pangkat: %s',
+        give_money_failed = 'Teu bisa méré duit: %s', grade_invalid = 'Pangkat kudu mangrupa bilangan buleud 0 atawa leuwih', incorrect_format = 'Format salah',
+        job_status = 'Pagawéan: %s | Pangkat: %s | keur tugas: %s', kick_permission_denied = 'Anjeun teu boga idin pikeun éta..', location_missing = 'Lokasi teu aya',
+        no_reason = 'Teu aya alesan', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC deukeut | ', opened = 'Server geus dibuka',
+        permission_choices = 'Idin kudu salah sahiji tina: %s', permission_denied = 'Anjeun teu boga idin pikeun ngagunakeun paréntah ieu.',
+        permission_granted = 'Idin %s dipasihan ka pamaén %d', permission_removed = 'Idin %s dicabut ti pamaén %d', player_offline = 'Pamaén teu keur online',
+        player_required = 'Paréntah ieu kudu dipaké ku pamaén nu keur di jero kaulinan.', pvp_disabled = 'PvP dipareuman', pvp_enabled = 'PvP dihurungkeun',
+        server_closed = 'Server ditutup', set_money_failed = 'Teu bisa ngatur duit: %s', set_role_failed = 'Teu bisa ngatur %s: %s',
+    },
+    Connection = { disconnected = 'Koneksina pegat.' },
+    Inventory = { item = 'barang', received = 'Narima %dx %s', removed = 'Ngahapus %dx %s' },
+    Jail = {
+        id_help = 'ID server pamaén', jail_help = 'Lebetkeun pamaén ka panjara', jailed = 'Anjeun dipenjara salila %d menit.', minutes_help = 'Lilana hukuman dina menit',
+        reason_help = 'Alesan (opsional)', release_help = 'Ngaleupaskeun pamaén ti panjara', released = 'Anjeun geus dileupaskeun.',
+    },
+    Language = { changed = 'Basa diatur jadi %s.', current = 'Basa ayeuna', open_selector = 'Buka pilihan basa', title = 'Basa' },
+    Notify = {
+        arguments_required = 'Kabéh argumén kudu dieusian!', command_denied = 'Anjeun teu boga aksés kana paréntah ieu', duty_off = 'Anjeun ayeuna teu keur tugas!', duty_on = 'Anjeun ayeuna keur tugas!',
+        locale_invalid = 'Rujukan basa teu sah.', placeholder = 'Pangaganti', stress_decreased = 'Anjeun ngarasa leuwih tenang!', stress_increased = 'Anjeun ngarasa leuwih setrés!',
+        vehicle_spawn_failed = 'Kendaraan éta teu bisa dijieun', waypoint_failed = 'Teu bisa teleportasi ka pananda', waypoint_missing = 'Pananda can diatur',
+        waypoint_start_failed = 'Teu bisa ngamimitian teleportasi ka pananda', waypoint_success = 'Geus teleportasi ka pananda',
+    },
+}

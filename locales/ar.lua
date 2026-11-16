@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'منح صلاحيات للاعب (للمدير فقط)', car = 'إنشاء مركبة (للمشرف فقط)', closeserver = 'إغلاق الخادم أمام غير المصرح لهم (للمشرف فقط)',
+        dv = 'حذف المركبة (للمشرف فقط)', dvall = 'حذف جميع المركبات (للمشرف فقط)', dvo = 'حذف جميع الأجسام (للمشرف فقط)', dvp = 'حذف جميع الشخصيات غير اللاعبة (للمشرف فقط)',
+        gang = 'التحقق من عصابتك', givemoney = 'منح المال للاعب (للمشرف فقط)', job = 'التحقق من وظيفتك', me = 'إظهار رسالة محلية', ooc = 'رسالة خارج نطاق الشخصية',
+        openserver = 'فتح الخادم للجميع (للمشرف فقط)', removepermission = 'إزالة صلاحيات لاعب (للمدير فقط)', setgang = 'تعيين عصابة للاعب (للمشرف فقط)',
+        setjob = 'تعيين وظيفة للاعب (للمشرف فقط)', setmoney = 'تعيين مبلغ مال للاعب (للمشرف فقط)', togglepvp = 'تبديل نمط لاعب ضد لاعب على الخادم (للمشرف فقط)',
+        tp = 'الانتقال إلى لاعب أو إحداثيات (للمشرف فقط)', tpm = 'الانتقال إلى العلامة على الخريطة (للمشرف فقط)',
+    },
+    CommandParams = {
+        amount_of_money = 'مبلغ المال', gang_grade = 'رتبة العصابة', gang_name = 'اسم العصابة', id_of_player = 'معرّف اللاعب',
+        id_of_player_or_x_position = 'معرّف اللاعب أو موضع X', job_grade = 'رتبة الوظيفة', job_name = 'اسم الوظيفة', message_to_send = 'الرسالة المراد إرسالها',
+        model_name_of_the_vehicle = 'اسم طراز المركبة', permission_level = 'مستوى الصلاحية', player_id = 'معرّف اللاعب',
+        reason_for_closing_optional = 'سبب الإغلاق (اختياري)', type_of_money_cash_bank_crypto = 'نوع المال (نقد أو بنك أو عملة رقمية)', y_position = 'موضع Y', z_position = 'موضع Z',
+    },
+    Commands = {
+        account_choices = 'يجب أن يكون نوع المال أحد الخيارات التالية: %s', already_closed = 'الخادم مغلق بالفعل', already_open = 'الخادم مفتوح بالفعل', closed = 'تم إغلاق الخادم',
+        coordinates_required = 'لم تُدخل جميع الوسائط (x وy وz)', deleted_entities = 'تم حذف %d من الكيانات', gang_status = 'العصابة: %s | الرتبة: %s',
+        give_money_failed = 'تعذر منح المال: %s', grade_invalid = 'يجب أن تكون الرتبة عددًا صحيحًا لا يقل عن 0', incorrect_format = 'تنسيق غير صحيح',
+        job_status = 'الوظيفة: %s | الرتبة: %s | أثناء العمل: %s', kick_permission_denied = 'ليست لديك صلاحية لذلك..', location_missing = 'الموقع غير موجود',
+        no_reason = 'لم يُحدّد سبب', ooc_prefix = 'خارج الشخصية | ', ooc_proximity_prefix = 'خارج الشخصية بالقرب منك | ', opened = 'تم فتح الخادم',
+        permission_choices = 'يجب أن تكون الصلاحية إحدى القيم التالية: %s', permission_denied = 'ليست لديك صلاحية لاستخدام هذا الأمر.',
+        permission_granted = 'تم منح اللاعب %s صلاحية %d', permission_removed = 'تمت إزالة صلاحية %s من اللاعب %d', player_offline = 'اللاعب غير متصل',
+        player_required = 'يجب استخدام هذا الأمر داخل اللعبة.', pvp_disabled = 'تم تعطيل نمط لاعب ضد لاعب', pvp_enabled = 'تم تفعيل نمط لاعب ضد لاعب',
+        server_closed = 'الخادم مغلق', set_money_failed = 'تعذر تعيين المال: %s', set_role_failed = 'تعذر تعيين %s: %s',
+    },
+    Connection = { disconnected = 'تم قطع الاتصال.' },
+    Inventory = { item = 'عنصر', received = 'تم استلام %dx من %s', removed = 'تمت إزالة %dx من %s' },
+    Jail = {
+        id_help = 'معرّف اللاعب على الخادم', jail_help = 'سجن لاعب', jailed = 'تم سجنك لمدة %d دقيقة.', minutes_help = 'مدة العقوبة بالدقائق',
+        reason_help = 'السبب (اختياري)', release_help = 'إطلاق سراح لاعب من السجن', released = 'تم إطلاق سراحك.',
+    },
+    Language = { changed = 'تم تعيين اللغة إلى %s.', current = 'اللغة الحالية', open_selector = 'فتح محدد اللغة', title = 'اللغة' },
+    Notify = {
+        arguments_required = 'يجب ملء جميع الوسائط!', command_denied = 'لا يمكنك استخدام هذا الأمر', duty_off = 'أنت الآن خارج الخدمة!', duty_on = 'أنت الآن في الخدمة!',
+        locale_invalid = 'مرجع اللغة غير صالح.', placeholder = 'عنصر نائب', stress_decreased = 'أصبحت أكثر استرخاءً!', stress_increased = 'أصبحت أكثر توترًا!',
+        vehicle_spawn_failed = 'تعذر إنشاء هذه المركبة', waypoint_failed = 'تعذر الانتقال إلى العلامة', waypoint_missing = 'لم يتم تعيين علامة',
+        waypoint_start_failed = 'تعذر بدء الانتقال إلى العلامة', waypoint_success = 'تم الانتقال إلى العلامة',
+    },
+}

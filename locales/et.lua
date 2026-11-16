@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Anna mängijale õigused (ainult peahaldurile)', car = 'Loo sõiduk (ainult administraatorile)', closeserver = 'Sulge server õigusteta mängijatele (ainult administraatorile)',
+        dv = 'Kustuta sõiduk (ainult administraatorile)', dvall = 'Kustuta kõik sõidukid (ainult administraatorile)', dvo = 'Kustuta kõik objektid (ainult administraatorile)', dvp = 'Kustuta kõik NPC-d (ainult administraatorile)',
+        gang = 'Vaata oma jõuku', givemoney = 'Anna mängijale raha (ainult administraatorile)', job = 'Vaata oma ametit', me = 'Näita kohalikku sõnumit', ooc = 'OOC-sõnum',
+        openserver = 'Ava server kõigile (ainult administraatorile)', removepermission = 'Eemalda mängijalt õigused (ainult peahaldurile)', setgang = 'Määra mängijale jõuk (ainult administraatorile)',
+        setjob = 'Määra mängijale amet (ainult administraatorile)', setmoney = 'Määra mängijale rahasumma (ainult administraatorile)', togglepvp = 'Lülita serveri PvP sisse või välja (ainult administraatorile)',
+        tp = 'Teleporteeru mängija juurde või koordinaatidele (ainult administraatorile)', tpm = 'Teleporteeru kaardimärgise juurde',
+    },
+    CommandParams = {
+        amount_of_money = 'Rahasumma', gang_grade = 'Jõugu auaste', gang_name = 'Jõugu nimi', id_of_player = 'Mängija ID',
+        id_of_player_or_x_position = 'Mängija ID või X-koordinaat', job_grade = 'Ametiaste', job_name = 'Ameti nimi', message_to_send = 'Saadetav sõnum',
+        model_name_of_the_vehicle = 'Sõiduki mudelinimi', permission_level = 'Õiguste tase', player_id = 'Mängija ID',
+        reason_for_closing_optional = 'Sulgemise põhjus (valikuline)', type_of_money_cash_bank_crypto = 'Raha liik (sularaha, pank, krüpto)', y_position = 'Y-koordinaat', z_position = 'Z-koordinaat',
+    },
+    Commands = {
+        account_choices = 'Raha liik peab olema üks järgmistest: %s', already_closed = 'Server on juba suletud', already_open = 'Server on juba avatud', closed = 'Server on suletud',
+        coordinates_required = 'Kõik argumendid pole sisestatud (x, y, z)', deleted_entities = 'Kustutati %d objekti', gang_status = 'Jõuk: %s | Auaste: %s',
+        give_money_failed = 'Raha andmine ebaõnnestus: %s', grade_invalid = 'Auaste peab olema täisarv, mis on vähemalt 0', incorrect_format = 'Vale vorming',
+        job_status = 'Amet: %s | Auaste: %s | Tööpostil: %s', kick_permission_denied = 'Sul pole selleks õigusi..', location_missing = 'Asukohta pole olemas',
+        no_reason = 'Põhjust ei määratud', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'Lähedal OOC | ', opened = 'Server on avatud',
+        permission_choices = 'Õigus peab olema üks järgmistest: %s', permission_denied = 'Sul pole selle käsu kasutamiseks õigusi.',
+        permission_granted = 'Mängijale %s anti õigus %d', permission_removed = 'Mängijalt %s eemaldati õigus %d', player_offline = 'Mängija pole võrgus',
+        player_required = 'Seda käsku peab kasutama mängus olev mängija.', pvp_disabled = 'PvP on välja lülitatud', pvp_enabled = 'PvP on sisse lülitatud',
+        server_closed = 'Server suletud', set_money_failed = 'Raha määramine ebaõnnestus: %s', set_role_failed = '%s määramine ebaõnnestus: %s',
+    },
+    Connection = { disconnected = 'Ühendus katkestati.' },
+    Inventory = { item = 'ese', received = 'Saadi %dx %s', removed = 'Eemaldati %dx %s' },
+    Jail = {
+        id_help = 'Mängija serveri ID', jail_help = 'Pane mängija vangi', jailed = 'Sind mõisteti %d minutiks vangi.', minutes_help = 'Karistuse kestus minutites',
+        reason_help = 'Põhjus (valikuline)', release_help = 'Vabasta mängija vanglast', released = 'Sind vabastati vanglast.',
+    },
+    Language = { changed = 'Keeleks määrati %s.', current = 'Praegune keel', open_selector = 'Ava keelevalik', title = 'Keel' },
+    Notify = {
+        arguments_required = 'Kõik argumendid tuleb täita!', command_denied = 'Sul pole sellele käsule juurdepääsu', duty_off = 'Sa pole enam teenistuses!', duty_on = 'Oled nüüd teenistuses!',
+        locale_invalid = 'Vigane keeleviide.', placeholder = 'Kohatäitja', stress_decreased = 'Tunned end rahulikumalt!', stress_increased = 'Tunned end stressis!',
+        vehicle_spawn_failed = 'Sõiduki loomine ebaõnnestus', waypoint_failed = 'Kaardimärgise juurde teleporteerumine ebaõnnestus', waypoint_missing = 'Kaardimärgist pole määratud',
+        waypoint_start_failed = 'Kaardimärgise juurde teleporteerimist ei saanud alustada', waypoint_success = 'Teleporteeruti kaardimärgise juurde',
+    },
+}

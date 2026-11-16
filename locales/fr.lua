@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Accorder des permissions à un joueur (superadmin uniquement)', car = 'Faire apparaître un véhicule (admin uniquement)', closeserver = 'Fermer le serveur aux joueurs sans permission (admin uniquement)',
+        dv = 'Supprimer un véhicule (admin uniquement)', dvall = 'Supprimer tous les véhicules (admin uniquement)', dvo = 'Supprimer tous les objets (admin uniquement)', dvp = 'Supprimer tous les PNJ (admin uniquement)',
+        gang = 'Consulter votre gang', givemoney = 'Donner de l’argent à un joueur (admin uniquement)', job = 'Consulter votre métier', me = 'Afficher un message local', ooc = 'Message hors personnage',
+        openserver = 'Ouvrir le serveur à tous (admin uniquement)', removepermission = 'Retirer les permissions d’un joueur (superadmin uniquement)', setgang = 'Définir le gang d’un joueur (admin uniquement)',
+        setjob = 'Définir le métier d’un joueur (admin uniquement)', setmoney = 'Définir la somme d’argent d’un joueur (admin uniquement)', togglepvp = 'Activer ou désactiver le PvP sur le serveur (admin uniquement)',
+        tp = 'Se téléporter vers un joueur ou des coordonnées (admin uniquement)', tpm = 'Se téléporter au point GPS',
+    },
+    CommandParams = {
+        amount_of_money = 'Somme d’argent', gang_grade = 'Grade du gang', gang_name = 'Nom du gang', id_of_player = 'ID du joueur',
+        id_of_player_or_x_position = 'ID du joueur ou position X', job_grade = 'Grade du métier', job_name = 'Nom du métier', message_to_send = 'Message à envoyer',
+        model_name_of_the_vehicle = 'Nom du modèle du véhicule', permission_level = 'Niveau de permission', player_id = 'ID du joueur',
+        reason_for_closing_optional = 'Motif de fermeture (facultatif)', type_of_money_cash_bank_crypto = 'Type d’argent (espèces, banque, crypto)', y_position = 'Position Y', z_position = 'Position Z',
+    },
+    Commands = {
+        account_choices = 'Le type d’argent doit être l’un des suivants : %s', already_closed = 'Le serveur est déjà fermé', already_open = 'Le serveur est déjà ouvert', closed = 'Le serveur a été fermé',
+        coordinates_required = 'Tous les arguments n’ont pas été saisis (x, y, z)', deleted_entities = '%d entités supprimées', gang_status = 'Gang : %s | Grade : %s',
+        give_money_failed = 'Impossible de donner l’argent : %s', grade_invalid = 'Le grade doit être un nombre entier supérieur ou égal à 0', incorrect_format = 'Format incorrect',
+        job_status = 'Métier : %s | Grade : %s | En service : %s', kick_permission_denied = 'Vous n’avez pas la permission pour cela..', location_missing = 'Emplacement introuvable',
+        no_reason = 'Aucun motif indiqué', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'OOC à proximité | ', opened = 'Le serveur a été ouvert',
+        permission_choices = 'La permission doit être l’une des suivantes : %s', permission_denied = 'Vous n’avez pas la permission d’utiliser cette commande.',
+        permission_granted = 'Permission %s accordée au joueur %d', permission_removed = 'Permission %s retirée au joueur %d', player_offline = 'Le joueur n’est pas en ligne',
+        player_required = 'Cette commande doit être utilisée par un joueur en jeu.', pvp_disabled = 'PvP désactivé', pvp_enabled = 'PvP activé',
+        server_closed = 'Serveur fermé', set_money_failed = 'Impossible de définir l’argent : %s', set_role_failed = 'Impossible de définir %s : %s',
+    },
+    Connection = { disconnected = 'Déconnecté.' },
+    Inventory = { item = 'objet', received = '%dx %s reçu(s)', removed = '%dx %s retiré(s)' },
+    Jail = {
+        id_help = 'ID du joueur sur le serveur', jail_help = 'Emprisonner un joueur', jailed = 'Vous avez été emprisonné pendant %d minutes.', minutes_help = 'Durée de la peine en minutes',
+        reason_help = 'Motif (facultatif)', release_help = 'Libérer un joueur de prison', released = 'Vous avez été libéré.',
+    },
+    Language = { changed = 'Langue définie sur %s.', current = 'Langue actuelle', open_selector = 'Ouvrir le sélecteur de langue', title = 'Langue' },
+    Notify = {
+        arguments_required = 'Tous les arguments doivent être renseignés !', command_denied = 'Vous n’avez pas accès à cette commande', duty_off = 'Vous n’êtes plus en service !', duty_on = 'Vous êtes en service !',
+        locale_invalid = 'Référence de langue invalide.', placeholder = 'Texte de remplacement', stress_decreased = 'Vous vous sentez plus détendu !', stress_increased = 'Vous vous sentez plus stressé !',
+        vehicle_spawn_failed = 'Impossible de faire apparaître ce véhicule', waypoint_failed = 'Échec de la téléportation au point GPS', waypoint_missing = 'Aucun point GPS défini',
+        waypoint_start_failed = 'Impossible de démarrer la téléportation au point GPS', waypoint_success = 'Téléportation au point GPS réussie',
+    },
+}

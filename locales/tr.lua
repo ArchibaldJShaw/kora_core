@@ -1,0 +1,40 @@
+return {
+    CommandHelp = {
+        addpermission = 'Oyuncuya yetki ver (yalnızca baş yönetici)', car = 'Araç oluştur (yalnızca yönetici)', closeserver = 'Yetkisi olmayan oyuncular için sunucuyu kapat (yalnızca yönetici)',
+        dv = 'Aracı sil (yalnızca yönetici)', dvall = 'Tüm araçları sil (yalnızca yönetici)', dvo = 'Tüm nesneleri sil (yalnızca yönetici)', dvp = 'Tüm NPC’leri sil (yalnızca yönetici)',
+        gang = 'Çeteni kontrol et', givemoney = 'Oyuncuya para ver (yalnızca yönetici)', job = 'İşini kontrol et', me = 'Yerel mesaj göster', ooc = 'Karakter dışı mesaj',
+        openserver = 'Sunucuyu herkese aç (yalnızca yönetici)', removepermission = 'Oyuncunun yetkilerini kaldır (yalnızca baş yönetici)', setgang = 'Oyuncunun çetesini ayarla (yalnızca yönetici)',
+        setjob = 'Oyuncunun işini ayarla (yalnızca yönetici)', setmoney = 'Oyuncunun para miktarını ayarla (yalnızca yönetici)', togglepvp = 'Sunucuda PvP’yi aç veya kapat (yalnızca yönetici)',
+        tp = 'Oyuncuya veya koordinatlara ışınlan (yalnızca yönetici)', tpm = 'Harita işaretine ışınlan',
+    },
+    CommandParams = {
+        amount_of_money = 'Para miktarı', gang_grade = 'Çete rütbesi', gang_name = 'Çete adı', id_of_player = 'Oyuncu ID’si',
+        id_of_player_or_x_position = 'Oyuncu ID’si veya X konumu', job_grade = 'İş rütbesi', job_name = 'İş adı', message_to_send = 'Gönderilecek mesaj',
+        model_name_of_the_vehicle = 'Araç model adı', permission_level = 'Yetki seviyesi', player_id = 'Oyuncu ID’si',
+        reason_for_closing_optional = 'Kapatma nedeni (isteğe bağlı)', type_of_money_cash_bank_crypto = 'Para türü (nakit, banka, kripto)', y_position = 'Y konumu', z_position = 'Z konumu',
+    },
+    Commands = {
+        account_choices = 'Para türü şunlardan biri olmalıdır: %s', already_closed = 'Sunucu zaten kapalı', already_open = 'Sunucu zaten açık', closed = 'Sunucu kapatıldı',
+        coordinates_required = 'Tüm bağımsız değişkenler girilmedi (x, y, z)', deleted_entities = '%d varlık silindi', gang_status = 'Çete: %s | Rütbe: %s',
+        give_money_failed = 'Para verilemedi: %s', grade_invalid = 'Rütbe 0 veya daha büyük bir tam sayı olmalıdır', incorrect_format = 'Biçim hatalı',
+        job_status = 'İş: %s | Rütbe: %s | Görevde: %s', kick_permission_denied = 'Bunun için yetkin yok..', location_missing = 'Konum mevcut değil',
+        no_reason = 'Bir neden belirtilmedi', ooc_prefix = 'OOC | ', ooc_proximity_prefix = 'Yakındaki OOC | ', opened = 'Sunucu açıldı',
+        permission_choices = 'Yetki şunlardan biri olmalıdır: %s', permission_denied = 'Bu komutu kullanma yetkin yok.',
+        permission_granted = '%s oyuncusuna %d yetkisi verildi', permission_removed = '%s oyuncusundan %d yetkisi kaldırıldı', player_offline = 'Oyuncu çevrimiçi değil',
+        player_required = 'Bu komut oyun içindeki bir oyuncu tarafından kullanılmalıdır.', pvp_disabled = 'PvP devre dışı', pvp_enabled = 'PvP etkin',
+        server_closed = 'Sunucu kapalı', set_money_failed = 'Para ayarlanamadı: %s', set_role_failed = '%s ayarlanamadı: %s',
+    },
+    Connection = { disconnected = 'Bağlantı kesildi.' },
+    Inventory = { item = 'eşya', received = '%dx %s alındı', removed = '%dx %s kaldırıldı' },
+    Jail = {
+        id_help = 'Oyuncunun sunucu ID’si', jail_help = 'Oyuncuyu hapse at', jailed = '%d dakika hapis cezası aldın.', minutes_help = 'Ceza süresi (dakika)',
+        reason_help = 'Neden (isteğe bağlı)', release_help = 'Oyuncuyu hapisten çıkar', released = 'Serbest bırakıldın.',
+    },
+    Language = { changed = 'Dil %s olarak ayarlandı.', current = 'Geçerli dil', open_selector = 'Dil seçiciyi aç', title = 'Dil' },
+    Notify = {
+        arguments_required = 'Tüm bağımsız değişkenler doldurulmalıdır!', command_denied = 'Bu komuta erişimin yok', duty_off = 'Artık görevde değilsin!', duty_on = 'Artık görevdesin!',
+        locale_invalid = 'Geçersiz dil başvurusu.', placeholder = 'Yer tutucu', stress_decreased = 'Kendini daha rahat hissediyorsun!', stress_increased = 'Daha stresli hissediyorsun!',
+        vehicle_spawn_failed = 'Bu araç oluşturulamadı', waypoint_failed = 'Harita işaretine ışınlanılamadı', waypoint_missing = 'Bir harita işareti ayarlanmadı',
+        waypoint_start_failed = 'Harita işaretine ışınlanma başlatılamadı', waypoint_success = 'Harita işaretine ışınlandın',
+    },
+}
