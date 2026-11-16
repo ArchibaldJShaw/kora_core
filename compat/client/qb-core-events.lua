@@ -18,7 +18,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
-        QBCore.Functions.Notify('No waypoint set', 'error', 5000)
+        QBCore.Functions.Notify(Kora.lang('Notify.waypoint_missing'), 'error', 5000)
         return 'marker'
     end
 
@@ -26,7 +26,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
     local faded = Kora.loops.controlled(IsScreenFadedOut, false, 2000, 25)
     if not faded then
         DoScreenFadeIn(0)
-        return QBCore.Functions.Notify('Unable to begin waypoint teleport', 'error', 5000)
+        return QBCore.Functions.Notify(Kora.lang('Notify.waypoint_start_failed'), 'error', 5000)
     end
 
     local ped, coords <const> = PlayerPedId(), GetBlipInfoIdCoord(blipMarker)
@@ -79,12 +79,12 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     if not found then
         SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-        QBCore.Functions.Notify('Unable to teleport to waypoint', 'error', 5000)
+        QBCore.Functions.Notify(Kora.lang('Notify.waypoint_failed'), 'error', 5000)
         return
     end
 
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-    QBCore.Functions.Notify('Teleported to waypoint', 'success', 5000)
+    QBCore.Functions.Notify(Kora.lang('Notify.waypoint_success'), 'success', 5000)
 end)
 
 AddEventHandler('onResourceStop', function(resource)
@@ -115,7 +115,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local vehicle = QBCore.Functions.SpawnVehicle(hash, nil,
         { x = origin.x, y = origin.y, z = origin.z, w = GetEntityHeading(ped) }, true, true)
     if not vehicle then
-        return QBCore.Functions.Notify('Unable to spawn that vehicle', 'error', 5000)
+        return QBCore.Functions.Notify(Kora.lang('Notify.vehicle_spawn_failed'), 'error', 5000)
     end
     SetVehicleDirtLevel(vehicle, 0.0)
     TriggerEvent('vehiclekeys:client:SetOwner', QBCore.Functions.GetPlate(vehicle))

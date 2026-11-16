@@ -1,7 +1,11 @@
 RegisterNetEvent('kora_core:client:itemBox', function(itemDef, action, amount)
-    local label = (itemDef and itemDef.label) or (itemDef and itemDef.name) or 'item'
-    local verb = action == 'remove' and 'Removed' or 'Received'
-    Kora.notify.send({ message = ('%s %dx %s'):format(verb, amount or 1, label), type = action == 'remove' and 'error' or 'success' })
+    local label = (itemDef and itemDef.label) or (itemDef and itemDef.name) or Kora.lang('Inventory.item')
+    local removed = action == 'remove'
+    local key = removed and 'Inventory.removed' or 'Inventory.received'
+    Kora.notify.send({
+        message = Kora.lang(key, amount or 1, label),
+        type = removed and 'error' or 'success',
+    })
 end)
 
 ---Local inventory table from the mirror.
