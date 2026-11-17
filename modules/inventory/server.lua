@@ -28,7 +28,10 @@ local function buildItem(name, amount, slot, info)
     }
 end
 
-local function items(src) local p = PI.handle(src); return p and p.PlayerData.items or nil end
+local function items(src)
+    local p = PI.handle(src)
+    return p and p.PlayerData.items or nil
+end
 
 local function validSlot(slot)
     return Kora.util.isInteger(slot) and slot >= 1 and slot <= Config.inventory.slots
@@ -38,7 +41,9 @@ end
 ---@return number weight, number maxWeight
 function Core.inventory.getWeight(src)
     local it = items(src)
-    if not it then return 0, Config.inventory.maxWeight end
+    if not it then
+        return 0, Config.inventory.maxWeight
+    end
     return II.totalWeight(it), Config.inventory.maxWeight
 end
 
@@ -48,13 +53,19 @@ end
 ---@return boolean, string|nil
 function Core.inventory.canCarry(src, name, amount)
     local it = items(src)
-    if not it then return false, 'no such player' end
+    if not it then
+        return false, 'no such player'
+    end
     amount = amount or 1
     local def = Core.registry.getShared('items', name) or Core.registry.getShared('weapons', name)
-    if not def then return false, 'unknown item' end
+    if not def then
+        return false, 'unknown item'
+    end
     local addWeight = (def.weight or 0) * amount
     local current = II.totalWeight(it)
-    if current + addWeight > Config.inventory.maxWeight then return false, 'over weight' end
+    if current + addWeight > Config.inventory.maxWeight then
+        return false, 'over weight'
+    end
     if II.isUnique(name) then
         local needed = amount
         for slot = 1, Config.inventory.slots do
@@ -65,7 +76,9 @@ function Core.inventory.canCarry(src, name, amount)
         end
         return false, 'no free slot'
     end
-    if not II.findStackSlot(it, name, nil) and II.firstFreeSlot(it) == nil then return false, 'no free slot' end
+    if not II.findStackSlot(it, name, nil) and II.firstFreeSlot(it) == nil then
+        return false, 'no free slot'
+    end
     return true
 end
 
@@ -78,14 +91,26 @@ end
 ---@return boolean, string|nil
 function Core.inventory.addItem(src, name, amount, slot, info, reason)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if p._loggingOut or Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(p.citizenid, 'inventory') then return false, 'player data is busy' end
+    if not p then
+        return false, 'no such player'
+    end
+    if
+        p._loggingOut
+        or Core.persistence._isColumnLocked
+            and Core.persistence._isColumnLocked(p.citizenid, 'inventory')
+    then
+        return false, 'player data is busy'
+    end
     amount = math.floor(tonumber(amount) or 1)
-    if not Kora.util.isFiniteNumber(amount) or amount <= 0 then return false, 'amount must be positive' end
+    if not Kora.util.isFiniteNumber(amount) or amount <= 0 then
+        return false, 'amount must be positive'
+    end
     local it = p.PlayerData.items
 
     local def = Core.registry.getShared('items', name) or Core.registry.getShared('weapons', name)
-    if not def then return false, 'unknown item' end
+    if not def then
+        return false, 'unknown item'
+    end
 
     local unique = II.isUnique(name)
     if slot then
@@ -94,7 +119,9 @@ function Core.inventory.addItem(src, name, amount, slot, info, reason)
         end
         local existing = it[slot]
         if existing and (not unique or amount == 1) then
-            if unique or existing.name ~= name then return false, 'slot occupied' end
+            if unique or existing.name ~= name then
+                return false, 'slot occupied'
+            end
             if Config.inventory.matchInfoOnStack and not II.infoEquals(existing.info, info) then
                 return false, 'slot occupied'
             end
@@ -102,7 +129,9 @@ function Core.inventory.addItem(src, name, amount, slot, info, reason)
     end
 
     local can, err = Core.inventory.canCarry(src, name, amount)
-    if not can then return false, err end
+    if not can then
+        return false, err
+    end
 
     if not unique then
         local stackSlot = slot or II.findStackSlot(it, name, info)
@@ -116,11 +145,15 @@ function Core.inventory.addItem(src, name, amount, slot, info, reason)
     end
 
     local target = slot or II.firstFreeSlot(it)
-    if not target then return false, 'no free slot' end
+    if not target then
+        return false, 'no free slot'
+    end
     if unique and amount > 1 then
         for _ = 1, amount do
             local free = II.firstFreeSlot(p.PlayerData.items)
-            if not free then return false, 'no free slot' end
+            if not free then
+                return false, 'no free slot'
+            end
             Core.player.setPath(src, { 'items', free }, buildItem(name, 1, free, info))
         end
     else
@@ -138,10 +171,20 @@ end
 ---@return boolean, string|nil
 function Core.inventory.removeItem(src, name, amount, slot, reason)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if p._loggingOut or Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(p.citizenid, 'inventory') then return false, 'player data is busy' end
+    if not p then
+        return false, 'no such player'
+    end
+    if
+        p._loggingOut
+        or Core.persistence._isColumnLocked
+            and Core.persistence._isColumnLocked(p.citizenid, 'inventory')
+    then
+        return false, 'player data is busy'
+    end
     amount = math.floor(tonumber(amount) or 1)
-    if not Kora.util.isFiniteNumber(amount) or amount <= 0 then return false, 'amount must be positive' end
+    if not Kora.util.isFiniteNumber(amount) or amount <= 0 then
+        return false, 'amount must be positive'
+    end
     local it = p.PlayerData.items
 
     if slot and it[slot] and it[slot].name == name then
@@ -150,14 +193,24 @@ function Core.inventory.removeItem(src, name, amount, slot, reason)
 
     local remaining = amount
     local slots = {}
-    for s, item in pairs(it) do if item.name == name then slots[#slots + 1] = s end end
+    for s, item in pairs(it) do
+        if item.name == name then
+            slots[#slots + 1] = s
+        end
+    end
     table.sort(slots)
     local total = 0
-    for _, s in ipairs(slots) do total = total + it[s].amount end
-    if total < amount then return false, 'not enough of item' end
+    for _, s in ipairs(slots) do
+        total = total + it[s].amount
+    end
+    if total < amount then
+        return false, 'not enough of item'
+    end
 
     for _, s in ipairs(slots) do
-        if remaining <= 0 then break end
+        if remaining <= 0 then
+            break
+        end
         local take = math.min(remaining, it[s].amount)
         Core.inventory._removeFromSlot(src, s, take)
         remaining = remaining - take
@@ -167,10 +220,20 @@ end
 
 function Core.inventory._removeFromSlot(src, slot, amount)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if p._loggingOut or Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(p.citizenid, 'inventory') then return false, 'player data is busy' end
+    if not p then
+        return false, 'no such player'
+    end
+    if
+        p._loggingOut
+        or Core.persistence._isColumnLocked
+            and Core.persistence._isColumnLocked(p.citizenid, 'inventory')
+    then
+        return false, 'player data is busy'
+    end
     local item = p.PlayerData.items[slot]
-    if not item then return false, 'empty slot' end
+    if not item then
+        return false, 'empty slot'
+    end
     if item.amount <= amount then
         Core.player.setPath(src, { 'items', slot }, nil)
     else
@@ -178,7 +241,9 @@ function Core.inventory._removeFromSlot(src, slot, amount)
         Core.player.setPath(src, { 'items', slot }, item)
     end
     local def = Core.registry.getShared('items', item.name)
-    if def then TriggerClientEvent('kora_core:client:itemBox', src, def, 'remove', amount) end
+    if def then
+        TriggerClientEvent('kora_core:client:itemBox', src, def, 'remove', amount)
+    end
     return true
 end
 
@@ -186,10 +251,13 @@ end
 ---@param name string
 ---@return table|nil  -- the first matching item record
 function Core.inventory.getItemByName(src, name)
-    local it = items(src); if not it then return nil end
+    local it = items(src)
+    if not it then return nil end
     local best
     for slot, item in pairs(it) do
-        if item.name == name and (best == nil or slot < best.slot) then best = item end
+        if item.name == name and (best == nil or slot < best.slot) then
+            best = item
+        end
     end
     return best
 end
@@ -198,8 +266,15 @@ end
 ---@param name string
 ---@return table[]
 function Core.inventory.getItemsByName(src, name)
-    local it = items(src); local out = {}
-    if it then for _, item in pairs(it) do if item.name == name then out[#out + 1] = item end end end
+    local it = items(src)
+    local out = {}
+    if it then
+        for _, item in pairs(it) do
+            if item.name == name then
+                out[#out + 1] = item
+            end
+        end
+    end
     return out
 end
 
@@ -207,15 +282,23 @@ end
 ---@param slot integer
 ---@return table|nil
 function Core.inventory.getItemBySlot(src, slot)
-    local it = items(src); return it and it[slot] or nil
+    local it = items(src)
+    return it and it[slot] or nil
 end
 
 ---@param src integer
 ---@param name string
 ---@return integer
 function Core.inventory.getItemCount(src, name)
-    local it = items(src); local n = 0
-    if it then for _, item in pairs(it) do if item.name == name then n = n + (item.amount or 0) end end end
+    local it = items(src)
+    local n = 0
+    if it then
+        for _, item in pairs(it) do
+            if item.name == name then
+                n = n + (item.amount or 0)
+            end
+        end
+    end
     return n
 end
 
@@ -227,7 +310,9 @@ function Core.inventory.hasItem(src, nameOrList, amount)
     if type(nameOrList) == 'table' then
         if nameOrList[1] == nil then
             for name, need in pairs(nameOrList) do
-                if Core.inventory.getItemCount(src, name) < (amount or tonumber(need) or 1) then return false end
+                if Core.inventory.getItemCount(src, name) < (amount or tonumber(need) or 1) then
+                    return false
+                end
             end
             return true
         end
@@ -243,26 +328,45 @@ end
 ---@param src integer
 ---@return integer|nil
 function Core.inventory.getFreeSlot(src)
-    local it = items(src); return it and II.firstFreeSlot(it) or nil
+    local it = items(src)
+    return it and II.firstFreeSlot(it) or nil
 end
 
 ---@return boolean, string|nil
 function Core.inventory.moveItem(src, fromSlot, toSlot, amount)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if p._loggingOut or Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(p.citizenid, 'inventory') then return false, 'player data is busy' end
-    if not validSlot(fromSlot) or not validSlot(toSlot) then return false, 'invalid slot' end
+    if not p then
+        return false, 'no such player'
+    end
+    if
+        p._loggingOut
+        or Core.persistence._isColumnLocked
+            and Core.persistence._isColumnLocked(p.citizenid, 'inventory')
+    then
+        return false, 'player data is busy'
+    end
+    if not validSlot(fromSlot) or not validSlot(toSlot) then
+        return false, 'invalid slot'
+    end
     local it = p.PlayerData.items
     local from = it[fromSlot]
-    if not from then return false, 'empty source slot' end
+    if not from then
+        return false, 'empty source slot'
+    end
     amount = tonumber(amount) or from.amount
-    if not Kora.util.isFiniteNumber(amount) then return false, 'amount must be finite' end
+    if not Kora.util.isFiniteNumber(amount) then
+        return false, 'amount must be finite'
+    end
     amount = math.min(math.floor(amount), from.amount)
-    if amount <= 0 then return false, 'amount must be positive' end
+    if amount <= 0 then
+        return false, 'amount must be positive'
+    end
     if fromSlot == toSlot then return true end
 
     local dest = it[toSlot]
-    if dest and dest.name ~= from.name then return false, 'destination occupied' end
+    if dest and dest.name ~= from.name then
+        return false, 'destination occupied'
+    end
 
     if from.amount <= amount then
         Core.player.setPath(src, { 'items', fromSlot }, nil)
@@ -285,9 +389,19 @@ end
 function Core.inventory.clearInventory(src, keep)
     local p = PI.handle(src)
     if not p then return false end
-    if p._loggingOut or Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(p.citizenid, 'inventory') then return false, 'player data is busy' end
+    if
+        p._loggingOut
+        or Core.persistence._isColumnLocked
+            and Core.persistence._isColumnLocked(p.citizenid, 'inventory')
+    then
+        return false, 'player data is busy'
+    end
     local keepSet = {}
-    if keep then for _, n in ipairs(keep) do keepSet[n] = true end end
+    if keep then
+        for _, n in ipairs(keep) do
+            keepSet[n] = true
+        end
+    end
     for slot, item in pairs(p.PlayerData.items) do
         if not keepSet[item.name] then
             Core.player.setPath(src, { 'items', slot }, nil)
@@ -310,13 +424,17 @@ end
 function Core.inventory.createUseable(name, handler)
     local owner = GetInvokingResource() or GetCurrentResourceName()
     useables[name] = { resource = owner, handler = handler }
-    if owner then useableRegistry.track(owner, name) end
+    if owner then
+        useableRegistry.track(owner, name)
+    end
 end
 
 ---Return the registered callback record, not whether an item definition exists.
 function Core.inventory.getUseable(name)
     local record = useables[name]
-    if record then return { func = record.handler, resource = record.resource } end
+    if record then
+        return { func = record.handler, resource = record.resource }
+    end
 end
 
 ---@param src integer
@@ -348,8 +466,11 @@ end
 ---@param identifier string
 ---@return table
 function Core.inventory.stashGet(identifier)
-    local row = Kora.sql.single('SELECT `items` FROM `inventories` WHERE `identifier` = ?', { identifier })
-    if not row then return {} end
+    local row =
+        Kora.sql.single('SELECT `items` FROM `inventories` WHERE `identifier` = ?', { identifier })
+    if not row then
+        return {}
+    end
     local ok, v = pcall(json.decode, row.items or '')
     return ok and v or {}
 end
@@ -358,9 +479,7 @@ end
 ---@param stashItems table
 ---@return boolean
 function Core.inventory.stashSet(identifier, stashItems)
-    Kora.sql.enqueue('inventories', 'identifier',
-        { pk = identifier, cols = { items = json.encode(stashItems or {}), kind = 'stash' } },
-        { mode = 'assign' })
+    Kora.sql.enqueue('inventories', 'identifier', { pk = identifier, cols = { items = json.encode(stashItems or {}), kind = 'stash' } }, { mode = 'assign' })
     return true
 end
 
@@ -372,13 +491,13 @@ end
 ---@return boolean, string|nil
 function Core.inventory.stashOpen(src, identifier, opts)
     local handled = TriggerEvent('kora_core:inventory:open', src, {
-        kind = 'stash', identifier = identifier,
+        kind = 'stash',
+        identifier = identifier,
         slots = opts and opts.slots or 50,
         maxweight = opts and opts.maxweight or 100000,
     })
     if Config.inventory.warnOnUnhandledOpen and not _G.__kora_coreInventoryUIHandled then
-        Kora.logging.warn('inventory.stash_open_unhandled', 'stashOpen emitted kora_core:inventory:open but no UI resource handled it; '
-            .. 'ship or bridge an inventory UI, or set Config.inventory.warnOnUnhandledOpen=false', { stash = identifier })
+        Kora.logging.warn('inventory.stash_open_unhandled', 'stashOpen emitted kora_core:inventory:open but no UI resource handled it; ' .. 'ship or bridge an inventory UI, or set Config.inventory.warnOnUnhandledOpen=false', { stash = identifier })
     end
     return true
 end
@@ -404,13 +523,23 @@ end
 ---@return boolean, string|nil
 function Core.inventory.dropTake(src, dropId, slot, amount)
     local drop = drops[dropId]
-    if not drop then return false, 'no such drop' end
+    if not drop then
+        return false, 'no such drop'
+    end
     local item = drop.items[slot]
-    if not item then return false, 'empty slot' end
+    if not item then
+        return false, 'empty slot'
+    end
     amount = math.min(amount or item.amount, item.amount)
     local ok, err = Core.inventory.addItem(src, item.name, amount, nil, item.info)
-    if not ok then return false, err end
-    if item.amount <= amount then drop.items[slot] = nil else item.amount = item.amount - amount end
+    if not ok then
+        return false, err
+    end
+    if item.amount <= amount then
+        drop.items[slot] = nil
+    else
+        item.amount = item.amount - amount
+    end
     if next(drop.items) == nil then
         drops[dropId] = nil
         TriggerClientEvent('kora_core:client:dropRemoved', -1, dropId)

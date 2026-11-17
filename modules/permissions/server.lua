@@ -20,7 +20,7 @@ end
 function Core.permissions.addPermission(src, permission)
     local license = Core.identity.primary(src)
     if not license then return false end
-    ExecuteCommand(('add_principal identifier.%s:%s kora_core.%s'):format(Config.identity.primaryIdentifier, license:gsub('^%w+:', ''), permission))
+    ExecuteCommand(('add_principal identifier.%s:%s kora_core.%s'):format( Config.identity.primaryIdentifier, license:gsub('^%w+:', ''), permission ))
     return true
 end
 
@@ -30,14 +30,17 @@ end
 function Core.permissions.removePermission(src, permission)
     local license = Core.identity.primary(src)
     if not license then return false end
-    ExecuteCommand(('remove_principal identifier.%s:%s kora_core.%s'):format(Config.identity.primaryIdentifier, license:gsub('^%w+:', ''), permission))
+    ExecuteCommand(('remove_principal identifier.%s:%s kora_core.%s'):format( Config.identity.primaryIdentifier, license:gsub('^%w+:', ''), permission ))
     return true
 end
 
 ---@param src integer
----@return boolean  -- whether the player opted into admin/dev features (a privileged level; PlayerData.optin == false opts out)
+---@return boolean
+--- Whether the player opted into admin/dev features. PlayerData.optin == false opts out.
 function Core.permissions.isOptin(src)
     if Core.permissions.getPermission(src) == 'user' then return false end
-    local player = CoreInternal.player and CoreInternal.player.handle and CoreInternal.player.handle(src)
+    local player = CoreInternal.player
+        and CoreInternal.player.handle
+        and CoreInternal.player.handle(src)
     return not (player and player.PlayerData.optin == false)
 end

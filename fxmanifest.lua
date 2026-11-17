@@ -1,14 +1,14 @@
-fx_version 'cerulean'
-game 'gta5'
-lua54 'yes'
+fx_version('cerulean')
+game('gta5')
+lua54('yes')
 
-name 'kora_core'
-author 'Jamie'
-version '0.2.1'
-description 'Player/framework core built on kora_lib, persisted through kora_sql'
+name('kora_core')
+author('Jamie')
+version('0.2.1')
+description('Player/framework core built on kora_lib, persisted through kora_sql')
 
-dependency 'kora_lib'
-dependency 'kora_sql'
+dependency('kora_lib')
+dependency('kora_sql')
 
 -- Only identities this resource actually implements. Deliberately NOT providing
 -- 'qb-multicharacter' -- that compat is event-level only, and hijacking the name
@@ -21,20 +21,20 @@ dependency 'kora_sql'
 -- FiveM resolves an '@name/path' include against a real resource literally
 -- named `name`, via a loader that never consults provide/exports. That is what
 -- [compat]/qb-core exists for -- see its fxmanifest.lua and [compat]/README.md.
-provide 'qb-core'
+provide('qb-core')
 
 -- shared_script (not shared_scripts) so it resolves BEFORE the table below.
 -- '@kora_sql/init.lua' is server-only: it is the first server_script, after every
 -- shared script, and extends the Kora table '@kora_lib/init.lua' creates. '@kora_core/init.lua' is NOT included
 -- here -- it's for OTHER resources to pull Kora.shared.* into their own VM. It
 -- must still be listed in `files` below so FiveM can resolve that @-import.
-shared_script '@kora_lib/init.lua'
+shared_script('@kora_lib/init.lua')
 
-files {
+files({
     'init.lua', -- '@kora_core/init.lua' -- shared registry mirror for consumers
     'locales/*.lua',
     'shared/locale.lua', -- '@qb-core/shared/locale.lua' -- real qb-core's Locale class, for compat consumers
-}
+})
 
 -- Explicit, never globbed. A `modules/**/shared.lua` glob expands in
 -- alphabetical FOLDER order, which would put 'inventory' before 'registry' and
@@ -46,7 +46,7 @@ files {
 --   modules/registry    runtime-registers defaults + owns indexed getter storage
 --   ...rest             player/inventory shared shapes
 --   compat/shared       builds the QBCore skeleton (needs Core.util + registries)
-shared_scripts {
+shared_scripts({
     'config.lua',
     'build/initiate.lua',
     'shared/locale.lua',
@@ -66,8 +66,8 @@ shared_scripts {
     'modules/registry/shared.lua',
     'modules/player/shared.lua',
     'modules/inventory/shared.lua',
-    'compat/shared/coreobject.lua'
-}
+    'compat/shared/coreobject.lua',
+})
 
 -- Server order is load-bearing:
 --   registry     creates the authoritative registries + ingests seeds
@@ -92,10 +92,11 @@ shared_scripts {
 --                       Core.permissions (via addCommand's permission check)
 --   dependencySupervisor  reactive-only (onResourceStart), no dependency on
 --                         anything above; OFF by default via Config
---   compat/*     LAST (before finalise; qbx.lua needs QBCore.Functions from qb-core.lua) so it calls Core.* directly and
---                GetInvokingResource() resolves to the real external consumer
+--   compat/*     LAST (before finalise; qbx.lua needs QBCore.Functions from qb-core.lua)
+--                so it calls Core.* directly and GetInvokingResource() resolves to the
+--                real external consumer.
 --   build/finalise.lua  absolutely last -- flattens Core.<module>.<fn> to exports
-server_scripts {
+server_scripts({
     '@kora_sql/init.lua',
     'modules/registry/server.lua',
     'modules/identity/server.lua',
@@ -131,10 +132,10 @@ server_scripts {
     'compat/server/qb-multicharacter.lua',
     'compat/server/qb-spawn.lua',
     'compat/server/qbx.lua', -- opt-in (kora:qbxFacade); registers nothing while off
-    'build/finalise.lua'
-}
+    'build/finalise.lua',
+})
 
-client_scripts {
+client_scripts({
     'modules/garage/client.lua',
     'modules/registry/client.lua',
     'modules/pausemenu/client.lua',
@@ -151,8 +152,8 @@ client_scripts {
     'modules/locales/client.lua',
     'compat/client/qb-core.lua',
     'compat/client/qb-core-events.lua',
-    'build/finalise.lua'
-}
+    'build/finalise.lua',
+})
 
 -- kora_qa: Gherkin test scenarios (converted legacy tests), see [kora]/kora_qa/README.md
-qa_feature 'tests/*.feature'
+qa_feature('tests/*.feature')

@@ -8,13 +8,22 @@ local CLIENT_METADATA_RULES = {
 
 RegisterNetEvent('QBCore:Server:SetMetaData', function(key, value)
     local src = source
-    if type(key) ~= 'string' or key == 'starterItems' or Config.compat.clientMetadataKeys[key] ~= true then
+    if
+        type(key) ~= 'string'
+        or key == 'starterItems'
+        or Config.compat.clientMetadataKeys[key] ~= true
+    then
         Kora.logging.warn('compat.metadata_write_rejected', 'Rejected client metadata write', { source = src, key = tostring(key) })
         return
     end
     local rule = CLIENT_METADATA_RULES[key]
     if rule then
-        if type(value) ~= 'number' or value ~= value or value == math.huge or value == -math.huge then
+        if
+            type(value) ~= 'number'
+            or value ~= value
+            or value == math.huge
+            or value == -math.huge
+        then
             Kora.logging.warn('compat.metadata_write_not_finite', 'Rejected client metadata write: not a finite number', { source = src, key = tostring(key) })
             return
         end
@@ -64,8 +73,7 @@ RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     TriggerClientEvent('QBCore:Client:OnPlayerLoaded', src)
 end)
 
-RegisterNetEvent('QBCore:Server:UpdateObject', function()
-end)
+RegisterNetEvent('QBCore:Server:UpdateObject', function() end)
 
 local updateCooldowns = {}
 RegisterNetEvent('QBCore:UpdatePlayer', function()
@@ -126,13 +134,17 @@ AddEventHandler('QBCore:Server:OnPlayerUpdated', function(src, key)
 
     local job = Core.jobs.getJob(src)
     if job then
-        local legacyJob = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(job, 'jobs') or job
+        local legacyJob = Core.compat.toLegacyJobOrGang
+                and Core.compat.toLegacyJobOrGang(job, 'jobs')
+            or job
         TriggerEvent('QBCore:Server:OnJobUpdate', src, legacyJob)
     end
 
     local gang = Core.jobs.getGang(src)
     if gang then
-        local legacyGang = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(gang, 'gangs') or gang
+        local legacyGang = Core.compat.toLegacyJobOrGang
+                and Core.compat.toLegacyJobOrGang(gang, 'gangs')
+            or gang
         TriggerEvent('QBCore:Server:OnGangUpdate', src, legacyGang)
     end
 end)
@@ -152,9 +164,16 @@ RegisterNetEvent('QBCore:CallCommand', function(name, args)
         return
     end
 
-    if type(args) ~= 'table' or #args > 16 then args = {} end
+    if type(args) ~= 'table' or #args > 16 then
+        args = {}
+    end
     local declared = cmd.arguments or cmd.params
-    if cmd.argsrequired and type(declared) == 'table' and #declared ~= 0 and args[#declared] == nil then
+    if
+        cmd.argsrequired
+        and type(declared) == 'table'
+        and #declared ~= 0
+        and args[#declared] == nil
+    then
         TriggerClientEvent('QBCore:Notify', src, Kora.lang('Notify.arguments_required'), 'error')
         return
     end
@@ -176,7 +195,14 @@ local function stressDelta(src, amount, sign)
     local cfg = Config.compat.stress
     if cfg.disabled then return end
     if GetResourceState('qb-hud') == 'started' then return end
-    if type(amount) ~= 'number' or amount ~= amount or amount == math.huge or amount == -math.huge then return end
+    if
+        type(amount) ~= 'number'
+        or amount ~= amount
+        or amount == math.huge
+        or amount == -math.huge
+    then
+        return
+    end
     amount = math.floor(amount)
     if amount < 1 or amount > 100 then return end
     local handle = PI.handle(src)
@@ -210,7 +236,7 @@ AddEventHandler('kora_core:server:playerDropped', function(src)
     stressLast[src] = nil
 end)
 
-AddEventHandler('qb-log:server:CreateLog', function(name, title, color, message, tagEveryone, imageUrl)
+AddEventHandler( 'qb-log:server:CreateLog', function(name, title, color, message, tagEveryone, imageUrl)
     if type(name) ~= 'string' or name == '' then return end
     local function text(value, max)
         if value == nil then return nil end

@@ -53,11 +53,10 @@ end
 ---@param value string
 ---@return string[]
 function Core.identity.findByIdentifier(kind, value)
-    local rows = Kora.sql.query(
-        'SELECT `citizenid` FROM `player_identifiers` WHERE `kind` = ? AND `value` = ?',
-        { kind, value }
-    ) or {}
+    local rows = Kora.sql.query('SELECT `citizenid` FROM `player_identifiers` WHERE `kind` = ? AND `value` = ?', { kind, value }) or {}
     local out = {}
-    for i = 1, #rows do out[i] = rows[i].citizenid end
+    for i = 1, #rows do
+        out[i] = rows[i].citizenid
+    end
     return out
 end

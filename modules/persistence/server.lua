@@ -2,8 +2,12 @@ local PI = CoreInternal.player
 local COLUMN_FOR = PI.COLUMN_FOR
 
 local COLUMN_SOURCE = {
-    money = 'money', charinfo = 'charinfo', job = 'job', gang = 'gang',
-    metadata = 'metadata', inventory = 'items',
+    money = 'money',
+    charinfo = 'charinfo',
+    job = 'job',
+    gang = 'gang',
+    metadata = 'metadata',
+    inventory = 'items',
 }
 
 local dirty = {}
@@ -81,7 +85,10 @@ local function collectRows()
         if player then
             local cols, remaining = nil, {}
             for column in pairs(player._dirty) do
-                if Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(cid, column) then
+                if
+                    Core.persistence._isColumnLocked
+                    and Core.persistence._isColumnLocked(cid, column)
+                then
                     remaining[column] = true
                 elseif column ~= 'license' and column ~= 'cid' then
                     local encoded = encodeColumn(player, column)
@@ -101,14 +108,18 @@ local function collectRows()
     end
     for cid in pairs(dirty) do
         local player = PI.byCitizenId[cid]
-        if not player or not next(player._dirty) then dirty[cid] = nil end
+        if not player or not next(player._dirty) then
+            dirty[cid] = nil
+        end
     end
     return rows
 end
 
 ---@return integer players flushed
 function Core.persistence.flushAll()
-    for _, player in pairs(PI.bySource) do samplePosition(player) end
+    for _, player in pairs(PI.bySource) do
+        samplePosition(player)
+    end
     local rows = collectRows()
     if #rows > 0 then
         Kora.sql.enqueueMany('players', 'citizenid', rows, { mode = 'assign', writeMode = 'update' })
@@ -121,7 +132,10 @@ function Core.persistence.saveNow(player)
     samplePosition(player)
     local cols, remaining = nil, {}
     for column in pairs(player._dirty) do
-        if Core.persistence._isColumnLocked and Core.persistence._isColumnLocked(player.citizenid, column) then
+        if
+            Core.persistence._isColumnLocked
+            and Core.persistence._isColumnLocked(player.citizenid, column)
+        then
             remaining[column] = true
         elseif column ~= 'license' and column ~= 'cid' then
             local encoded = encodeColumn(player, column)
@@ -133,17 +147,23 @@ function Core.persistence.saveNow(player)
         end
     end
     player._dirty = remaining
-    if not next(remaining) then dirty[player.citizenid] = nil end
+    if not next(remaining) then
+        dirty[player.citizenid] = nil
+    end
     if cols then
         Kora.sql.enqueue('players', 'citizenid', { pk = player.citizenid, cols = cols }, {
-            priority = 'immediate', mode = 'assign', writeMode = 'update',
+            priority = 'immediate',
+            mode = 'assign',
+            writeMode = 'update',
         })
     end
 end
 
 function Core.persistence._saveForLogout(player, positionOverride)
     local called, saved, err = pcall(function()
-        if not positionOverride then samplePosition(player, true) end
+        if not positionOverride then
+            samplePosition(player, true)
+        end
         for _, column in pairs(COLUMN_FOR) do
             player._encoded[column] = nil
             Core.persistence._markDirty(player, column)
@@ -162,38 +182,66 @@ end
 ---@return boolean, string|nil
 function Core.persistence._insertNew(citizenid, license, cid, data)
     local ok, err = Kora.sql.execute(
-        'INSERT INTO `players` (`citizenid`,`license`,`cid`,`name`,`money`,`charinfo`,`job`,`gang`,`position`,`metadata`,`inventory`,`phone_number`) '
-        .. 'VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO `players` (`citizenid`,`license`,`cid`,`name`,`money`,`charinfo`,`job`,`gang`,'
+            .. '`position`,`metadata`,`inventory`,`phone_number`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
         {
-            citizenid, license, cid, data.name,
-            json.encode(data.money), json.encode(data.charinfo),
-            json.encode(data.job), json.encode(data.gang),
-            json.encode(data.position), json.encode(data.metadata),
-            json.encode(data.items or {}), data.phone or Kora.sql.NULL,
+            citizenid,
+            license,
+            cid,
+            data.name,
+            json.encode(data.money),
+            json.encode(data.charinfo),
+            json.encode(data.job),
+            json.encode(data.gang),
+            json.encode(data.position),
+            json.encode(data.metadata),
+            json.encode(data.items or {}),
+            data.phone or Kora.sql.NULL,
         }
     )
-    if ok == nil and err then return false, err end
+    if ok == nil and err then
+        return false, err
+    end
     return true
 end
 
 ---@param citizenid string
 ---@return table|nil, string|nil
 function Core.persistence._load(citizenid)
-    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(citizenid) then return nil, 'player data is busy' end
+    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(citizenid) then
+        return nil, 'player data is busy'
+    end
     if Core.persistence._persistentColumnsAvailable then
         local available, err = Core.persistence._persistentColumnsAvailable(citizenid)
-        if not available then return nil, err end
+        if not available then
+            return nil, err
+        end
     end
     local epoch = Core.persistence._columnEpoch and Core.persistence._columnEpoch(citizenid)
     local row, err = Kora.sql.single('SELECT * FROM `players` WHERE `citizenid` = ? AND `deleted_at` IS NULL', { citizenid })
-    if epoch and (Core.persistence._hasColumnOperation(citizenid) or epoch ~= Core.persistence._columnEpoch(citizenid)) then return nil, 'player data changed while loading' end
-    if not row then return nil, err or 'not found' end
-    local function dec(s, fallback) local ok, v = pcall(json.decode, s or ''); return ok and v or fallback end
+    if
+        epoch
+        and (
+            Core.persistence._hasColumnOperation(citizenid)
+            or epoch ~= Core.persistence._columnEpoch(citizenid)
+        )
+    then
+        return nil, 'player data changed while loading'
+    end
+    if not row then
+        return nil, err or 'not found'
+    end
+    local function dec(s, fallback)
+        local ok, v = pcall(json.decode, s or '')
+        return ok and v or fallback
+    end
     local charinfo = dec(row.charinfo, {})
 
     local function decodeItems(s)
         local raw = dec(s, {})
-        if type(raw) ~= 'table' then return {} end
+        if type(raw) ~= 'table' then
+            return {}
+        end
         local out = {}
         for rawSlot, item in pairs(raw) do
             if type(item) == 'table' then
@@ -208,7 +256,9 @@ function Core.persistence._load(citizenid)
     end
     local function decodeJob(s)
         local job = dec(s, {})
-        if type(job) ~= 'table' then return {} end
+        if type(job) ~= 'table' then
+            return {}
+        end
         if job.type == nil and job.name then
             local def = Core.registry.getShared('jobs', job.name)
             job.type = (def and def.type) or 'none'
@@ -236,7 +286,9 @@ end
 ---@param citizenid string
 ---@return table|nil, string|nil
 function Core.persistence.getOfflinePlayerData(citizenid)
-    if type(citizenid) ~= 'string' or citizenid == '' then return nil, 'invalid citizenid' end
+    if type(citizenid) ~= 'string' or citizenid == '' then
+        return nil, 'invalid citizenid'
+    end
     return Core.persistence._load(citizenid)
 end
 
@@ -245,32 +297,61 @@ end
 ---@param fields string[]
 ---@return boolean, string|nil
 function Core.persistence.saveOfflinePlayer(data, fields)
-    if type(data) ~= 'table' or type(data.citizenid) ~= 'string' then return false, 'invalid player data' end
-    if type(fields) ~= 'table' or #fields == 0 then return false, 'fields are required' end
-    if CoreInternal.player.byCitizenId[data.citizenid] then return false, 'player is online' end
-    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(data.citizenid) then return false, 'player data is busy' end
+    if type(data) ~= 'table' or type(data.citizenid) ~= 'string' then
+        return false, 'invalid player data'
+    end
+    if type(fields) ~= 'table' or #fields == 0 then
+        return false, 'fields are required'
+    end
+    if CoreInternal.player.byCitizenId[data.citizenid] then
+        return false, 'player is online'
+    end
+    if
+        Core.persistence._hasColumnOperation
+        and Core.persistence._hasColumnOperation(data.citizenid)
+    then
+        return false, 'player data is busy'
+    end
     if Core.persistence._persistentColumnsAvailable then
         local available, err = Core.persistence._persistentColumnsAvailable(data.citizenid)
-        if not available then return false, err end
+        if not available then
+            return false, err
+        end
     end
-    if CoreInternal.player.byCitizenId[data.citizenid] then return false, 'player is online' end
+    if CoreInternal.player.byCitizenId[data.citizenid] then
+        return false, 'player is online'
+    end
     local assignments, params = {}, {}
     for _, field in ipairs(fields) do
         local column = COLUMN_FOR[field]
-        if not column then return false, 'invalid player field' end
+        if not column then
+            return false, 'invalid player field'
+        end
         assignments[#assignments + 1] = '`' .. column .. '` = ?'
         params[#params + 1] = encodeColumn({ PlayerData = data }, column)
     end
     params[#params + 1] = data.citizenid
-    if Core.persistence._beginOfflineWrite and not Core.persistence._beginOfflineWrite(data.citizenid) then return false, 'player data is busy' end
-    local called, result, err = pcall(Kora.sql.update, 'UPDATE `players` SET ' .. table.concat(assignments, ', ')
-        .. ' WHERE `citizenid` = ? AND `deleted_at` IS NULL', params)
-    if Core.persistence._endOfflineWrite then Core.persistence._endOfflineWrite(data.citizenid) end
-    if not called then return false, 'could not save offline player' end
-    if result == nil then return false, err or 'could not save offline player' end
+    if
+        Core.persistence._beginOfflineWrite
+        and not Core.persistence._beginOfflineWrite(data.citizenid)
+    then
+        return false, 'player data is busy'
+    end
+    local called, result, err = pcall(Kora.sql.update, 'UPDATE `players` SET ' .. table.concat(assignments, ', ') .. ' WHERE `citizenid` = ? AND `deleted_at` IS NULL', params)
+    if Core.persistence._endOfflineWrite then
+        Core.persistence._endOfflineWrite(data.citizenid)
+    end
+    if not called then
+        return false, 'could not save offline player'
+    end
+    if result == nil then
+        return false, err or 'could not save offline player'
+    end
     if result == 0 then
         local row = Kora.sql.single('SELECT `citizenid` FROM `players` WHERE `citizenid` = ? AND `deleted_at` IS NULL', { data.citizenid })
-        if not row then return false, 'player not found' end
+        if not row then
+            return false, 'player not found'
+        end
     end
     return true
 end
@@ -278,22 +359,36 @@ end
 ---@param license string
 ---@return table[]
 function Core.persistence._listCharacters(license)
-    return Kora.sql.query(
-        'SELECT `citizenid`,`cid`,`name`,`charinfo`,`money`,`job`,`gang` FROM `players` WHERE `license` = ? AND `deleted_at` IS NULL ORDER BY `cid`',
-        { license }
-    ) or {}
+    return Kora.sql.query('SELECT `citizenid`,`cid`,`name`,`charinfo`,`money`,`job`,`gang` ' .. 'FROM `players` WHERE `license` = ? AND `deleted_at` IS NULL ORDER BY `cid`', { license }) or {}
 end
 
 ---@param citizenid string
 ---@return boolean
 function Core.persistence._deleteCharacterRow(citizenid)
-    if PI.byCitizenId[citizenid] then return false, 'player is online' end
-    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(citizenid) then return false end
-    if Core.persistence._persistentColumnsAvailable and not Core.persistence._persistentColumnsAvailable(citizenid) then return false end
-    if PI.byCitizenId[citizenid] then return false, 'player is online' end
-    if Core.persistence._beginOfflineWrite and not Core.persistence._beginOfflineWrite(citizenid) then return false end
+    if PI.byCitizenId[citizenid] then
+        return false, 'player is online'
+    end
+    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(citizenid) then
+        return false
+    end
+    if
+        Core.persistence._persistentColumnsAvailable
+        and not Core.persistence._persistentColumnsAvailable(citizenid)
+    then
+        return false
+    end
+    if PI.byCitizenId[citizenid] then
+        return false, 'player is online'
+    end
+    if
+        Core.persistence._beginOfflineWrite and not Core.persistence._beginOfflineWrite(citizenid)
+    then
+        return false
+    end
     local called, r = pcall(Kora.sql.execute, 'UPDATE `players` SET `deleted_at` = NOW() WHERE `citizenid` = ?', { citizenid })
-    if Core.persistence._endOfflineWrite then Core.persistence._endOfflineWrite(citizenid) end
+    if Core.persistence._endOfflineWrite then
+        Core.persistence._endOfflineWrite(citizenid)
+    end
     return called and r ~= nil
 end
 
@@ -314,7 +409,9 @@ CreateThread(function()
 end)
 
 local function flushEveryoneNow()
-    for _, player in pairs(PI.bySource) do Core.persistence.saveNow(player) end
+    for _, player in pairs(PI.bySource) do
+        Core.persistence.saveNow(player)
+    end
     Kora.sql.flush('players')
 end
 
@@ -327,6 +424,8 @@ end)
 
 AddEventHandler('onResourceStop', function(res)
     if res ~= GetCurrentResourceName() then return end
-    for _, player in pairs(PI.bySource) do Core.persistence.saveNow(player) end
+    for _, player in pairs(PI.bySource) do
+        Core.persistence.saveNow(player)
+    end
     Kora.sql.flush('players')
 end)

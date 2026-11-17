@@ -20,7 +20,9 @@ local function pathSet(t, path, value)
     local node = t
     for i = 1, #path - 1 do
         local k = path[i]
-        if type(node[k]) ~= 'table' then node[k] = {} end
+        if type(node[k]) ~= 'table' then
+            node[k] = {}
+        end
         node = node[k]
     end
     node[path[#path]] = value
@@ -28,7 +30,9 @@ end
 
 local function pathMatchesPrefix(path, prefix)
     if #prefix > #path then return false end
-    for i = 1, #prefix do if path[i] ~= prefix[i] then return false end end
+    for i = 1, #prefix do
+        if path[i] ~= prefix[i] then return false end
+    end
     return true
 end
 
@@ -36,7 +40,9 @@ local function dispatch(path, value)
     for _, sub in pairs(subscribers) do
         if pathMatchesPrefix(path, sub.prefix) then
             local ok, err = pcall(sub.handler, path, value)
-            if not ok then Kora.logging.warn('replication.on_change_errored', 'Replication onChange handler errored', { error = tostring(err) }) end
+            if not ok then
+                Kora.logging.warn('replication.on_change_errored', 'Replication onChange handler errored', { error = tostring(err) })
+            end
         end
     end
 end
@@ -64,7 +70,9 @@ local function announceLegacyPlayerData(data, inventoryOnly)
 
     pendingLegacy = nil
     local ok, err = pcall(TriggerEvent, 'QBCore:Player:SetPlayerData', data, REFIRE_TOKEN)
-    if not ok then error(err, 0) end
+    if not ok then
+        error(err, 0)
+    end
 end
 
 local function publishLegacyPlayerData(legacyData)
@@ -75,15 +83,18 @@ local function publishLegacyPlayerData(legacyData)
         return legacyData
     end
     for key in pairs(current) do
-        if legacyData[key] == nil then current[key] = nil end
+        if legacyData[key] == nil then
+            current[key] = nil
+        end
     end
-    for key, value in pairs(legacyData) do current[key] = value end
+    for key, value in pairs(legacyData) do
+        current[key] = value
+    end
     return current
 end
 
 local function fireLegacy(changedRoots, inventoryOnly)
-    local legacyData = publishLegacyPlayerData(
-        Core.compat.toLegacyPlayerData and Core.compat.toLegacyPlayerData(mirror) or mirror)
+    local legacyData = publishLegacyPlayerData(Core.compat.toLegacyPlayerData and Core.compat.toLegacyPlayerData(mirror) or mirror)
 
     announceLegacyPlayerData(legacyData, inventoryOnly)
     if changedRoots.job and (Config.compat.jobUpdateEventSource ~= 'server') then
@@ -109,8 +120,7 @@ end
 function Core.replication.reannounceFull()
     pendingLegacy = nil
     if not mirror then return false end
-    local legacyData = publishLegacyPlayerData(
-        Core.compat.toLegacyPlayerData and Core.compat.toLegacyPlayerData(mirror) or mirror)
+    local legacyData = publishLegacyPlayerData(Core.compat.toLegacyPlayerData and Core.compat.toLegacyPlayerData(mirror) or mirror)
     announceLegacyPlayerData(legacyData)
     return true
 end
@@ -146,7 +156,9 @@ RegisterNetEvent('kora_core:rep:delta', function(seq, ops)
             pathSet(mirror, op.p, op.v)
         end
         changedRoots[op.p[1]] = true
-        if op.p[1] ~= 'items' then inventoryOnly = false end
+        if op.p[1] ~= 'items' then
+            inventoryOnly = false
+        end
         stats.opsApplied = stats.opsApplied + 1
         dispatch(op.p, op.v)
     end
@@ -160,14 +172,17 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(data, token)
     if data == mirror or type(data) ~= 'table' then return end
     pendingLegacy = nil
 
-    Kora.logging.warn('replication.legacy_playerdata_write', 'PlayerData was written directly via the legacy event; it bypassed the '
-        .. 'delta stream and will be overwritten on the next server snapshot', { writer = writer or 'unknown' })
+    Kora.logging.warn('replication.legacy_playerdata_write', 'PlayerData was written directly via the legacy event; it bypassed the ' .. 'delta stream and will be overwritten on the next server snapshot', { writer = writer or 'unknown' })
 
     if not mirror then
         mirror = data
     else
-        for k in pairs(mirror) do mirror[k] = nil end
-        for k, v in pairs(data) do mirror[k] = v end
+        for k in pairs(mirror) do
+            mirror[k] = nil
+        end
+        for k, v in pairs(data) do
+            mirror[k] = v
+        end
     end
 end)
 
@@ -184,7 +199,9 @@ end
 ---@param handler fun(path:table, value:any)
 ---@return integer|nil, string|nil
 function Core.replication.onChange(pathPrefix, handler)
-    if not isCallable(handler) then return nil, 'handler must be callable' end
+    if not isCallable(handler) then
+        return nil, 'handler must be callable'
+    end
     local id = nextSubId
     nextSubId = nextSubId + 1
     subscribers[id] = {
@@ -203,13 +220,17 @@ end
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     pendingLegacy = nil
     if mirror then
-        for key in pairs(mirror) do mirror[key] = nil end
+        for key in pairs(mirror) do
+            mirror[key] = nil
+        end
     end
     mirror = nil
     expectedSeq = 0
     stats.seq = 0
     if QBCore and type(QBCore.PlayerData) == 'table' then
-        for key in pairs(QBCore.PlayerData) do QBCore.PlayerData[key] = nil end
+        for key in pairs(QBCore.PlayerData) do
+            QBCore.PlayerData[key] = nil
+        end
     end
     -- Native counterpart to kora_core:client:playerLoaded, raised once the mirror is cleared.
     TriggerEvent('kora_core:client:playerLoggedOut')
@@ -218,7 +239,9 @@ end)
 AddEventHandler('onClientResourceStop', function(resource)
     if resource == GetCurrentResourceName() then return end
     for id, subscriber in pairs(subscribers) do
-        if subscriber.resource == resource then subscribers[id] = nil end
+        if subscriber.resource == resource then
+            subscribers[id] = nil
+        end
     end
 end)
 
@@ -228,5 +251,10 @@ end
 
 ---@return table
 function Core.replication.getStats()
-    return { seq = stats.seq, resyncs = stats.resyncs, opsApplied = stats.opsApplied, lastDeltaAt = stats.lastDeltaAt }
+    return {
+        seq = stats.seq,
+        resyncs = stats.resyncs,
+        opsApplied = stats.opsApplied,
+        lastDeltaAt = stats.lastDeltaAt,
+    }
 end

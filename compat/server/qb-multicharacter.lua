@@ -1,12 +1,16 @@
 Kora.callback.register('qb-multicharacter:server:GetUserCharacters', function(src)
     local license = Core.identity.primary(src)
-    if not license then return {} end
+    if not license then
+        return {}
+    end
     return Kora.sql.query('SELECT * FROM `players` WHERE `license` = ? AND `deleted_at` IS NULL', { license }) or {}
 end)
 
 Kora.callback.register('qb-multicharacter:server:GetNumberOfCharacters', function(src)
     local license = Core.identity.primary(src)
-    if not license then return Config.identity.maxCharacters, {} end
+    if not license then
+        return Config.identity.maxCharacters, {}
+    end
     return Core.users.getMaxCharacters(license), {}
 end)
 

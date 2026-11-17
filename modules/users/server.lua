@@ -13,11 +13,7 @@ function Core.users.recordDiscord(src)
     local ids = Core.identity.getIdentifiers(src)
     local license, discord = ids[Config.identity.primaryIdentifier], ids.discord
     if not license or not discord or savedDiscord[license] == discord then return end
-    Kora.sql.execute(
-        'INSERT INTO `users` (`license`, `discord`) VALUES (?, ?) '
-            .. 'ON DUPLICATE KEY UPDATE `discord` = VALUES(`discord`)',
-        { license, discord }
-    )
+    Kora.sql.execute('INSERT INTO `users` (`license`, `discord`) VALUES (?, ?) ' .. 'ON DUPLICATE KEY UPDATE `discord` = VALUES(`discord`)', { license, discord })
     savedDiscord[license] = discord
 end
 
@@ -36,7 +32,8 @@ end
 ---@param license string
 ---@return integer
 function Core.users.getMaxCharacters(license)
-    local row = Kora.sql.single('SELECT `max_characters` FROM `users` WHERE `license` = ?', { license })
+    local row =
+        Kora.sql.single('SELECT `max_characters` FROM `users` WHERE `license` = ?', { license })
     if not row then
         Kora.sql.execute('INSERT IGNORE INTO `users` (`license`) VALUES (?)', { license })
         return Config.identity.maxCharacters
@@ -48,9 +45,5 @@ end
 ---@param license string
 ---@param maxCharacters integer|nil
 function Core.users.setMaxCharacters(license, maxCharacters)
-    Kora.sql.execute(
-        'INSERT INTO `users` (`license`, `max_characters`) VALUES (?, ?) '
-            .. 'ON DUPLICATE KEY UPDATE `max_characters` = VALUES(`max_characters`)',
-        { license, maxCharacters or Kora.sql.NULL }
-    )
+    Kora.sql.execute('INSERT INTO `users` (`license`, `max_characters`) VALUES (?, ?) ' .. 'ON DUPLICATE KEY UPDATE `max_characters` = VALUES(`max_characters`)', { license, maxCharacters or Kora.sql.NULL })
 end

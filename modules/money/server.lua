@@ -3,7 +3,9 @@ local physicalAccounts = {}
 local MONEY_STATE_PREFIX = 'kora_core:money:'
 
 local function validAccount(account)
-    for _, a in ipairs(Config.money.types) do if a == account then return true end end
+for _, a in ipairs(Config.money.types) do
+    if a == account then return true end
+end
     return false
 end
 
@@ -23,7 +25,9 @@ end
 local function providerFor(account)
     local provider = physicalAccounts[account]
     if not provider then return nil end
-    if GetResourceState(provider) ~= 'started' then return false, 'physical cash provider unavailable' end
+    if GetResourceState(provider) ~= 'started' then
+        return false, 'physical cash provider unavailable'
+    end
     return provider
 end
 
@@ -65,8 +69,12 @@ end
 ---money path can consult it inline before mutating a balance.
 local function taxProvider(cfg)
     local resource = cfg.provider
-    if type(resource) ~= 'string' or resource == '' then return nil, 'no banking provider configured' end
-    if GetResourceState(resource) ~= 'started' then return nil, ('banking provider %s is not running'):format(resource) end
+    if type(resource) ~= 'string' or resource == '' then
+        return nil, 'no banking provider configured'
+    end
+    if GetResourceState(resource) ~= 'started' then
+        return nil, ('banking provider %s is not running'):format(resource)
+    end
     return resource
 end
 
@@ -117,11 +125,17 @@ end
 ---@return boolean, string|nil
 function Core.money.collectTax(amount, reason)
     local cfg = taxConfig()
-    if not cfg then return false, 'transaction tax is disabled' end
+    if not cfg then
+        return false, 'transaction tax is disabled'
+    end
     amount = finiteAmount(amount)
-    if not amount or amount <= 0 then return false, 'amount must be positive' end
+    if not amount or amount <= 0 then
+        return false, 'amount must be positive'
+    end
     local resource, unavailable = taxProvider(cfg)
-    if not resource then return false, unavailable end
+    if not resource then
+        return false, unavailable
+    end
 
     local addFn, getFn, createFn = taxExportNames(cfg)
     if not taxAccountReady then
@@ -131,13 +145,19 @@ function Core.money.collectTax(amount, reason)
         elseif cfg.autoCreateAccount == false then
             return false, ('banking account %s does not exist'):format(tostring(cfg.account))
         else
-            local created, result = pcall(function() return exports[resource][createFn](exports[resource], cfg.account, 0) end)
-            if not created or not result then return false, ('could not create banking account %s'):format(tostring(cfg.account)) end
+            local created, result = pcall(function()
+                return exports[resource][createFn](exports[resource], cfg.account, 0)
+            end)
+            if not created or not result then
+                return false, ('could not create banking account %s'):format(tostring(cfg.account))
+            end
             taxAccountReady = true
         end
     end
 
-    local ok, deposited = pcall(function() return exports[resource][addFn](exports[resource], cfg.account, amount, reason or 'tax') end)
+    local ok, deposited = pcall(function()
+        return exports[resource][addFn](exports[resource], cfg.account, amount, reason or 'tax')
+    end)
     if not ok or not deposited then
         taxAccountReady = false
         return false, ('banking provider %s rejected the tax deposit'):format(resource)
@@ -156,8 +176,12 @@ local function taxRefund(src, account, tax)
     local citizenid = player and player.citizenid
     return function()
         local current = citizenid and PI.byCitizenId[citizenid]
-        if current then return Core.money.addMoney(current.source, account, tax, TAX_REFUND_REASON, true) end
-        if citizenid then return Core.money.addOfflineMoney(citizenid, account, tax) end
+        if current then
+            return Core.money.addMoney(current.source, account, tax, TAX_REFUND_REASON, true)
+        end
+        if citizenid then
+            return Core.money.addOfflineMoney(citizenid, account, tax)
+        end
         return Core.money.addMoney(src, account, tax, TAX_REFUND_REASON, true)
     end
 end
@@ -172,7 +196,9 @@ local function dispatchTax(tax, reason, refund)
         local ok, err = Core.money.collectTax(tax, reason)
         if ok then return end
         Kora.logging.error('money.tax_deposit_failed', 'Tax deposit failed', { amount = tax, error = tostring(err) })
-        if refund then refund() end
+        if refund then
+            refund()
+        end
     end)
 end
 
@@ -185,7 +211,9 @@ local function taxFor(account, amount, action, ignoreTax)
     local tax = Core.money.calculateTax(amount, account, action)
     if tax <= 0 then return 0 end
     local resource, unavailable = taxProvider(cfg)
-    if not resource then taxWarn(unavailable); return 0 end
+    if not resource then
+        taxWarn(unavailable); return 0
+    end
     return tax
 end
 
@@ -197,21 +225,27 @@ end
 
 AddEventHandler('onResourceStop', function(resource)
     local cfg = Config.money.tax
-    if type(cfg) == 'table' and resource == cfg.provider then taxAccountReady = false end
+    if type(cfg) == 'table' and resource == cfg.provider then
+        taxAccountReady = false
+    end
 end)
 
 local mirrors = setmetatable({}, { __mode = 'k' })
 
 local function mirrorState(player)
     local st = mirrors[player]
-    if not st then st = { real = {}, sent = {} }; mirrors[player] = st end
+    if not st then
+        st = { real = {}, sent = {} }; mirrors[player] = st
+    end
     return st
 end
 
 ---Recompute the real balance of every physical account for one player. Returns
 ---the state table, or nil when no account is physical.
 local function refreshMirror(player)
-    if next(physicalAccounts) == nil then mirrors[player] = nil; return nil end
+    if next(physicalAccounts) == nil then
+        mirrors[player] = nil; return nil
+    end
     local st = mirrorState(player)
     local changed = false
     for account in pairs(physicalAccounts) do
@@ -224,7 +258,9 @@ local function refreshMirror(player)
             end
         end
     end
-    if changed then Core.replication._touch(player) end
+    if changed then
+        Core.replication._touch(player)
+    end
     return st
 end
 
@@ -238,7 +274,9 @@ function Core.money._mirrorOverlay(src, money)
     local st = mirrors[player] or refreshMirror(player)
     if st then
         for account, balance in pairs(st.real) do
-            if physicalAccounts[account] then money[account] = balance end
+            if physicalAccounts[account] then
+                money[account] = balance
+            end
         end
     end
     return money
@@ -262,13 +300,17 @@ function PI.mirrorOps(player, ops)
     local st = mirrors[player]
     if not st then return end
     for account, balance in pairs(st.real) do
-        if not physicalAccounts[account] then goto continue end
+        if not physicalAccounts[account] then
+            goto continue
+        end
         local covered = false
         for _, op in ipairs(ops) do
             if op.p[1] == 'money' and not op.d then
                 if #op.p == 1 and type(op.v) == 'table' then
                     local copy = {}
-                    for k, v in pairs(op.v) do copy[k] = v end
+                    for k, v in pairs(op.v) do
+                        copy[k] = v
+                    end
                     copy[account] = balance
                     op.v, covered = copy, true
                 elseif #op.p == 2 and op.p[2] == account then
@@ -289,25 +331,35 @@ function PI.mirrorSnapshot(player)
     local st = refreshMirror(player)
     if not st or next(st.real) == nil then return player.PlayerData end
     local data = {}
-    for k, v in pairs(player.PlayerData) do data[k] = v end
+    for k, v in pairs(player.PlayerData) do
+        data[k] = v
+    end
     data.money = Core.money._mirrorOverlay(player.source, Core.util.deepClone(player.PlayerData.money or {}))
-    for account, balance in pairs(st.real) do st.sent[account] = balance end
+    for account, balance in pairs(st.real) do
+        st.sent[account] = balance
+    end
     return data
 end
 
 AddEventHandler('kora_core:server:inventoryChanged', function(src)
     if next(physicalAccounts) == nil then return end
     local player = PI.handle(src)
-    if player then refreshMirror(player) end
+    if player then
+        refreshMirror(player)
+    end
 end)
 
 local function emitMoneyChange(src, account, amount, action, reason)
     local balance = Core.money.getMoney(src, account)
     if physicalAccounts[account] then
         local player = PI.handle(src)
-        if player then refreshMirror(player) end
+        if player then
+            refreshMirror(player)
+        end
     end
-    if balance ~= nil then Player(src).state:set(MONEY_STATE_PREFIX .. account, balance, true) end
+    if balance ~= nil then
+        Player(src).state:set(MONEY_STATE_PREFIX .. account, balance, true)
+    end
     TriggerEvent('QBCore:Server:OnMoneyChange', src, account, amount, action, reason)
     TriggerClientEvent('QBCore:Client:OnMoneyChange', src, account, amount, action, reason)
     local isRemove = action == 'remove'
@@ -323,7 +375,9 @@ end
 function Core.money.syncState(src)
     for _, account in ipairs(Config.money.types) do
         local balance = Core.money.getMoney(src, account)
-        if balance ~= nil then Player(src).state:set(MONEY_STATE_PREFIX .. account, balance, true) end
+        if balance ~= nil then
+            Player(src).state:set(MONEY_STATE_PREFIX .. account, balance, true)
+        end
     end
 end
 
@@ -332,16 +386,28 @@ end
 ---fails closed instead of restoring a parallel PlayerData.money balance.
 function Core.money.registerPhysicalCash(account)
     local caller = GetInvokingResource()
-    if caller ~= Config.inventory.provider then return false, 'only the configured inventory provider may register physical cash' end
-    if not validAccount(account) or account ~= Config.money.cashType then return false, 'only the configured cash account may be physical' end
-    if physicalAccounts[account] and physicalAccounts[account] ~= caller then return false, 'physical cash provider already registered' end
+    if caller ~= Config.inventory.provider then
+        return false, 'only the configured inventory provider may register physical cash'
+    end
+    if not validAccount(account) or account ~= Config.money.cashType then
+        return false, 'only the configured cash account may be physical'
+    end
+    if physicalAccounts[account] and physicalAccounts[account] ~= caller then
+        return false, 'physical cash provider already registered'
+    end
 
     for src, player in pairs(PI.bySource) do
         local balance = math.floor(tonumber((player.PlayerData.money or {})[account]) or 0)
-        if balance < 0 then return false, 'cash account cannot be negative' end
+        if balance < 0 then
+            return false, 'cash account cannot be negative'
+        end
         if balance > 0 then
-            local ok, canImport, err = pcall(function() return exports[caller]:physicalCashCanImport(src, account, balance) end)
-            if not ok or not canImport then return false, err or 'could not reserve space for legacy cash' end
+            local ok, canImport, err = pcall(function()
+                return exports[caller]:physicalCashCanImport(src, account, balance)
+            end)
+            if not ok or not canImport then
+                return false, err or 'could not reserve space for legacy cash'
+            end
         end
     end
 
@@ -349,22 +415,35 @@ function Core.money.registerPhysicalCash(account)
     for src in pairs(PI.bySource) do
         local imported, err = Core.money.migratePhysicalCash(src)
         if not imported then
-            Kora.logging.error('money.physical_cash_import_failed', 'Physical cash import failed', { source = src, error = tostring(err) })
+            Kora.logging.error(
+                'money.physical_cash_import_failed',
+                'Physical cash import failed',
+                {
+                    source = src,
+                    error = tostring(err),
+                }
+            )
             return false, err or 'physical cash import failed'
         end
     end
-    for _, player in pairs(PI.bySource) do refreshMirror(player) end
+    for _, player in pairs(PI.bySource) do
+        refreshMirror(player)
+    end
     return true
 end
 
 function Core.money.unregisterPhysicalCash(account)
     local caller = GetInvokingResource()
-    if physicalAccounts[account] ~= caller then return false, 'physical cash provider mismatch' end
+    if physicalAccounts[account] ~= caller then
+        return false, 'physical cash provider mismatch'
+    end
     physicalAccounts[account] = nil
     for src, player in pairs(PI.bySource) do
         mirrors[player] = nil
         local ledger = (player.PlayerData.money or {})[account]
-        if Core.compat.onPlayerDataChanged then Core.compat.onPlayerDataChanged(src, { 'money', account }, ledger) end
+        if Core.compat.onPlayerDataChanged then
+            Core.compat.onPlayerDataChanged(src, { 'money', account }, ledger)
+        end
         Core.replication._queueOp(player, { 'money', account }, ledger)
     end
     return true
@@ -376,16 +455,28 @@ end
 
 function Core.money.migratePhysicalCash(src)
     local player = PI.handle(src)
-    if not player then return false, 'no such player' end
+    if not player then
+        return false, 'no such player'
+    end
     for account, provider in pairs(physicalAccounts) do
-        if GetResourceState(provider) ~= 'started' then return false, 'physical cash provider unavailable' end
+        if GetResourceState(provider) ~= 'started' then
+            return false, 'physical cash provider unavailable'
+        end
         local balance = math.floor(tonumber((player.PlayerData.money or {})[account]) or 0)
-        if balance < 0 then return false, 'cash account cannot be negative' end
+        if balance < 0 then
+            return false, 'cash account cannot be negative'
+        end
         if balance > 0 then
-            local ok, imported, err = pcall(function() return exports[provider]:physicalCashImport(src, account, balance) end)
-            if not ok or not imported then return false, err or 'could not import legacy cash' end
+            local ok, imported, err = pcall(function()
+                return exports[provider]:physicalCashImport(src, account, balance)
+            end)
+            if not ok or not imported then
+                return false, err or 'could not import legacy cash'
+            end
             local set, setErr = PI._setPhysicalCashLedger(src, account, 0)
-            if not set then return false, setErr end
+            if not set then
+                return false, setErr
+            end
         end
     end
     return true
@@ -396,7 +487,9 @@ end
 ---@return number|nil
 function Core.money.getMoney(src, account)
     local provider, providerErr = providerFor(account)
-    if provider == false then return nil, providerErr end
+    if provider == false then
+        return nil, providerErr
+    end
     if provider then
         local ok, value = pcall(function() return exports[provider]:physicalCashGet(src, account) end)
         return ok and value or nil
@@ -412,28 +505,45 @@ end
 ---@param amount number
 ---@return boolean, string|nil
 function Core.money.addOfflineMoney(citizenid, account, amount)
-    if type(citizenid) ~= 'string' or citizenid == '' then return false, 'invalid citizenid' end
-    if not validAccount(account) then return false, 'invalid account' end
+    if type(citizenid) ~= 'string' or citizenid == '' then
+        return false, 'invalid citizenid'
+    end
+    if not validAccount(account) then
+        return false, 'invalid account'
+    end
     amount = tonumber(amount)
-    if not amount or amount ~= amount or amount <= 0 or amount == math.huge then return false, 'amount must be positive and finite' end
-    if PI.byCitizenId[citizenid] then return false, 'player is online' end
-    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(citizenid) then return false, 'player data is busy' end
+    if not amount or amount ~= amount or amount <= 0 or amount == math.huge then
+        return false, 'amount must be positive and finite'
+    end
+    if PI.byCitizenId[citizenid] then
+        return false, 'player is online'
+    end
+    if Core.persistence._hasColumnOperation and Core.persistence._hasColumnOperation(citizenid) then
+        return false, 'player data is busy'
+    end
     if Core.persistence._persistentColumnsAvailable then
         local available, err = Core.persistence._persistentColumnsAvailable(citizenid)
-        if not available then return false, err end
+        if not available then
+            return false, err
+        end
     end
-    if PI.byCitizenId[citizenid] then return false, 'player is online' end
+    if PI.byCitizenId[citizenid] then
+        return false, 'player is online'
+    end
     local path = '$.' .. json.encode(account)
-    if Core.persistence._beginOfflineWrite and not Core.persistence._beginOfflineWrite(citizenid) then return false, 'player data is busy' end
-    local called, result, err = pcall(Kora.sql.update,
-        'UPDATE `players` SET `money` = JSON_SET(`money`, ?, '
-            .. 'COALESCE(JSON_EXTRACT(`money`, ?), 0) + ?) '
-            .. 'WHERE `citizenid` = ? AND `deleted_at` IS NULL',
-        { path, path, amount, citizenid }
-    )
-    if Core.persistence._endOfflineWrite then Core.persistence._endOfflineWrite(citizenid) end
-    if not called then return false, 'offline money provider failed' end
-    if result == nil or result == 0 then return false, err or 'player not found' end
+    if Core.persistence._beginOfflineWrite and not Core.persistence._beginOfflineWrite(citizenid) then
+        return false, 'player data is busy'
+    end
+    local called, result, err = pcall(Kora.sql.update, 'UPDATE `players` SET `money` = JSON_SET(`money`, ?, ' .. 'COALESCE(JSON_EXTRACT(`money`, ?), 0) + ?) ' .. 'WHERE `citizenid` = ? AND `deleted_at` IS NULL', { path, path, amount, citizenid })
+    if Core.persistence._endOfflineWrite then
+        Core.persistence._endOfflineWrite(citizenid)
+    end
+    if not called then
+        return false, 'offline money provider failed'
+    end
+    if result == nil or result == 0 then
+        return false, err or 'player not found'
+    end
     return true
 end
 
@@ -446,33 +556,51 @@ end
 ---@param ignoreTax boolean|nil -- true exempts this call from the transaction tax
 ---@return boolean, string|nil
 function Core.money.addMoney(src, account, amount, reason, ignoreTax)
-    if not validAccount(account) then return false, 'invalid account' end
+    if not validAccount(account) then
+        return false, 'invalid account'
+    end
     amount = finiteAmount(amount)
-    if not amount or amount <= 0 then return false, 'amount must be positive' end
+    if not amount or amount <= 0 then
+        return false, 'amount must be positive'
+    end
     local provider, providerErr = providerFor(account)
-    if provider == false then return false, providerErr end
+    if provider == false then
+        return false, providerErr
+    end
 
     local tax = taxFor(account, amount, 'add', ignoreTax)
     local net = amount - tax
     local refund = taxRefund(src, account, tax)
 
     if provider then
-        if amount ~= math.floor(amount) then return false, 'physical cash amount must be whole' end
+        if amount ~= math.floor(amount) then
+            return false, 'physical cash amount must be whole'
+        end
         if net > 0 then
-            local ok, added, err = pcall(function() return exports[provider]:physicalCashAdd(src, account, net, reason) end)
-            if not ok then return false, 'physical cash provider failed' end
-            if not added then return false, err end
+            local ok, added, err = pcall(function()
+                return exports[provider]:physicalCashAdd(src, account, net, reason)
+            end)
+            if not ok then
+                return false, 'physical cash provider failed'
+            end
+            if not added then
+                return false, err
+            end
             emitMoneyChange(src, account, net, 'add', reason)
         end
         dispatchTax(tax, reason, refund)
         return true
     end
     local player = PI.handle(src)
-    if not player then return false, 'no such player' end
+    if not player then
+        return false, 'no such player'
+    end
     if net > 0 then
         local newValue = (player.PlayerData.money[account] or 0) + net
         local changed, err = Core.player.setPath(src, { 'money', account }, newValue)
-        if not changed then return false, err end
+        if not changed then
+            return false, err
+        end
         emitMoneyChange(src, account, net, 'add', reason)
     end
     dispatchTax(tax, reason, refund)
@@ -489,32 +617,50 @@ end
 ---@param ignoreTax boolean|nil -- true exempts this call from the transaction tax
 ---@return boolean, string|nil
 function Core.money.removeMoney(src, account, amount, reason, ignoreTax)
-    if not validAccount(account) then return false, 'invalid account' end
+    if not validAccount(account) then
+        return false, 'invalid account'
+    end
     amount = finiteAmount(amount)
-    if not amount or amount <= 0 then return false, 'amount must be positive' end
+    if not amount or amount <= 0 then
+        return false, 'amount must be positive'
+    end
     local provider, providerErr = providerFor(account)
-    if provider == false then return false, providerErr end
+    if provider == false then
+        return false, providerErr
+    end
 
     local tax = taxFor(account, amount, 'remove', ignoreTax)
 
     if provider then
-        if amount ~= math.floor(amount) then return false, 'physical cash amount must be whole' end
-        local ok, removed, err = pcall(function() return exports[provider]:physicalCashRemove(src, account, amount, reason) end)
-        if not ok then return false, 'physical cash provider failed' end
-        if not removed then return false, err end
+        if amount ~= math.floor(amount) then
+            return false, 'physical cash amount must be whole'
+        end
+        local ok, removed, err = pcall(function()
+            return exports[provider]:physicalCashRemove(src, account, amount, reason)
+        end)
+        if not ok then
+            return false, 'physical cash provider failed'
+        end
+        if not removed then
+            return false, err
+        end
         emitMoneyChange(src, account, amount, 'remove', reason)
         dispatchTax(tax, reason, nil)
         return true
     end
     local player = PI.handle(src)
-    if not player then return false, 'no such player' end
+    if not player then
+        return false, 'no such player'
+    end
     local current = player.PlayerData.money[account] or 0
     local newValue = current - amount
     if newValue < floorFor(account) then
         return false, 'insufficient funds'
     end
     local changed, err = Core.player.setPath(src, { 'money', account }, newValue)
-    if not changed then return false, err end
+    if not changed then
+        return false, err
+    end
     emitMoneyChange(src, account, amount, 'remove', reason)
     dispatchTax(tax, reason, nil)
     return true
@@ -528,27 +674,51 @@ end
 ---@param reason string|nil
 ---@return boolean, string|nil
 function Core.money.setMoney(src, account, amount, reason)
-    if not validAccount(account) then return false, 'invalid account' end
+    if not validAccount(account) then
+        return false, 'invalid account'
+    end
     amount = finiteAmount(amount)
-    if not amount then return false, 'amount must be a finite number' end
+    if not amount then
+        return false, 'amount must be a finite number'
+    end
     local provider, providerErr = providerFor(account)
-    if provider == false then return false, providerErr end
+    if provider == false then
+        return false, providerErr
+    end
     if provider then
-        if amount ~= math.floor(amount) then return false, 'physical cash amount must be whole' end
-        if amount < 0 then return false, 'below account floor' end
+        if amount ~= math.floor(amount) then
+            return false, 'physical cash amount must be whole'
+        end
+        if amount < 0 then
+            return false, 'below account floor'
+        end
         local current = Core.money.getMoney(src, account)
-        if current == nil then return false, 'physical cash balance unavailable' end
-        local ok, set, err = pcall(function() return exports[provider]:physicalCashSet(src, account, amount, reason) end)
-        if not ok then return false, 'physical cash provider failed' end
-        if not set then return false, err end
+        if current == nil then
+            return false, 'physical cash balance unavailable'
+        end
+        local ok, set, err = pcall(function()
+            return exports[provider]:physicalCashSet(src, account, amount, reason)
+        end)
+        if not ok then
+            return false, 'physical cash provider failed'
+        end
+        if not set then
+            return false, err
+        end
         emitMoneyChange(src, account, math.abs(amount - current), 'set', reason)
         return true
     end
-    if amount < floorFor(account) then return false, 'below account floor' end
+    if amount < floorFor(account) then
+        return false, 'below account floor'
+    end
     local player = PI.handle(src)
-    if not player then return false, 'no such player' end
+    if not player then
+        return false, 'no such player'
+    end
     local changed, err = Core.player.setPath(src, { 'money', account }, amount)
-    if not changed then return false, err end
+    if not changed then
+        return false, err
+    end
     emitMoneyChange(src, account, amount, 'set', reason)
     return true
 end
@@ -565,35 +735,57 @@ end
 ---@return boolean, string|nil
 local function transferMoney(fromSrc, toSrc, account, amount, reason, ignoreTax)
     amount = finiteAmount(amount)
-    if not validAccount(account) or not amount or amount <= 0 then return false, 'invalid transfer' end
+    if not validAccount(account) or not amount or amount <= 0 then
+        return false, 'invalid transfer'
+    end
     local provider, providerErr = providerFor(account)
-    if provider == false then return false, providerErr end
+    if provider == false then
+        return false, providerErr
+    end
 
     local tax = taxFor(account, amount, 'transfer', ignoreTax)
     local net = amount - tax
     local refund = taxRefund(fromSrc, account, tax)
 
     if provider then
-        if amount ~= math.floor(amount) then return false, 'physical cash amount must be whole' end
+        if amount ~= math.floor(amount) then
+            return false, 'physical cash amount must be whole'
+        end
         if tax > 0 then
-            local ok, removed, err = pcall(function() return exports[provider]:physicalCashRemove(fromSrc, account, tax, reason) end)
-            if not ok then return false, 'physical cash provider failed' end
-            if not removed then return false, err end
+            local ok, removed, err = pcall(function()
+                return exports[provider]:physicalCashRemove(fromSrc, account, tax, reason)
+            end)
+            if not ok then
+                return false, 'physical cash provider failed'
+            end
+            if not removed then
+                return false, err
+            end
         end
         if net > 0 then
-            local ok, transferred, err = pcall(function() return exports[provider]:physicalCashTransfer(fromSrc, toSrc, account, net, reason) end)
+            local ok, transferred, err = pcall(function()
+                return exports[provider]:physicalCashTransfer(fromSrc, toSrc, account, net, reason)
+            end)
             if not ok or not transferred then
-                if tax > 0 then pcall(function() return exports[provider]:physicalCashAdd(fromSrc, account, tax, TAX_REFUND_REASON) end) end
+                if tax > 0 then
+                    pcall(function()
+                        return exports[provider]:physicalCashAdd(fromSrc, account, tax, TAX_REFUND_REASON)
+                    end)
+                end
                 return false, ok and err or 'physical cash provider failed'
             end
         end
         emitMoneyChange(fromSrc, account, amount, 'remove', reason)
-        if net > 0 then emitMoneyChange(toSrc, account, net, 'add', reason) end
+        if net > 0 then
+            emitMoneyChange(toSrc, account, net, 'add', reason)
+        end
         dispatchTax(tax, reason, refund)
         return true
     end
     local ok, err = Core.money.removeMoney(fromSrc, account, amount, reason, true)
-    if not ok then return false, err end
+    if not ok then
+        return false, err
+    end
     if net > 0 then
         local ok2, err2 = Core.money.addMoney(toSrc, account, net, reason, true)
         if not ok2 then
@@ -606,13 +798,21 @@ local function transferMoney(fromSrc, toSrc, account, amount, reason, ignoreTax)
 end
 
 function Core.money.transferMoney(fromSrc, toSrc, account, amount, reason, ignoreTax)
-    if not Core.persistence._beginMoneyTransfer then return transferMoney(fromSrc, toSrc, account, amount, reason, ignoreTax) end
+    if not Core.persistence._beginMoneyTransfer then
+        return transferMoney(fromSrc, toSrc, account, amount, reason, ignoreTax)
+    end
     local from, to = PI.handle(fromSrc), PI.handle(toSrc)
-    if not from or not to then return false, 'no such player' end
+    if not from or not to then
+        return false, 'no such player'
+    end
     local citizenids = { from.citizenid, to.citizenid }
-    if not Core.persistence._beginMoneyTransfer(citizenids) then return false, 'player data is busy' end
+    if not Core.persistence._beginMoneyTransfer(citizenids) then
+        return false, 'player data is busy'
+    end
     local result = table.pack(pcall(transferMoney, fromSrc, toSrc, account, amount, reason, ignoreTax))
     Core.persistence._endMoneyTransfer(citizenids)
-    if not result[1] then error(result[2], 0) end
+    if not result[1] then
+        error(result[2], 0)
+    end
     return table.unpack(result, 2, result.n)
 end

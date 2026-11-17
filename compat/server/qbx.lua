@@ -31,7 +31,9 @@ end
 
 local function copyMap(map)
     local out = {}
-    for k, v in pairs(map) do out[k] = v end
+    for k, v in pairs(map) do
+        out[k] = v
+    end
     return out
 end
 
@@ -48,10 +50,14 @@ local function onRoleUpdate(src)
     local before = session.groups
     session.groups = now
     for name in pairs(before) do
-        if now[name] == nil then emitGroupUpdate(src, name, nil) end
+        if now[name] == nil then
+            emitGroupUpdate(src, name, nil)
+        end
     end
     for name, grade in pairs(now) do
-        if before[name] ~= grade then emitGroupUpdate(src, name, grade) end
+        if before[name] ~= grade then
+            emitGroupUpdate(src, name, grade)
+        end
     end
 end
 
@@ -64,7 +70,9 @@ local function armReady(src, session, attempt)
         local bag = Player(src)
         local state = bag and bag.state
         if not (state and state.isLoggedIn == true) then
-            if attempt < READY_MAX_ATTEMPTS then return armReady(src, session, attempt + 1) end
+            if attempt < READY_MAX_ATTEMPTS then
+                return armReady(src, session, attempt + 1)
+            end
             Kora.logging.warn('compat.qbx_login_timeout', 'Player never reached isLoggedIn; loadInventory not set', { source = src })
             return
         end
@@ -91,7 +99,9 @@ AddEventHandler('QBCore:Server:OnPlayerUnload', function(src)
     if not session then return end
     sessions[src] = nil
     local bag = Player(src)
-    if bag and bag.state then bag.state:set('loadInventory', false, true) end
+    if bag and bag.state then
+        bag.state:set('loadInventory', false, true)
+    end
     TriggerEvent('qbx_core:server:playerLoggedOut', src)
 end)
 
@@ -115,9 +125,13 @@ local function getPlayer(src)
     function F.SetPlayerData(key, value)
         if key == 'items' then
             local handle = PI.handle(src)
-            if not handle then return false, 'no such player' end
+            if not handle then
+                return false, 'no such player'
+            end
             handle.PlayerData.items = value
-            if Core.compat.onPlayerDataChanged then Core.compat.onPlayerDataChanged(src, { 'items' }, value) end
+            if Core.compat.onPlayerDataChanged then
+                Core.compat.onPlayerDataChanged(src, { 'items' }, value)
+            end
             return true
         end
         return orig.Functions.SetPlayerData(key, value)
@@ -131,18 +145,24 @@ local function getPlayer(src)
 
     local player = copyMap(orig)
     player.Functions = F
-    for name, fn in pairs(F) do player[name] = receiverAware(fn) end
+    for name, fn in pairs(F) do
+        player[name] = receiverAware(fn)
+    end
     return player
 end
 
 local function getPlayersData()
     local sources = {}
-    for src in pairs(PI.bySource) do sources[#sources + 1] = src end
+    for src in pairs(PI.bySource) do
+        sources[#sources + 1] = src
+    end
     table.sort(sources)
     local out = {}
     for _, src in ipairs(sources) do
         local player = QBCore.Functions.GetPlayer(src)
-        if player then out[#out + 1] = Core.util.deepClone(player.PlayerData) end
+        if player then
+            out[#out + 1] = Core.util.deepClone(player.PlayerData)
+        end
     end
     return out
 end
@@ -151,7 +171,9 @@ local function canUseItem(name)
     local record = Core.inventory.getUseable(name)
     local func = record and record.func
     if not isCallable(func) then return nil end
-    return function(source, data) return func(source, data) end
+    return function(source, data)
+        return func(source, data)
+    end
 end
 
 local function getGroups(src)
@@ -161,7 +183,8 @@ end
 local function isGradeBoss(group, grade)
     grade = tonumber(grade)
     if type(group) ~= 'string' or not grade then return false end
-    local definition = Core.registry.getShared('jobs', group) or Core.registry.getShared('gangs', group)
+    local definition = Core.registry.getShared('jobs', group)
+        or Core.registry.getShared('gangs', group)
     local entry = definition and definition.grades and definition.grades[math.floor(grade) + 1]
     return entry ~= nil and entry.isboss == true
 end
@@ -176,9 +199,7 @@ local function getVehicleIdByPlate(plate)
     if type(plate) ~= 'string' then return nil end
     local trimmed = (plate:gsub('^%s+', ''):gsub('%s+$', ''))
     if trimmed == '' then return nil end
-    local row = Kora.sql.single(
-        'SELECT `id` FROM `player_vehicles` WHERE `plate` IN (?, ?) AND `deleted_at` IS NULL LIMIT 1',
-        { plate, trimmed:upper() })
+    local row = Kora.sql.single('SELECT `id` FROM `player_vehicles` WHERE `plate` IN (?, ?) AND `deleted_at` IS NULL LIMIT 1', { plate, trimmed:upper() })
     return row and row.id or nil
 end
 

@@ -35,16 +35,22 @@ local function normaliseRoleGrades(record)
     end
     if #indexed == 0 then return end
 
-    table.sort(indexed, function(a, b) return a.level < b.level end)
+    table.sort(indexed, function(a, b)
+        return a.level < b.level
+    end)
     local normalised = {}
-    for _, entry in ipairs(indexed) do normalised[#normalised + 1] = entry.grade end
+    for _, entry in ipairs(indexed) do
+        normalised[#normalised + 1] = entry.grade
+    end
     record.grades = normalised
 end
 
 local subRegistry = Kora.resources.serverRegistry(function(owner)
     for _, r in pairs(RI.registries) do
         for subId, sub in pairs(r.subscribers) do
-            if sub.resource == owner then r.subscribers[subId] = nil end
+            if sub.resource == owner then
+                r.subscribers[subId] = nil
+            end
         end
     end
     local owned = ownedRecords[owner]
@@ -70,14 +76,20 @@ end
 ---@param record table
 ---@return boolean, string|nil
 function Core.registry.registerShared(name, key, record)
-    if type(record) ~= 'table' then return false, 'record must be a table' end
+    if type(record) ~= 'table' then
+        return false, 'record must be a table'
+    end
     local r = RI.registries[name]
-    if not r then return false, ('no registry named %q'):format(tostring(name)) end
-    if name == 'jobs' or name == 'gangs' then normaliseRoleGrades(record) end
+    if not r then
+        return false, ('no registry named %q'):format(tostring(name))
+    end
+    if name == 'jobs' or name == 'gangs' then
+        normaliseRoleGrades(record)
+    end
     record[r.keyField] = record[r.keyField] or key
     if record[r.keyField] ~= key then
-        return false, ('record.%s (%s) does not match key (%s)')
-            :format(r.keyField, tostring(record[r.keyField]), tostring(key))
+        return false,
+            ('record.%s (%s) does not match key (%s)'):format(r.keyField, tostring(record[r.keyField]), tostring(key))
     end
 
     local previous = Core.registry.getShared(name, key)
@@ -108,7 +120,9 @@ function Core.registry.registerManyShared(name, records)
     local n = 0
     for _, record in ipairs(records) do
         local key = record[r.keyField]
-        if key ~= nil and Core.registry.registerShared(name, key, record) then n = n + 1 end
+        if key ~= nil and Core.registry.registerShared(name, key, record) then
+            n = n + 1
+        end
     end
     return n
 end
@@ -135,13 +149,19 @@ end
 ---@return integer|nil, string|nil
 function Core.registry.onSharedChange(name, handler)
     local r = RI.registries[name]
-    if not r then return nil, 'no such registry' end
-    if not RI.isCallable(handler) then return nil, 'handler must be callable' end
+    if not r then
+        return nil, 'no such registry'
+    end
+    if not RI.isCallable(handler) then
+        return nil, 'handler must be callable'
+    end
     local owner = GetInvokingResource() or GetCurrentResourceName()
     local subId = r.nextSubId
     r.nextSubId = r.nextSubId + 1
     r.subscribers[subId] = { resource = owner, handler = handler }
-    if owner then subRegistry.track(owner, owner) end
+    if owner then
+        subRegistry.track(owner, owner)
+    end
     return subId
 end
 
@@ -149,18 +169,25 @@ end
 ---@param subId integer
 function Core.registry.offSharedChange(name, subId)
     local r = RI.registries[name]
-    if r then r.subscribers[subId] = nil end
+    if r then
+        r.subscribers[subId] = nil
+    end
 end
 
 do
     KoraCoreSeed = KoraCoreSeed or {}
     local seeds = {
-        items = KoraCoreSeed.items, vehicles = KoraCoreSeed.vehicles,
-        jobs = KoraCoreSeed.jobs, gangs = KoraCoreSeed.gangs,
-        weapons = KoraCoreSeed.weapons, locations = KoraCoreSeed.locations,
+        items = KoraCoreSeed.items,
+        vehicles = KoraCoreSeed.vehicles,
+        jobs = KoraCoreSeed.jobs,
+        gangs = KoraCoreSeed.gangs,
+        weapons = KoraCoreSeed.weapons,
+        locations = KoraCoreSeed.locations,
     }
     for name, records in pairs(seeds) do
-        if records then Core.registry.registerManyShared(name, records) end
+        if records then
+            Core.registry.registerManyShared(name, records)
+        end
     end
 end
 
@@ -175,7 +202,9 @@ local function sendSnapshot(src)
     SetTimeout(windowMs, function()
         if snapshotWindows[src] ~= window then return end
         snapshotWindows[src] = nil
-        if window.pending then sendSnapshot(src) end
+        if window.pending then
+            sendSnapshot(src)
+        end
     end)
 end
 

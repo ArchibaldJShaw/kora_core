@@ -9,7 +9,9 @@ RI.create('locations', 'key')
 
 RegisterNetEvent('kora_core:registry:snapshotAll', function(all)
     for name, payload in pairs(all) do
-        if RI.registries[name] then RI.reseed(name, payload.records, payload.epoch) end
+        if RI.registries[name] then
+            RI.reseed(name, payload.records, payload.epoch)
+        end
     end
     TriggerEvent('kora_core:registry:synced')
 end)
@@ -22,22 +24,31 @@ RegisterNetEvent('kora_core:registry:delta', function(name, action, key, record,
         return
     end
     local previous = Core.registry.getShared(name, key)
-    if action == 'remove' then RI.remove(name, key) else RI.apply(name, key, record) end
+    if action == 'remove' then
+        RI.remove(name, key)
+    else
+        RI.apply(name, key, record)
+    end
     RI.dispatch(name, action, key, record, previous)
 end)
 
 function Core.registry.onSharedChange(name, handler)
     local r = RI.registries[name]
-    if not r then return nil, 'no such registry' end
+    if not r then
+        return nil, 'no such registry'
+    end
     local subId = r.nextSubId
     r.nextSubId = r.nextSubId + 1
-    r.subscribers[subId] = { resource = GetInvokingResource() or GetCurrentResourceName(), handler = handler }
+    r.subscribers[subId] =
+        { resource = GetInvokingResource() or GetCurrentResourceName(), handler = handler }
     return subId
 end
 
 function Core.registry.offSharedChange(name, subId)
     local r = RI.registries[name]
-    if r then r.subscribers[subId] = nil end
+    if r then
+        r.subscribers[subId] = nil
+    end
 end
 
 function Core.registry.registerShared(name, key)

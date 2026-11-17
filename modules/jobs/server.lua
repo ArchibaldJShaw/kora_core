@@ -23,7 +23,9 @@ local function publish()
             merged[name] = count
         end
     end
-    for k, v in pairs(jobCounts) do merged[k] = v end
+    for k, v in pairs(jobCounts) do
+        merged[k] = v
+    end
     GlobalState.OnDuty = merged
 end
 
@@ -52,24 +54,40 @@ end
 
 local function indexRemove(src, jobName)
     if jobName then
-        if byJob[jobName] then byJob[jobName][src] = nil end
-        if byJobOnDuty[jobName] then setDuty(byJobOnDuty[jobName], jobCounts, jobName, src, false) end
+        if byJob[jobName] then
+            byJob[jobName][src] = nil
+        end
+        if byJobOnDuty[jobName] then
+            setDuty(byJobOnDuty[jobName], jobCounts, jobName, src, false)
+        end
     end
 
     local jobType = typeOfSrc[src]
     if jobType then
-        if byType[jobType] then byType[jobType][src] = nil end
-        if byTypeOnDuty[jobType] then setDuty(byTypeOnDuty[jobType], typeCounts, jobType, src, false) end
+        if byType[jobType] then
+            byType[jobType][src] = nil
+        end
+        if byTypeOnDuty[jobType] then
+            setDuty(byTypeOnDuty[jobType], typeCounts, jobType, src, false)
+        end
         typeOfSrc[src] = nil
     end
 end
 
 ---@param src integer
 local function indexForget(src)
-    for _, set in pairs(byJob) do set[src] = nil end
-    for _, set in pairs(byType) do set[src] = nil end
-    for name, set in pairs(byJobOnDuty) do setDuty(set, jobCounts, name, src, false) end
-    for name, set in pairs(byTypeOnDuty) do setDuty(set, typeCounts, name, src, false) end
+    for _, set in pairs(byJob) do
+        set[src] = nil
+    end
+    for _, set in pairs(byType) do
+        set[src] = nil
+    end
+    for name, set in pairs(byJobOnDuty) do
+        setDuty(set, jobCounts, name, src, false)
+    end
+    for name, set in pairs(byTypeOnDuty) do
+        setDuty(set, typeCounts, name, src, false)
+    end
     typeOfSrc[src] = nil
 end
 
@@ -111,7 +129,11 @@ end
 ---@return integer[]
 local function toArray(set)
     local out = {}
-    if set then for src in pairs(set) do out[#out + 1] = src end end
+    if set then
+        for src in pairs(set) do
+            out[#out + 1] = src
+        end
+    end
     return out
 end
 
@@ -135,18 +157,25 @@ end
 ---@return boolean, string|nil
 function Core.jobs.setJob(src, name, grade)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if not Core.registry.getShared('jobs', name) then return false, 'unknown job' end
+    if not p then
+        return false, 'no such player'
+    end
+    if not Core.registry.getShared('jobs', name) then
+        return false, 'unknown job'
+    end
     grade = math.max(1, math.floor(tonumber(grade) or 1))
 
     local previousJob = p.PlayerData.job and p.PlayerData.job.name
     local job = CoreInternal.player.buildJob(name, grade)
     local changed, err = Core.player.setPath(src, { 'job' }, job)
-    if not changed then return false, err end
+    if not changed then
+        return false, err
+    end
     indexRemove(src, previousJob)
     indexAdd(src, name, job.onduty, job.type)
 
-    local legacyJob = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(job, 'jobs') or job
+    local legacyJob = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(job, 'jobs')
+        or job
     TriggerEvent('QBCore:Server:OnJobUpdate', src, legacyJob)
     TriggerEvent('QBCore:Server:OnPlayerUpdated', src, 'job', legacyJob)
     if Config.compat.jobUpdateEventSource ~= 'client' then
@@ -162,13 +191,21 @@ end
 ---@return boolean, string|nil
 function Core.jobs.setGang(src, name, grade)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if not Core.registry.getShared('gangs', name) then return false, 'unknown gang' end
+    if not p then
+        return false, 'no such player'
+    end
+    if not Core.registry.getShared('gangs', name) then
+        return false, 'unknown gang'
+    end
     grade = math.max(1, math.floor(tonumber(grade) or 1))
     local gang = CoreInternal.player.buildGang(name, grade)
     local changed, err = Core.player.setPath(src, { 'gang' }, gang)
-    if not changed then return false, err end
-    local legacyGang = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(gang, 'gangs') or gang
+    if not changed then
+        return false, err
+    end
+    local legacyGang = Core.compat.toLegacyJobOrGang
+            and Core.compat.toLegacyJobOrGang(gang, 'gangs')
+        or gang
     TriggerEvent('QBCore:Server:OnGangUpdate', src, legacyGang)
     TriggerEvent('QBCore:Server:OnPlayerUpdated', src, 'gang', legacyGang)
     if Config.compat.jobUpdateEventSource ~= 'client' then
@@ -186,11 +223,15 @@ function Core.jobs.setJobDuty(src, onDuty)
     if not p then return false end
     onDuty = onDuty and true or false
     local changed, err = Core.player.setPath(src, { 'job', 'onduty' }, onDuty)
-    if not changed then return false, err end
+    if not changed then
+        return false, err
+    end
     indexSetDuty(src, p.PlayerData.job and p.PlayerData.job.name, onDuty)
     TriggerEvent('QBCore:Server:SetDuty', src, onDuty)
     TriggerClientEvent('QBCore:Client:SetDuty', src, onDuty)
-    local legacyJob = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(p.PlayerData.job, 'jobs') or p.PlayerData.job
+    local legacyJob = Core.compat.toLegacyJobOrGang
+            and Core.compat.toLegacyJobOrGang(p.PlayerData.job, 'jobs')
+        or p.PlayerData.job
     TriggerEvent('QBCore:Server:OnJobUpdate', src, legacyJob)
     TriggerEvent('QBCore:Server:OnPlayerUpdated', src, 'job', legacyJob)
     if Config.compat.jobUpdateEventSource ~= 'client' then
@@ -206,9 +247,13 @@ end
 ---@param grade integer|nil
 ---@return boolean, string|nil
 function Core.jobs.setOfflineJob(citizenid, name, grade)
-    if not Core.registry.getShared('jobs', name) then return false, 'unknown job' end
+    if not Core.registry.getShared('jobs', name) then
+        return false, 'unknown job'
+    end
     local data, err = Core.persistence.getOfflinePlayerData(citizenid)
-    if not data then return false, err end
+    if not data then
+        return false, err
+    end
     data.job = CoreInternal.player.buildJob(name, grade)
     return Core.persistence.saveOfflinePlayer(data, { 'job' })
 end
@@ -218,9 +263,13 @@ end
 ---@param grade integer|nil
 ---@return boolean, string|nil
 function Core.jobs.setOfflineGang(citizenid, name, grade)
-    if not Core.registry.getShared('gangs', name) then return false, 'unknown gang' end
+    if not Core.registry.getShared('gangs', name) then
+        return false, 'unknown gang'
+    end
     local data, err = Core.persistence.getOfflinePlayerData(citizenid)
-    if not data then return false, err end
+    if not data then
+        return false, err
+    end
     data.gang = CoreInternal.player.buildGang(name, grade)
     return Core.persistence.saveOfflinePlayer(data, { 'gang' })
 end
@@ -264,8 +313,12 @@ function Core.jobs.getJobTypeCounts(onDutyOnly)
     local counts = {}
     for jobType, set in pairs(onDutyOnly and byTypeOnDuty or byType) do
         local n = 0
-        for _ in pairs(set) do n = n + 1 end
-        if n > 0 then counts[jobType] = n end
+        for _ in pairs(set) do
+            n = n + 1
+        end
+        if n > 0 then
+            counts[jobType] = n
+        end
     end
     return counts
 end
@@ -277,11 +330,24 @@ end
 ---With no filter it returns every on-duty player of every job. `job` and
 ---`jobType` narrow it; passing both requires the player to match both.
 ---@param filter { job: string|nil, jobType: string|nil, onDutyOnly: boolean|nil }|nil
----@return { src: integer, citizenid: string, name: string, callsign: string|nil, job: string, jobLabel: string, jobType: string, grade: integer, gradeLabel: string, onDuty: boolean }[]
+---@class CoreJobsOnDutyRosterEntry
+---@field src integer
+---@field citizenid string
+---@field name string
+---@field callsign string|nil
+---@field job string
+---@field jobLabel string
+---@field jobType string
+---@field grade integer
+---@field gradeLabel string
+---@field onDuty boolean
+---@return CoreJobsOnDutyRosterEntry[]
 function Core.jobs.getOnDutyRoster(filter)
     filter = filter or {}
     local onDutyOnly = filter.onDutyOnly
-    if onDutyOnly == nil then onDutyOnly = true end
+    if onDutyOnly == nil then
+        onDutyOnly = true
+    end
 
     local sources
     if filter.job then
@@ -291,7 +357,9 @@ function Core.jobs.getOnDutyRoster(filter)
     else
         sources = {}
         for _, set in pairs(onDutyOnly and byTypeOnDuty or byType) do
-            for src in pairs(set) do sources[#sources + 1] = src end
+            for src in pairs(set) do
+                sources[#sources + 1] = src
+            end
         end
     end
 
@@ -308,7 +376,9 @@ function Core.jobs.getOnDutyRoster(filter)
                 out[#out + 1] = {
                     src = src,
                     citizenid = p.PlayerData.citizenid,
-                    name = ('%s %s'):format(charinfo.firstname or '', charinfo.lastname or ''):gsub('^%s*(.-)%s*$', '%1'),
+                    name = ('%s %s')
+                        :format(charinfo.firstname or '', charinfo.lastname or '')
+                        :gsub('^%s*(.-)%s*$', '%1'),
                     callsign = p.PlayerData.metadata and p.PlayerData.metadata.callsign or nil,
                     job = job.name,
                     jobLabel = job.label or job.name,
@@ -362,7 +432,9 @@ end)
 
 local function snapshot(t)
     local keys = {}
-    for k, v in pairs(t) do keys[#keys + 1] = ('%s=%d'):format(k, v) end
+    for k, v in pairs(t) do
+        keys[#keys + 1] = ('%s=%d'):format(k, v)
+    end
     table.sort(keys)
     return table.concat(keys, ',')
 end

@@ -13,9 +13,15 @@ local function onUsingItem(payload, src)
     end
 
     local effect = def.effect
-    if effect.hungerDelta then Core.metadata.incrementMetaData(src, 'hunger', effect.hungerDelta, 0, 100) end
-    if effect.thirstDelta then Core.metadata.incrementMetaData(src, 'thirst', effect.thirstDelta, 0, 100) end
-    if effect.stressDelta then Core.metadata.incrementMetaData(src, 'stress', effect.stressDelta, 0, 100) end
+    if effect.hungerDelta then
+        Core.metadata.incrementMetaData(src, 'hunger', effect.hungerDelta, 0, 100)
+    end
+    if effect.thirstDelta then
+        Core.metadata.incrementMetaData(src, 'thirst', effect.thirstDelta, 0, 100)
+    end
+    if effect.stressDelta then
+        Core.metadata.incrementMetaData(src, 'stress', effect.stressDelta, 0, 100)
+    end
 
     return true
 end
@@ -24,21 +30,31 @@ local function register()
     if not Config.consumables.enabled then return end
     if GetResourceState('kora_inventory') ~= 'started' then return end
 
-    local ok = pcall(function() exports.kora_inventory:registerHook('usingItem', onUsingItem) end)
+    local ok = pcall(function()
+        exports.kora_inventory:registerHook('usingItem', onUsingItem)
+    end)
     if not ok then
-        ok = pcall(function() exports.kora_inventory:RegisterHook('usingItem', onUsingItem) end)
+        ok = pcall(function()
+            exports.kora_inventory:RegisterHook('usingItem', onUsingItem)
+        end)
     end
-    if ok then registered = true end
+    if ok then
+        registered = true
+    end
 end
 
 register()
 
 AddEventHandler('onResourceStart', function(resourceName)
-    if resourceName == 'kora_inventory' then register() end
+    if resourceName == 'kora_inventory' then
+        register()
+    end
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)
-    if resourceName == 'kora_inventory' then registered = false end
+    if resourceName == 'kora_inventory' then
+        registered = false
+    end
 end)
 
 ---@return boolean

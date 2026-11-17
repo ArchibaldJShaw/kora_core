@@ -16,8 +16,7 @@ local VEHICLE_SYNC_TRIGGERS = {
                 NEW.`engine` = COALESCE(NEW.`engine`, NEW.`engine_health`),
                 NEW.`body_health` = CASE WHEN NEW.`body` IS NOT NULL
                     THEN %s ELSE NEW.`body_health` END,
-                NEW.`body` = COALESCE(NEW.`body`, NEW.`body_health`)]]):format(
-            clamp16('NEW.`engine`'), clamp16('NEW.`body`')),
+                NEW.`body` = COALESCE(NEW.`body`, NEW.`body_health`)]]):format(clamp16('NEW.`engine`'), clamp16('NEW.`body`')),
     },
     {
         name = 'kora_core_player_vehicles_compat_update',
@@ -52,27 +51,36 @@ local VEHICLE_SYNC_TRIGGERS = {
                 NEW.`body_health` = CASE
                     WHEN (NEW.`body_health` <=> OLD.`body_health`)
                         AND NOT (NEW.`body` <=> OLD.`body`)
-                        THEN %s ELSE NEW.`body_health` END]]):format(
-            clamp16('NEW.`engine`'), clamp16('NEW.`body`')),
+                        THEN %s ELSE NEW.`body_health` END]]):format(clamp16('NEW.`engine`'), clamp16('NEW.`body`')),
     },
 }
 
 local function ensureVehicleSyncTriggers()
-    local rows, queryErr = Kora.sql.query([[SELECT `TRIGGER_NAME` AS `name`
+    local rows, queryErr = Kora.sql.query(
+        [[SELECT `TRIGGER_NAME` AS `name`
         FROM `information_schema`.`TRIGGERS`
         WHERE `TRIGGER_SCHEMA` = DATABASE()
             AND `EVENT_OBJECT_TABLE` = 'player_vehicles'
-            AND `TRIGGER_NAME` IN (?, ?)]], {
-        VEHICLE_SYNC_TRIGGERS[1].name, VEHICLE_SYNC_TRIGGERS[2].name,
-    })
-    if not rows then return false, queryErr end
+            AND `TRIGGER_NAME` IN (?, ?)]],
+        {
+            VEHICLE_SYNC_TRIGGERS[1].name,
+            VEHICLE_SYNC_TRIGGERS[2].name,
+        }
+    )
+    if not rows then
+        return false, queryErr
+    end
 
     local existing = {}
-    for _, row in ipairs(rows) do existing[row.name] = true end
+    for _, row in ipairs(rows) do
+        existing[row.name] = true
+    end
     for _, trigger in ipairs(VEHICLE_SYNC_TRIGGERS) do
         if not existing[trigger.name] then
             local created, createErr = Kora.sql.execute(trigger.sql)
-            if created == nil and createErr then return false, createErr end
+            if created == nil and createErr then
+                return false, createErr
+            end
         end
     end
     return true
@@ -88,11 +96,15 @@ end
 
 local function applySchema()
     local reports, err = Kora.sql.ensureTables(KoraCoreSchema)
-    if err then return false, err end
+    if err then
+        return false, err
+    end
     logSchemaWarnings(reports)
     if Config.persistence.generatedColumns then
         local generated, generatedErr = Kora.sql.ensureTables(KoraCoreGeneratedSchema)
-        if generatedErr then return false, generatedErr end
+        if generatedErr then
+            return false, generatedErr
+        end
         logSchemaWarnings(generated)
     end
     return true
@@ -115,7 +127,8 @@ CreateThread(function()
     Kora.logging.info('schema.up_to_date', 'Schema up to date')
     exports.kora_sql:prepareWarm({
         'SELECT * FROM `players` WHERE `citizenid` = ? AND `deleted_at` IS NULL',
-        'SELECT `citizenid`,`cid`,`name`,`charinfo`,`money`,`job`,`gang` FROM `players` WHERE `license` = ? AND `deleted_at` IS NULL ORDER BY `cid`',
+        'SELECT `citizenid`,`cid`,`name`,`charinfo`,`money`,`job`,`gang` '
+            .. 'FROM `players` WHERE `license` = ? AND `deleted_at` IS NULL ORDER BY `cid`',
     })
     TriggerEvent('kora_core:server:databaseReady')
 end)

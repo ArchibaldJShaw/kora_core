@@ -31,13 +31,15 @@ end
 ---@return boolean, string|nil
 function Core.jail.jailPlayer(src, minutes, reason)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    minutes = tonumber(minutes)
-    if not minutes or minutes <= 0 then return false, 'minutes must be positive' end
-
-    if deferToExternal(src, minutes, reason) then
-        return true
+    if not p then
+        return false, 'no such player'
     end
+    minutes = tonumber(minutes)
+    if not minutes or minutes <= 0 then
+        return false, 'minutes must be positive'
+    end
+
+    if deferToExternal(src, minutes, reason) then return true end
 
     local releaseAt = os.time() + math.floor(minutes * 60)
     Core.player.setPath(src, { 'metadata', 'jailed' }, releaseAt)
@@ -101,21 +103,35 @@ AddEventHandler('kora_core:server:playerLoaded', function(src)
     scheduleRelease(src, p, p.PlayerData.metadata.jailed)
 end)
 
-Core.commands.addCommand('jail', Kora.lang('Jail.jail_help'), {
-    { name = 'id', help = Kora.lang('Jail.id_help') },
-    { name = 'minutes', help = Kora.lang('Jail.minutes_help') },
-    { name = 'reason', help = Kora.lang('Jail.reason_help') },
-}, true, function(_, args)
-    local target = tonumber(args[1])
-    local minutes = tonumber(args[2])
-    if not target or not minutes then return end
-    Core.jail.jailPlayer(target, minutes, table.concat(args, ' ', 3))
-end, 'admin')
+Core.commands.addCommand(
+    'jail',
+    Kora.lang('Jail.jail_help'),
+    {
+        { name = 'id', help = Kora.lang('Jail.id_help') },
+        { name = 'minutes', help = Kora.lang('Jail.minutes_help') },
+        { name = 'reason', help = Kora.lang('Jail.reason_help') },
+    },
+    true,
+    function(_, args)
+        local target = tonumber(args[1])
+        local minutes = tonumber(args[2])
+        if not target or not minutes then return end
+        Core.jail.jailPlayer(target, minutes, table.concat(args, ' ', 3))
+    end,
+    'admin'
+)
 
-Core.commands.addCommand('unjail', Kora.lang('Jail.release_help'), {
-    { name = 'id', help = Kora.lang('Jail.id_help') },
-}, true, function(_, args)
-    local target = tonumber(args[1])
-    if not target then return end
-    Core.jail.release(target)
-end, 'admin')
+Core.commands.addCommand(
+    'unjail',
+    Kora.lang('Jail.release_help'),
+    {
+        { name = 'id', help = Kora.lang('Jail.id_help') },
+    },
+    true,
+    function(_, args)
+        local target = tonumber(args[1])
+        if not target then return end
+        Core.jail.release(target)
+    end,
+    'admin'
+)

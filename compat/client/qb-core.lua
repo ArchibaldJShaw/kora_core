@@ -4,19 +4,21 @@ local isCallable = Kora.util.isCallable
 local F = QBCore.Functions
 
 local NOTIFY_TYPE_MAP = {
-    primary = 'info',
-    inform  = 'info',
-    info    = 'info',
-    success = 'success',
-    warning = 'warning',
-    error   = 'error',
-    police  = 'info',
+    primary   = 'info',
+    inform    = 'info',
+    info      = 'info',
+    success   = 'success',
+    warning   = 'warning',
+    error     = 'error',
+    police    = 'info',
     ambulance = 'info',
 }
 
 local function resolveLocalizedText(value)
     if type(value) ~= 'table' or value.__kora_locale ~= true then return value end
-    if type(value.resource) ~= 'string' or type(value.key) ~= 'string' then return Kora.lang('Notify.locale_invalid') end
+    if type(value.resource) ~= 'string' or type(value.key) ~= 'string' then
+        return Kora.lang('Notify.locale_invalid')
+    end
 
     local ok, translated = pcall(function()
         return exports.kora_lib:locale_translate(value.resource, value.key, value.substitutions)
@@ -63,7 +65,7 @@ RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
 
     local ok, err = pcall(handler, respond, ...)
     if not ok then
-        Kora.logging.error('compat.legacy_client_callback_errored', 'Legacy client callback raised an error', { callback = tostring(name), error = tostring(err) })
+        Kora.logging.error( 'compat.legacy_client_callback_errored', 'Legacy client callback raised an error', { callback = tostring(name), error = tostring(err) })
     end
 end)
 
@@ -73,11 +75,16 @@ local function dropPending(name, entry)
     local queue = pendingCallbacks[name]
     if not queue then return end
     for i = 1, #queue do
-        if queue[i] == entry then table.remove(queue, i); break end
+        if queue[i] == entry then
+            table.remove(queue, i)
+            break
+        end
     end
     if #queue == 0 then
         pendingCallbacks[name] = nil
-        if QBCore.ServerCallbacks[name] == entry then QBCore.ServerCallbacks[name] = nil end
+        if QBCore.ServerCallbacks[name] == entry then
+            QBCore.ServerCallbacks[name] = nil
+        end
     elseif QBCore.ServerCallbacks[name] == entry then
         QBCore.ServerCallbacks[name] = queue[1]
     end
@@ -92,13 +99,15 @@ function F.TriggerCallback(name, ...)
     end
 
     if cb == nil and coroutine.isyieldable and not coroutine.isyieldable() then
-        error(("TriggerCallback(%q) without a callback awaits the reply and must be called from a thread "
-            .. "(CreateThread); pass a callback function instead"):format(tostring(name)), 2)
+        error(('TriggerCallback(%q) without a callback awaits the reply and must be called from a thread ' .. '(CreateThread); pass a callback function instead'):format(tostring(name)), 2)
     end
 
     local entry = { callback = cb, promise = promise.new() }
     local queue = pendingCallbacks[name]
-    if not queue then queue = {}; pendingCallbacks[name] = queue end
+    if not queue then
+        queue = {}
+        pendingCallbacks[name] = queue
+    end
     queue[#queue + 1] = entry
     QBCore.ServerCallbacks[name] = queue[1]
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, table.unpack(args, 1, args.n))
@@ -128,18 +137,26 @@ RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
         QBCore.ServerCallbacks[name] = nil
     end
     if type(entry) == 'table' and not isCallable(entry) then
-        if entry.promise then entry.promise:resolve(...) end
-        if entry.callback then entry.callback(...) end
+        if entry.promise then
+            entry.promise:resolve(...)
+        end
+        if entry.callback then
+            entry.callback(...)
+        end
     elseif entry then
         entry(...)
     end
 end)
 
-function F.CreateCallback(name, handler) F.CreateClientCallback(name, handler) end
+function F.CreateCallback(name, handler)
+    F.CreateClientCallback(name, handler)
+end
 
 function F.GetPlayerData(cb)
     local data = QBCore.PlayerData
-    if cb then cb(data) end
+    if cb then
+        cb(data)
+    end
     return data
 end
 
@@ -163,7 +180,9 @@ function F.HasItem(items, amount)
     local function count(name)
         local n = 0
         for _, item in pairs(invItems) do
-            if item and item.name == name then n = n + (item.amount or 0) end
+            if item and item.name == name then
+                n = n + (item.amount or 0)
+            end
         end
         return n
     end
@@ -197,9 +216,13 @@ function F.LookAtEntity(entity, timeout, speed)
     if type(speed) ~= 'number' then
         return involved .. ' :^1  Speed must be a number'
     end
-    if speed > 5.0 then speed = 5.0 end
+    if speed > 5.0 then
+        speed = 5.0
+    end
     timeout = tonumber(timeout) or 5000
-    if timeout > 5000 then timeout = 5000 end
+    if timeout > 5000 then
+        timeout = 5000
+    end
     local ped = PlayerPedId()
     local playerPos = GetEntityCoords(ped)
     local targetPos = GetEntityCoords(entity)
@@ -227,7 +250,9 @@ function F.LookAtEntity(entity, timeout, speed)
         end
         SetEntityHeading(ped, currentHeading)
         Wait(0)
-        if (startTimeout + timeout) < GetGameTimer() then break end
+        if (startTimeout + timeout) < GetGameTimer() then
+            break
+        end
     end
     SetEntityHeading(ped, targetHeading)
 end
@@ -250,7 +275,9 @@ function F.PlayAnim(animDict, animName, upperbodyOnly, duration)
     end
     local flags = upperbodyOnly and 16 or 0
     local runTime = duration or -1
-    if runTime == -1 then flags = 49 end
+    if runTime == -1 then
+        flags = 49
+    end
     local ped = PlayerPedId()
     local loaded = Kora.stream.loadAnimDict(animDict)
     if not loaded then
@@ -307,7 +334,9 @@ function F.Progressbar(name, label, duration, useWhileDead, canCancel, disableCo
         propTwo = propTwo,
     }, function(cancelled)
         if cancelled then
-            if onCancel then onCancel() end
+            if onCancel then
+                onCancel()
+            end
         elseif onFinish then
             onFinish()
         end
@@ -343,7 +372,9 @@ function F.GetPlayersFromCoords(coords, distance)
     local closePlayers = {}
     for i = 1, #matches do
         local playerId = pedToPlayerId(matches[i].entity)
-        if playerId then closePlayers[#closePlayers + 1] = playerId end
+        if playerId then
+            closePlayers[#closePlayers + 1] = playerId
+        end
     end
     return closePlayers
 end
@@ -357,7 +388,9 @@ function F.GetClosestPlayer(coords)
     local entity, _, distance = Kora.world.getClosestEntity('player', coords, {
         excludeEntities = { PlayerPedId() },
     })
-    if not entity then return -1, -1 end
+    if not entity then
+        return -1, -1
+    end
     return pedToPlayerId(entity) or -1, distance
 end
 
@@ -383,7 +416,8 @@ function F.GetClosestPed(coords, ignoreList)
     else
         coords = GetEntityCoords(PlayerPedId())
     end
-    local entity, _, distance = Kora.world.getClosestEntity('ped', coords, { excludeEntities = ignoreList })
+    local entity, _, distance =
+        Kora.world.getClosestEntity('ped', coords, { excludeEntities = ignoreList })
     return entity or -1, distance or -1
 end
 
@@ -410,20 +444,28 @@ end
 local warnedClientNetworkVehicle = false
 
 local function awaitStreamingAsset(value, timeout, request, hasLoaded, release)
-    if hasLoaded(value) then return true, value end
+    if hasLoaded(value) then
+        return true, value
+    end
     request(value)
     local loaded = Kora.loops.controlled(function()
         return hasLoaded(value)
     end, false, timeout or 5000, 25)
-    if not loaded and release then release(value) end
+    if not loaded and release then
+        release(value)
+    end
     return loaded == true, value
 end
 
 function F.LoadModel(model, timeout)
     timeout = timeout or 5000
     local modelName = model
-    if type(modelName) ~= 'number' then modelName = joaat(model) end
-    if HasModelLoaded(modelName) then return true, model end
+    if type(modelName) ~= 'number' then
+        modelName = joaat(model)
+    end
+    if HasModelLoaded(modelName) then
+        return true, model
+    end
 
     if not IsModelValid(modelName) and not IsModelInCdimage(modelName) then
         Kora.logging.warn('compat.model_missing', 'Model does not exist', { model = tostring(modelName or model) })
@@ -441,9 +483,10 @@ local function applyOwnedVehicleDefaults(veh)
 end
 
 local function spawnNetworkedVehicle(model, coords, heading, teleportInto)
-    if Config.compat.vehicleSpawnCallbacks == 'off' or not coroutine.isyieldable() then return nil end
-    local netId = F.TriggerCallback('QBCore:Server:SpawnVehicle', model,
-        { x = coords.x, y = coords.y, z = coords.z, w = heading or 0.0 }, teleportInto == true)
+    if Config.compat.vehicleSpawnCallbacks == 'off' or not coroutine.isyieldable() then
+        return nil
+    end
+    local netId = F.TriggerCallback('QBCore:Server:SpawnVehicle', model, { x = coords.x, y = coords.y, z = coords.z, w = heading or 0.0 }, teleportInto == true)
     if type(netId) ~= 'number' then return nil end
     local veh = Kora.loops.controlled(function()
         if NetworkDoesNetworkIdExist(netId) then
@@ -469,27 +512,35 @@ function F.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
         local veh = spawnNetworkedVehicle(model, coords, heading, teleportInto)
         if veh then
             applyOwnedVehicleDefaults(veh)
-            if teleportInto then TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1) end
-            if cb then cb(veh) end
+            if teleportInto then
+                TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+            end
+            if cb then
+                cb(veh)
+            end
             return veh
         end
         if not warnedClientNetworkVehicle then
             warnedClientNetworkVehicle = true
-            Kora.logging.warn('compat.spawn_vehicle_local_fallback', 'Client SpawnVehicle could not get a server-validated networked vehicle '
-                .. '(see Config.compat.vehicleSpawnCallbacks); creating a local vehicle instead')
+            Kora.logging.warn('compat.spawn_vehicle_local_fallback', 'Client SpawnVehicle could not get a server-validated networked vehicle ' .. '(see Config.compat.vehicleSpawnCallbacks); creating a local vehicle instead')
         end
     end
     local loaded = F.LoadModel(model)
     if not loaded then return false end
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading or coords.w, false, false)
+    local veh =
+        CreateVehicle(model, coords.x, coords.y, coords.z, heading or coords.w, false, false)
     if not veh or veh == 0 or not DoesEntityExist(veh) then
         SetModelAsNoLongerNeeded(model)
         return false
     end
     applyOwnedVehicleDefaults(veh)
     SetModelAsNoLongerNeeded(model)
-    if teleportInto then TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1) end
-    if cb then cb(veh) end
+    if teleportInto then
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+    end
+    if cb then
+        cb(veh)
+    end
     return veh
 end
 
@@ -607,7 +658,7 @@ function F.GetVehicleProperties(vehicle)
                 IsVehicleNeonLightEnabled(vehicle, 0),
                 IsVehicleNeonLightEnabled(vehicle, 1),
                 IsVehicleNeonLightEnabled(vehicle, 2),
-                IsVehicleNeonLightEnabled(vehicle, 3)
+                IsVehicleNeonLightEnabled(vehicle, 3),
             },
             neonColor = vehicleColorTable(GetVehicleNeonLightsColour(vehicle)),
             interiorColor = GetVehicleInteriorColour(vehicle),
@@ -767,7 +818,9 @@ function F.SetVehicleProperties(vehicle, props)
         end
         if props.windowStatus then
             for windowIndex, smashWindow in pairs(props.windowStatus) do
-                if not smashWindow then SmashVehicleWindow(vehicle, windowIndex) end
+                if not smashWindow then
+                    SmashVehicleWindow(vehicle, windowIndex)
+                end
             end
         end
         if props.doorStatus then
@@ -992,7 +1045,9 @@ function F.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-function F.Draw3DText(coords, text, opts) Kora.drawing.text3d(coords, text, opts) end
+function F.Draw3DText(coords, text, opts)
+    Kora.drawing.text3d(coords, text, opts)
+end
 
 function F.RequestAnimDict(animDict, timeout)
     timeout = timeout or 5000
@@ -1003,7 +1058,9 @@ function F.RequestAnimDict(animDict, timeout)
     return awaitStreamingAsset(animDict, timeout, RequestAnimDict, HasAnimDictLoaded, RemoveAnimDict)
 end
 
-function F.LoadAnimDict(dict, cb) Kora.stream.loadAnimDict(dict, cb) end
+function F.LoadAnimDict(dict, cb)
+    Kora.stream.loadAnimDict(dict, cb)
+end
 
 function F.GetClosestBone(entity, list)
     local playerCoords, bone, coords, distance = GetEntityCoords(PlayerPedId())
@@ -1017,7 +1074,11 @@ function F.GetClosestBone(entity, list)
         end
     end
     if not bone then
-        bone = { id = GetEntityBoneIndexByName(entity, 'bodyshell'), type = 'remains', name = 'bodyshell' }
+        bone = {
+            id = GetEntityBoneIndexByName(entity, 'bodyshell'),
+            type = 'remains',
+            name = 'bodyshell',
+        }
         coords = GetWorldPositionOfEntityBone(entity, bone.id)
         distance = #(coords - playerCoords)
     end
@@ -1074,8 +1135,7 @@ function F.LoadAnimSet(animSet, timeout)
 end
 
 function F.LoadParticleDictionary(dictionary, timeout)
-    return awaitStreamingAsset(dictionary, timeout, RequestNamedPtfxAsset,
-        HasNamedPtfxAssetLoaded, RemoveNamedPtfxAsset)
+    return awaitStreamingAsset(dictionary, timeout, RequestNamedPtfxAsset, HasNamedPtfxAssetLoaded, RemoveNamedPtfxAsset)
 end
 
 function F.StartParticleAtCoord(dict, ptName, looped, coords, rot, scale, alpha, color, duration)
@@ -1150,7 +1210,10 @@ end
 
 function F.GetStreetNametAtCoords(coords)
     local streetname1, streetname2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
-    return { main = GetStreetNameFromHashKey(streetname1), cross = GetStreetNameFromHashKey(streetname2) }
+    return {
+        main = GetStreetNameFromHashKey(streetname1),
+        cross = GetStreetNameFromHashKey(streetname2),
+    }
 end
 
 function F.GetZoneAtCoords(coords)
@@ -1161,13 +1224,13 @@ function F.GetCardinalDirection(entity)
     entity = DoesEntityExist(entity) and entity or PlayerPedId()
     if DoesEntityExist(entity) then
         local heading = GetEntityHeading(entity)
-        if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
+        if (heading >= 0 and heading < 45) or (heading >= 315 and heading < 360) then
             return 'North'
-        elseif (heading >= 45 and heading < 135) then
+        elseif heading >= 45 and heading < 135 then
             return 'West'
-        elseif (heading >= 135 and heading < 225) then
+        elseif heading >= 135 and heading < 225 then
             return 'South'
-        elseif (heading >= 225 and heading < 315) then
+        elseif heading >= 225 and heading < 315 then
             return 'East'
         end
     else
@@ -1205,7 +1268,8 @@ end
 function F.GetGroundHash(entity)
     local coords = GetEntityCoords(entity)
     local num = StartShapeTestCapsule(coords.x, coords.y, coords.z + 4, coords.x, coords.y, coords.z - 2.0, 1, 1, entity, 7)
-    local retval, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(num)
+    local retval, success, endCoords, surfaceNormal, materialHash, entityHit =
+        GetShapeTestResultEx(num)
     return materialHash, entityHit, surfaceNormal, endCoords, success, retval
 end
 
@@ -1226,7 +1290,9 @@ provideExport('qb-core', 'GetCoreObject', function(filters)
     local result = {}
     for i = 1, #filters do
         local key = filters[i]
-        if QBCore[key] ~= nil then result[key] = QBCore[key] end
+        if QBCore[key] ~= nil then
+            result[key] = QBCore[key]
+        end
     end
     return result
 end)
@@ -1241,11 +1307,21 @@ local function getShared(namespace, item)
 end
 provideExport('qb-core', 'GetShared', getShared)
 
-provideExport('qb-core', 'GetSharedItems', function() return getShared('Items') end)
-provideExport('qb-core', 'GetSharedVehicles', function() return getShared('Vehicles') end)
-provideExport('qb-core', 'GetSharedJobs', function() return getShared('Jobs') end)
-provideExport('qb-core', 'GetSharedGangs', function() return getShared('Gangs') end)
-provideExport('qb-core', 'GetSharedWeapons', function() return getShared('Weapons') end)
+provideExport('qb-core', 'GetSharedItems', function()
+    return getShared('Items')
+end)
+provideExport('qb-core', 'GetSharedVehicles', function()
+    return getShared('Vehicles')
+end)
+provideExport('qb-core', 'GetSharedJobs', function()
+    return getShared('Jobs')
+end)
+provideExport('qb-core', 'GetSharedGangs', function()
+    return getShared('Gangs')
+end)
+provideExport('qb-core', 'GetSharedWeapons', function()
+    return getShared('Weapons')
+end)
 
 local drawTextState = nil
 local drawTextGen = 0

@@ -10,7 +10,9 @@ function Core.commands.addCommand(name, help, args, argsRequired, handler, permi
         permission = permission or 'user',
         resource = GetInvokingResource() or GetCurrentResourceName(),
         checkPermission = Core.permissions.hasPermission,
-        notify = function(src, message, type_) TriggerClientEvent('QBCore:Notify', src, message, type_) end,
+        notify = function(src, message, type_)
+            TriggerClientEvent('QBCore:Notify', src, message, type_)
+        end,
     })
 end
 

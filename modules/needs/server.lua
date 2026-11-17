@@ -4,8 +4,10 @@ local threadGeneration = 0
 function Core.needs._tick()
     for _, src in ipairs(Core.player.getPlayers()) do
         if not Core.development.isDevMode(src) then
-            local hunger = Core.metadata.incrementMetaData(src, 'hunger', -Config.needs.hungerDecay, 0, 100)
-            local thirst = Core.metadata.incrementMetaData(src, 'thirst', -Config.needs.thirstDecay, 0, 100)
+            local hunger =
+                Core.metadata.incrementMetaData(src, 'hunger', -Config.needs.hungerDecay, 0, 100)
+            local thirst =
+                Core.metadata.incrementMetaData(src, 'thirst', -Config.needs.thirstDecay, 0, 100)
             TriggerClientEvent('hud:client:UpdateNeeds', src, hunger, thirst)
         end
     end
@@ -37,7 +39,9 @@ function Core.needs.stopNeedsDecay()
 end
 
 AddEventHandler('onResourceStart', function(resourceName)
-    if resourceName == GetCurrentResourceName() then Core.needs.startNeedsDecay() end
+    if resourceName == GetCurrentResourceName() then
+        Core.needs.startNeedsDecay()
+    end
 end)
 
 ---Resets hunger/thirst to full and stress to zero for one player -- mirrors

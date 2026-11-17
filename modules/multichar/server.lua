@@ -5,10 +5,15 @@ local PI = CoreInternal.player
 ---@return table[]  -- decoded summaries {citizenid, cid, name, charinfo, money, job, gang}
 function Core.multichar.getCharacters(src)
     local license = Core.identity.primary(src)
-    if not license then return {} end
+    if not license then
+        return {}
+    end
     Core.users.recordDiscord(src)
     local rows = Core.persistence._listCharacters(license)
-    local function dec(s) local ok, v = pcall(json.decode, s or ''); return ok and v or {} end
+    local function dec(s)
+        local ok, v = pcall(json.decode, s or '')
+        return ok and v or {}
+    end
     for _, row in ipairs(rows) do
         row.charinfo = dec(row.charinfo)
         row.money = dec(row.money)
@@ -37,11 +42,17 @@ end
 ---@param citizenid string
 ---@return boolean, string|nil
 function Core.multichar.selectCharacter(src, citizenid)
-    if type(citizenid) ~= 'string' or citizenid == '' then return false, 'invalid citizenid' end
+    if type(citizenid) ~= 'string' or citizenid == '' then
+        return false, 'invalid citizenid'
+    end
     local license = Core.identity.primary(src)
     local data, err = Core.persistence._load(citizenid)
-    if not data then return false, err end
-    if data.license ~= license then return false, 'character does not belong to this player' end
+    if not data then
+        return false, err
+    end
+    if data.license ~= license then
+        return false, 'character does not belong to this player'
+    end
     return Core.player.login(src, citizenid, data)
 end
 
@@ -58,13 +69,21 @@ end
 function Core.multichar.deleteCharacter(src, citizenid)
     local license = Core.identity.primary(src)
     local data = Core.persistence._load(citizenid)
-    if not data then return false, 'character not found' end
-    if Core.identity.primary(src) ~= license then return false, 'player session changed' end
-    if data and data.license ~= license then return false, 'not your character' end
+    if not data then
+        return false, 'character not found'
+    end
+    if Core.identity.primary(src) ~= license then
+        return false, 'player session changed'
+    end
+    if data and data.license ~= license then
+        return false, 'not your character'
+    end
     local player = PI.byCitizenId[citizenid]
     if player then
         local loggedOut, err = Core.player.logout(player.source)
-        if not loggedOut then return false, err or 'character logout failed' end
+        if not loggedOut then
+            return false, err or 'character logout failed'
+        end
     end
     return Core.persistence._deleteCharacterRow(citizenid)
 end

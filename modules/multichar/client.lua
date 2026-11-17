@@ -39,8 +39,12 @@ RegisterNetEvent('kora_core:client:receiveCharacters', function(characters)
         Core.multichar.select(characters[1].citizenid)
     else
         Core.multichar.create({
-            firstname = 'John', lastname = 'Doe', birthdate = '1990-01-01',
-            gender = 0, nationality = 'USA', phone = tostring(math.random(1000000, 9999999)),
+            firstname = 'John',
+            lastname = 'Doe',
+            birthdate = '1990-01-01',
+            gender = 0,
+            nationality = 'USA',
+            phone = tostring(math.random(1000000, 9999999)),
         }, 1)
     end
 end)

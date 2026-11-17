@@ -16,10 +16,16 @@ end
 ---@return boolean, string|nil
 function Core.metadata.setMetaData(src, key, value)
     local p = PI.handle(src)
-    if not p then return false, 'no such player' end
-    if type(key) ~= 'string' then return false, 'metadata key must be a string' end
+    if not p then
+        return false, 'no such player'
+    end
+    if type(key) ~= 'string' then
+        return false, 'metadata key must be a string'
+    end
     local ok, err = Core.player.setPath(src, { 'metadata', key }, value)
-    if not ok then return false, err end
+    if not ok then
+        return false, err
+    end
     TriggerEvent('QBCore:Server:OnMetaDataChange', src, key, value)
     return true
 end
@@ -34,14 +40,22 @@ end
 ---@return number|nil, string|nil
 function Core.metadata.incrementMetaData(src, key, delta, min, max)
     local p = PI.handle(src)
-    if not p then return nil, 'no such player' end
+    if not p then
+        return nil, 'no such player'
+    end
     delta = tonumber(delta) or 0
     local current = tonumber(p.PlayerData.metadata[key]) or 0
     local newValue = current + delta
-    if min and newValue < min then newValue = min end
-    if max and newValue > max then newValue = max end
+    if min and newValue < min then
+        newValue = min
+    end
+    if max and newValue > max then
+        newValue = max
+    end
     local ok, err = Core.player.setPath(src, { 'metadata', key }, newValue)
-    if not ok then return nil, err end
+    if not ok then
+        return nil, err
+    end
     TriggerEvent('QBCore:Server:OnMetaDataChange', src, key, newValue)
     return newValue
 end

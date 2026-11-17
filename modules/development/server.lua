@@ -15,7 +15,9 @@ function Core.development.setDevMode(src, enabled)
     if type(src) ~= 'number' or not CoreInternal.player.handle(src) then
         return false, 'player is not loaded'
     end
-    if type(enabled) ~= 'boolean' then return false, 'enabled must be a boolean' end
+    if type(enabled) ~= 'boolean' then
+        return false, 'enabled must be a boolean'
+    end
 
     local current = enabledBySource[src] == true
     if current == enabled then return true end

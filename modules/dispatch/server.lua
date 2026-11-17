@@ -8,8 +8,7 @@ local LEGACY_JOB_EVENTS = {
 ---@param payload CoreDispatchAlert
 ---@return integer recipientCount
 function Core.dispatch.alert(payload)
-    assert(type(payload) == 'table' and type(payload.jobs) == 'table' and #payload.jobs > 0,
-        'Core.dispatch.alert requires payload.jobs as a non-empty array.')
+    assert(type(payload) == 'table' and type(payload.jobs) == 'table' and #payload.jobs > 0, 'Core.dispatch.alert requires payload.jobs as a non-empty array.')
 
     local recipients = {}
     for _, jobName in ipairs(payload.jobs) do

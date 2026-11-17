@@ -19,8 +19,7 @@ AddEventHandler('onResourceStart', function(resourceName)
                     Kora.logging.info('dependency_supervisor.restarting_dependent', 'Restarting dependent resource because its dependency started', { dependent = dependent, dependency = resourceName })
                     ExecuteCommand(('restart %s'):format(dependent))
                 else
-                    Kora.logging.info('dependency_supervisor.restart_skipped', 'Skipping dependent restart; cooldown active', {
-                        dependent = dependent, remainingMs = cooldownMs - (now - last) })
+                    Kora.logging.info('dependency_supervisor.restart_skipped','Skipping dependent restart; cooldown active',{    dependent = dependent,    remainingMs = cooldownMs - (now - last),} )
                 end
             end
         end

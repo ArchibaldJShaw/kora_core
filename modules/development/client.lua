@@ -3,8 +3,7 @@ local generation = 0
 local walkSpeed = tonumber(Config.development.walkSpeed)
 local lastPed = nil
 
-assert(walkSpeed and walkSpeed > 0,
-    'Config.development.walkSpeed must be a positive number.')
+assert(walkSpeed and walkSpeed > 0, 'Config.development.walkSpeed must be a positive number.')
 
 local function pedExists(ped)
     return ped and ped ~= 0 and DoesEntityExist(ped)
@@ -22,7 +21,9 @@ function Core.development._tick()
     local ped = Kora.cache.ped()
     if not pedExists(ped) then return end
 
-    if lastPed and lastPed ~= ped then restorePed(lastPed) end
+    if lastPed and lastPed ~= ped then
+        restorePed(lastPed)
+    end
     lastPed = ped
 
     SetEntityInvincible(ped, true)
@@ -35,7 +36,9 @@ local function restoreOwnedState()
     restorePed(lastPed)
 
     local currentPed = Kora.cache.ped()
-    if currentPed ~= lastPed then restorePed(currentPed) end
+    if currentPed ~= lastPed then
+        restorePed(currentPed)
+    end
     lastPed = nil
 end
 

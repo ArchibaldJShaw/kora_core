@@ -15,7 +15,9 @@ function Core.paycheck._tick()
         local record = Core.registry.getShared('jobs', jobName)
         if record then
             local onDuty = {}
-            for _, src in ipairs(Core.jobs.getPlayersByJob(jobName, true)) do onDuty[src] = true end
+            for _, src in ipairs(Core.jobs.getPlayersByJob(jobName, true)) do
+                onDuty[src] = true
+            end
 
             for _, src in ipairs(playersByJob[jobName]) do
                 local job = Core.jobs.getJob(src)
@@ -66,5 +68,7 @@ function Core.paycheck.isPaycheckRunning()
 end
 
 AddEventHandler('onResourceStart', function(resourceName)
-    if resourceName == GetCurrentResourceName() then Core.paycheck.startPaycheck() end
+    if resourceName == GetCurrentResourceName() then
+        Core.paycheck.startPaycheck()
+    end
 end)

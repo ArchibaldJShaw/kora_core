@@ -28,9 +28,13 @@ local function scheduleFlush()
             local player = PI.byCitizenId[cid]
             if player then
                 local ops = {}
-                for _, op in pairs(player._pendingOps) do ops[#ops + 1] = op end
+                for _, op in pairs(player._pendingOps) do
+                    ops[#ops + 1] = op
+                end
                 player._pendingOps = {}
-                if PI.mirrorOps then PI.mirrorOps(player, ops) end
+                if PI.mirrorOps then
+                    PI.mirrorOps(player, ops)
+                end
                 if #ops > 0 then
                     player._seq = player._seq + 1
                     TriggerClientEvent('kora_core:rep:delta', player.source, player._seq, ops)
@@ -58,7 +62,9 @@ function Core.replication._queueOp(player, path, value)
     end
     local key = opKey(path)
     local pcopy = {}
-    for i = 1, #path do pcopy[i] = path[i] end
+    for i = 1, #path do
+        pcopy[i] = path[i]
+    end
     if value == nil then
         player._pendingOps[key] = { p = pcopy, d = true }
     else

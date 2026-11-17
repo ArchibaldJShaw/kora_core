@@ -74,7 +74,9 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
     end
 
     DoScreenFadeIn(650)
-    if DoesEntityExist(markerFrozen) then FreezeEntityPosition(markerFrozen, false) end
+    if DoesEntityExist(markerFrozen) then
+        FreezeEntityPosition(markerFrozen, false)
+    end
     markerFrozen = nil
 
     if not found then
@@ -89,7 +91,9 @@ end)
 
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= GetCurrentResourceName() or not markerFrozen then return end
-    if DoesEntityExist(markerFrozen) then FreezeEntityPosition(markerFrozen, false) end
+    if DoesEntityExist(markerFrozen) then
+        FreezeEntityPosition(markerFrozen, false)
+    end
     markerFrozen = nil
     DoScreenFadeIn(0)
 end)
@@ -112,8 +116,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     end
 
     local origin = GetEntityCoords(ped)
-    local vehicle = QBCore.Functions.SpawnVehicle(hash, nil,
-        { x = origin.x, y = origin.y, z = origin.z, w = GetEntityHeading(ped) }, true, true)
+    local vehicle = QBCore.Functions.SpawnVehicle(hash, nil, { x = origin.x, y = origin.y, z = origin.z, w = GetEntityHeading(ped) }, true, true)
     if not vehicle then
         return QBCore.Functions.Notify(Kora.lang('Notify.vehicle_spawn_failed'), 'error', 5000)
     end
@@ -176,7 +179,9 @@ end
 
 local function watchVehicleCache()
     Kora.cache.onChange('seat', function(seat)
-        if seat ~= false then lastVehicleSeat = seat end
+        if seat ~= false then
+            lastVehicleSeat = seat
+        end
     end)
 
     Kora.cache.onChange('enteringVehicle', function(vehicle, previousVehicle)
@@ -208,12 +213,16 @@ watchVehicleCache()
 AddEventHandler('onClientResourceStart', function(resource)
     if resource ~= 'kora_lib' then return end
     local seat = Kora.cache.seat()
-    if seat then lastVehicleSeat = seat end
+    if seat then
+        lastVehicleSeat = seat
+    end
     watchVehicleCache()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    if Core.replication.getData() == nil then Core.replication.requestResync() end
+    if Core.replication.getData() == nil then
+        Core.replication.requestResync()
+    end
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function() end)
@@ -230,7 +239,10 @@ RegisterNetEvent('QBCore:Client:OnPlayerUpdated', function(key, _, token)
         TriggerEvent('QBCore:Client:OnJobUpdate', legacyJob)
     elseif key == 'gang' then
         if token == 'kora_core:rep:refire' then return end
-        local legacyGang = Core.compat.toLegacyJobOrGang and Core.compat.toLegacyJobOrGang(data.gang, 'gangs') or data.gang
+        local legacyGang = data.gang
+        if Core.compat.toLegacyJobOrGang then
+            legacyGang = Core.compat.toLegacyJobOrGang(data.gang, 'gangs') or data.gang
+        end
         TriggerEvent('QBCore:Client:OnGangUpdate', legacyGang)
     end
 end)

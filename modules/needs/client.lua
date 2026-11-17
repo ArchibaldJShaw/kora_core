@@ -16,7 +16,9 @@ local function subscribeToEmptyNeed(key, configuredDamage)
         if not need or need > 0 or damage <= 0 then return end
 
         local ped = playerCanTakeNeedsDamage()
-        if ped then ApplyDamageToPed(ped, damage, false) end
+        if ped then
+            ApplyDamageToPed(ped, damage, false)
+        end
     end)
 end
 

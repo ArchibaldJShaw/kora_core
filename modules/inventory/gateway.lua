@@ -22,7 +22,7 @@ local colonCallCache = {}
 local function providerColonCall(name)
     local cached = colonCallCache[name]
     if cached then return cached end
-    local chunk = assert(load(("return (select(1, ...)):%s(select(2, ...))"):format(name)))
+    local chunk = assert(load(('return (select(1, ...)):%s(select(2, ...))'):format(name)))
     colonCallCache[name] = chunk
     return chunk
 end
@@ -31,12 +31,14 @@ local function callProvider(name, ...)
     local resourceExports = exports[providerName]
     local fn = resourceExports and resourceExports[name]
     if type(fn) ~= 'function' then
-        return nil, ("kora_inventory is started but is missing required kora_core gateway export '%s'"):format(name)
+        return nil,
+            ("kora_inventory is started but is missing required kora_core gateway export '%s'"):format(name)
     end
 
     local results = table.pack(pcall(providerColonCall(name), resourceExports, ...))
     if not results[1] then
-        return nil, ("kora_inventory gateway export '%s' failed: %s"):format(name, tostring(results[2]))
+        return nil,
+            ("kora_inventory gateway export '%s' failed: %s"):format(name, tostring(results[2]))
     end
     return table.unpack(results, 2, results.n)
 end
@@ -44,18 +46,22 @@ end
 local function unavailable(name)
     local state = providerState()
     if state == 'started' then
-        return nil, ("kora_inventory is started but is missing required kora_core gateway export '%s'"):format(name)
+        return nil,
+            ("kora_inventory is started but is missing required kora_core gateway export '%s'"):format(name)
     end
 
     if not Config.inventory.allowLegacyFallback then
-        return nil, ("kora_inventory is not started (state: %s); set Config.inventory.allowLegacyFallback=true for a temporary "
-            .. "kora_core legacy fallback, or ensure kora_inventory before resources that use inventory APIs."):format(state)
+        return nil,
+            (
+                'kora_inventory is not started (state: %s); '
+                    .. 'set Config.inventory.allowLegacyFallback=true for a temporary '
+                    .. 'kora_core legacy fallback, or ensure kora_inventory before resources that use inventory APIs.'
+            ):format(state)
     end
 
     if not warnedUnavailable then
         warnedUnavailable = true
-        Kora.logging.warn('inventory.provider_unavailable', 'kora_inventory is not started; using the temporary built-in legacy fallback. '
-            .. 'Start kora_inventory to enable authoritative inventory sessions and live updates', { state = tostring(state) })
+        Kora.logging.warn('inventory.provider_unavailable', 'kora_inventory is not started; using the temporary built-in legacy fallback. ' .. 'Start kora_inventory to enable authoritative inventory sessions and live updates', { state = tostring(state) })
     end
     return false
 end
@@ -64,13 +70,17 @@ local function callLegacy(name, ...)
     fallbackDepth = fallbackDepth + 1
     local results = table.pack(pcall(legacy[name], ...))
     fallbackDepth = fallbackDepth - 1
-    if not results[1] then error(results[2], 0) end
+    if not results[1] then
+        error(results[2], 0)
+    end
     return table.unpack(results, 2, results.n)
 end
 
 for name in pairs(legacy) do
     Core.inventory[name] = function(...)
-        if fallbackDepth > 0 then return legacy[name](...) end
+        if fallbackDepth > 0 then
+            return legacy[name](...)
+        end
 
         if providerState() == 'started' then
             if name == 'createUseable' then
@@ -81,7 +91,9 @@ for name in pairs(legacy) do
         end
 
         local ok, err = unavailable(name)
-        if ok == nil then return nil, err end
+        if ok == nil then
+            return nil, err
+        end
         return callLegacy(name, ...)
     end
 end
